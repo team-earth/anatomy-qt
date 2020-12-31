@@ -53,7 +53,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
-#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -73,9 +73,11 @@ int main(int argc, char *argv[])
     parser.addPositionalArgument("file", "The file to open.");
     parser.process(app);
 
-    MainWindow mainWin;
-    if (!parser.positionalArguments().isEmpty())
-        mainWin.loadFile(parser.positionalArguments().first());
+    Ui::MainWindow ui;
+    QMainWindow mainWin;
+    ui.setupUi(&mainWin);
+//    if (!parser.positionalArguments().isEmpty())
+//        mainWin.loadFile(parser.positionalArguments().first());
     mainWin.show();
     return app.exec();
 }
