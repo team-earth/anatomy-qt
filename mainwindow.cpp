@@ -50,6 +50,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "node.h"
 
 #include <QAction>
 #include <QFileDialog>
@@ -66,6 +67,11 @@ MainWindow::MainWindow(QWidget* parent)
 //    setWindowTitle(tr("Address Book"));
 }
 //! [0]
+
+void MainWindow::loadData(std::unique_ptr<Node> data)
+{
+    data_ = std::move(data);
+}
 
 //! [1a]
 void MainWindow::createMenus()

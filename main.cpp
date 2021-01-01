@@ -54,6 +54,7 @@
 #include <QCommandLineOption>
 
 #include "mainwindow.h"
+#include "node.h"
 
 int main(int argc, char *argv[])
 {
@@ -76,6 +77,8 @@ int main(int argc, char *argv[])
     MainWindow mainWin(nullptr);
 //    if (!parser.positionalArguments().isEmpty())
 //        mainWin.loadFile(parser.positionalArguments().first());
+
+    mainWin.loadData(Node::makeExampleData());
     mainWin.show();
     return app.exec();
 }

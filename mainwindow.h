@@ -53,8 +53,8 @@
 
 //#include "addresswidget.h"
 #include <QItemSelection>
-
 #include <QMainWindow>
+#include "node.h"
 
 namespace Ui { class MainWindow; }
 
@@ -66,6 +66,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget* parent);
 
+    void loadData(std::unique_ptr<Node>);
+
 private slots:
     void updateActions(const QItemSelection &selection);
     void openFile();
@@ -75,6 +77,8 @@ private:
     void createMenus();
 
     Ui::MainWindow* ui;
+
+    std::unique_ptr<Node> data_;
 
 //    AddressWidget *addressWidget;
 //    QAction *editAct;

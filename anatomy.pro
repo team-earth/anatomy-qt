@@ -1,8 +1,10 @@
 QT += widgets uitools
 #requires(qtConfig(filedialog))
 
-HEADERS       = mainwindow.h
-SOURCES       = main.cpp mainwindow.cpp
+HEADERS       = mainwindow.h \
+    node.h
+SOURCES       = main.cpp mainwindow.cpp \
+    node.cpp
 #! [0]
 RESOURCES     = anatomy.qrc
 #! [0]
