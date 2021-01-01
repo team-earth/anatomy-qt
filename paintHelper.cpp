@@ -55,6 +55,8 @@
 #include <QWidget>
 #include <QDebug>
 #include <QTextOption>
+#include <QFontMetrics>
+#include <cmath>
 
 //! [0]
 PaintHelper::PaintHelper()
@@ -75,11 +77,8 @@ PaintHelper::PaintHelper()
 void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node)
 {
     int elapsed = 0;
-    qDebug() << "PaintHelper::paint()";
 
     QRect window = painter->window();
-
-
 
     painter->fillRect(event->rect(), background);
 //    painter->translate(100, 100);
@@ -95,17 +94,74 @@ void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node)
     painter->drawEllipse(window.center(), radius, radius);
     painter->restore();
 
+    QRect textBox(
+                QPoint(window.center().x() - radius, window.center().y()),
+                QPoint(window.center().x() + radius, window.center().y()));
+    optimizeTextBox(textFont, textBox, radius, node->text_);
     QTextOption textOption;
 //    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     textOption.setWrapMode(QTextOption::WordWrap);
 
     painter->setPen(textPen);
     painter->setFont(textFont);
-    painter->drawText(QRect(-50, -50, 100, 100), node->text_, textOption);
-
-    qDebug() << "Window: " << painter->window();
-    qDebug() << "viewport" << painter->viewport();
+    painter->drawText(textBox, node->text_, textOption);
 }
+
+void PaintHelper::optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)
+{
+    qDebug() << "init textBox" << textBox;
+    QFontMetrics fm(textFont);
+#if 0
+    int textWidth = fm.horizontalAdvance(text);
+//    int pixelsHigh = fm.height();
+
+    int lines = std::ceil(double(textWidth) / pixelWidth);
+
+    int height = lines * fm.height() + (lines - 1) * fm.leading();
+
+    int up = height/2;
+    int over = pixelWidth/2 - sqrt( pow(pixelWidth/2, 2) - pow(up, 2));
+    textBox.setTop(textBox.top()-height/2);
+    textBox.setLeft(textBox.left() + over);
+    textBox.setBottom(textBox.bottom()+height/2);
+    textBox.setRight(textBox.right() - over);
+
+    QSize size = fm.size(Qt::TextWordWrap, text);
+    qDebug()
+            << "lines" << lines
+            << "height" << height
+            << "textBox" << textBox;
+
+#endif
+    QRect draftBox = textBox;
+    draftBox = fm.boundingRect(draftBox, Qt::TextWordWrap, text);
+    int width0 = draftBox.width();
+    int height0 = draftBox.height();
+
+    int width1 = 2 * sqrt ( pow(radius, 2) - pow(draftBox.height()/2,2));
+    draftBox.setWidth(width1);
+
+    qDebug() << "width0" << width0 << "width1" << width1;
+
+    draftBox = fm.boundingRect(draftBox, Qt::TextWordWrap, text);
+    int width2 = 2 * sqrt ( pow(radius, 2) - pow(draftBox.height()/2,2) );
+    draftBox.setWidth(width2);
+
+    int top = textBox.center().y() - draftBox.height() / 2;
+    int bottom = textBox.center().y() + draftBox.height() / 2;
+    textBox.setTop(top);
+    textBox.setBottom(bottom);
+
+    textBox.setLeft(textBox.center().x() - draftBox.width() / 2);
+    textBox.setRight(textBox.center().x() + draftBox.width() / 2);
+
+    qDebug() << "draftBox.height()" << draftBox.height();
+    qDebug() << "width0" << width0 << "width1" << width1 << "width2" << width2;
+    qDebug() << "draftBox" << draftBox;
+    qDebug() << "textBox" << textBox;
+
+}
+
 
 //! [1]
 void PaintHelper::paintOld(QPainter *painter, QPaintEvent *event, Node& node)

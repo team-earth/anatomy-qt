@@ -11,13 +11,14 @@ Model::Model() : centerNode_(nullptr)
 
 std::unique_ptr<Node> Model::makeExampleData()
 {
-    std::unique_ptr<Node> n = std::unique_ptr<Node>(new Node("Top Node"));
+    std::unique_ptr<Node> n = std::unique_ptr<Node>(
+                new Node(
+                    "MEDIA, NEWS, FACTS. Splintered media landscape reduces common baseline of news facts."));
 
     for (std::size_t i = 0 ; i < 3 ; i++)
     {
-        QTextStream ss;
-        ss << n->text_ << " / Sub-" << i;
-        n->children_.push_back(Node(ss.readAll()));
+        QString t = n->text_ + QString(" / Sub-") + i ;
+        n->children_.push_back(Node(t));
     }
     return n;
 }

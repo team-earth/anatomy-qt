@@ -56,7 +56,7 @@ void View::initializeGL()
     QOpenGLWidget::initializeGL();
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    qDebug() << "OpenGLWidget::initializeGL()";
+//    qDebug() << "OpenGLWidget::initializeGL()";
 }
 
 void View::paintGL()
@@ -74,7 +74,7 @@ void View::paintGL()
 //    m_shader = new QOpenGLShader(...);
 //    m_program = new QOpenGLShaderProgram(...);
     QOpenGLWidget::paintGL();
-    qDebug() << "OpenGLWidget::paintGL()";
+//    qDebug() << "OpenGLWidget::paintGL()";
 }
 
 void View::animate()
@@ -93,7 +93,7 @@ void View::paintEvent(QPaintEvent *e)
     paintHelper_.paint(&painter, e, model_->getCenterNode());
 
     painter.end();
-    std::cout << "OpenGLWidget::paintEvent()" << std::endl;
+//    std::cout << "OpenGLWidget::paintEvent()" << std::endl;
 //    QOpenGLWidget::paintEvent(e);
 }
 void View::resizeEvent(QResizeEvent *e)
@@ -103,6 +103,6 @@ void View::resizeEvent(QResizeEvent *e)
 
 }
 bool View::event(QEvent *e){
-    qDebug() << "OpenGLWidget::event()" << e->type();
+//    qDebug() << "OpenGLWidget::event()" << e->type();
     return QOpenGLWidget::event(e);
 }

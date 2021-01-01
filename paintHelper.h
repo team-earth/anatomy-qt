@@ -68,6 +68,8 @@ public:
     void paint(QPainter *painter, QPaintEvent *event, Node* node);
     void paintOld(QPainter *painter, QPaintEvent *event, Node& node);
 
+protected:
+    void optimizeTextBox(QFont&, QRect&, int pixelWidth, QString text);
 private:
     QBrush background;
     QBrush circleBrush;
