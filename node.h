@@ -4,14 +4,15 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <QString>
 
 class Node
 {
 public:
-    Node(const std::string& text);
+    Node(QString text);
 
 //protected:
-    std::string text_;
+    QString text_;
     std::vector<Node> children_;
 
 

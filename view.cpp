@@ -90,7 +90,7 @@ void View::paintEvent(QPaintEvent *e)
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    paintHelper_.paint(&painter, e, elapsed_);
+    paintHelper_.paint(&painter, e, model_->getCenterNode());
 
     painter.end();
     std::cout << "OpenGLWidget::paintEvent()" << std::endl;

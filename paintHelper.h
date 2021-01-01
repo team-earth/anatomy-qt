@@ -56,6 +56,7 @@
 #include <QFont>
 #include <QPen>
 #include <QWidget>
+#include "node.h"
 
 //! [0]
 class PaintHelper
@@ -64,7 +65,8 @@ public:
     PaintHelper();
 
 public:
-    void paint(QPainter *painter, QPaintEvent *event, int elapsed);
+    void paint(QPainter *painter, QPaintEvent *event, Node* node);
+    void paintOld(QPainter *painter, QPaintEvent *event, Node& node);
 
 private:
     QBrush background;

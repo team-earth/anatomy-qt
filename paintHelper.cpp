@@ -54,6 +54,7 @@
 #include <QPaintEvent>
 #include <QWidget>
 #include <QDebug>
+#include <QTextOption>
 
 //! [0]
 PaintHelper::PaintHelper()
@@ -71,9 +72,45 @@ PaintHelper::PaintHelper()
 }
 //! [0]
 
-//! [1]
-void PaintHelper::paint(QPainter *painter, QPaintEvent *event, int elapsed)
+void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node)
 {
+    int elapsed = 0;
+    qDebug() << "PaintHelper::paint()";
+
+    QRect window = painter->window();
+
+
+
+    painter->fillRect(event->rect(), background);
+//    painter->translate(100, 100);
+
+    painter->save();
+    painter->setBrush(circleBrush);
+    painter->setPen(circlePen);
+
+
+//    painter->rotate(elapsed * 0.030);
+
+    int radius = std::min(window.height(), window.width())/2;
+    painter->drawEllipse(window.center(), radius, radius);
+    painter->restore();
+
+    QTextOption textOption;
+//    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    textOption.setWrapMode(QTextOption::WordWrap);
+
+    painter->setPen(textPen);
+    painter->setFont(textFont);
+    painter->drawText(QRect(-50, -50, 100, 100), node->text_, textOption);
+
+    qDebug() << "Window: " << painter->window();
+    qDebug() << "viewport" << painter->viewport();
+}
+
+//! [1]
+void PaintHelper::paintOld(QPainter *painter, QPaintEvent *event, Node& node)
+{
+    int elapsed=0;
     painter->fillRect(event->rect(), background);
     painter->translate(100, 100);
 //! [1]
@@ -101,7 +138,7 @@ void PaintHelper::paint(QPainter *painter, QPaintEvent *event, int elapsed)
     painter->setPen(textPen);
     painter->setFont(textFont);
     painter->drawText(QRect(-50, -50, 100, 100), Qt::AlignCenter, QStringLiteral("KK"));
-    qDebug() << "PaintHelper::paint()";
+    qDebug() << "PaintHelper::paintOld()";
 
 }
 //! [3]

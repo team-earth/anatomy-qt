@@ -9,9 +9,12 @@ public:
     Model();
     void loadData(std::unique_ptr<Node>);
 
+    Node* getCenterNode() const;
+
 protected:
     std::unique_ptr<Node> data_;
     static std::unique_ptr<Node> makeExampleData();
+    Node* centerNode_;
 
 };
 

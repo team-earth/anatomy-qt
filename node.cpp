@@ -3,7 +3,7 @@
 #include <memory>
 #include <sstream>
 
-Node::Node(const std::string& text) : text_(text)
+Node::Node(QString text) : text_(text)
 {
 
 }
