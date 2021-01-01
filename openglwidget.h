@@ -20,10 +20,12 @@ public:
     void paintEvent(QPaintEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
     bool event(QEvent *e) override;
+    void animate();
 
 protected:
     Node* node_;
     PaintHelper paintHelper_;
+    int elapsed_;
 };
 
 #endif // OPENGLWIDGET_H

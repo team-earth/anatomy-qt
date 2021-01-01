@@ -72,9 +72,8 @@ PaintHelper::PaintHelper()
 //! [0]
 
 //! [1]
-void PaintHelper::paint(QPainter *painter, QPaintEvent *event)
+void PaintHelper::paint(QPainter *painter, QPaintEvent *event, int elapsed)
 {
-    const qreal elapsed=100;
     painter->fillRect(event->rect(), background);
     painter->translate(100, 100);
 //! [1]

@@ -5,10 +5,11 @@
 #include <QEvent>
 #include <QDebug>
 #include <QPainter>
+#include <QTimer>
 #include <QOpenGLFunctions>
 
 OpenGLWidget::OpenGLWidget(QWidget* parent) :
-    QOpenGLWidget(parent), node_(nullptr)
+    QOpenGLWidget(parent), node_(nullptr), elapsed_(0)
 {
     std::cout << "OpenGLWidget::OpenGLWidget()" << std::endl;
 }
@@ -76,13 +77,20 @@ void OpenGLWidget::paintGL()
     qDebug() << "OpenGLWidget::paintGL()";
 }
 
+void OpenGLWidget::animate()
+{
+    elapsed_ = (elapsed_ + qobject_cast<QTimer*>(sender())->interval()) % 1000;
+    update();
+}
+//! [1]
+
 void OpenGLWidget::paintEvent(QPaintEvent *e)
 {
     QPainter painter;
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    paintHelper_.paint(&painter, e);
+    paintHelper_.paint(&painter, e, elapsed_);
 
     painter.end();
     std::cout << "OpenGLWidget::paintEvent()" << std::endl;

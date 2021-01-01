@@ -64,7 +64,7 @@ public:
     PaintHelper();
 
 public:
-    void paint(QPainter *painter, QPaintEvent *event);
+    void paint(QPainter *painter, QPaintEvent *event, int elapsed);
 
 private:
     QBrush background;
