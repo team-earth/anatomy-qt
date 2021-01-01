@@ -49,7 +49,7 @@
 ****************************************************************************/
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "ui_custommainwindow.h"
 #include "node.h"
 
 #include <QAction>
@@ -59,7 +59,7 @@
 //! [0]
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow)
+      ui(new Ui::CustomMainWindow())
 {
     ui->setupUi(this);
 //    setCentralWidget(addressWidget);

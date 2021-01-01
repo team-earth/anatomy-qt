@@ -56,7 +56,7 @@
 #include <QMainWindow>
 #include "node.h"
 
-namespace Ui { class MainWindow; }
+namespace Ui { class CustomMainWindow; }
 
 //! [0]
 class MainWindow : public QMainWindow
@@ -76,7 +76,7 @@ private slots:
 private:
     void createMenus();
 
-    Ui::MainWindow* ui;
+    Ui::CustomMainWindow* ui;
 
     std::unique_ptr<Node> data_;
 
