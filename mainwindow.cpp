@@ -67,6 +67,8 @@ MainWindow::MainWindow(QWidget* parent)
 //    setCentralWidget(addressWidget);
     createMenus();
 
+    ui->openGLWidget->setModel(&model_);
+
 //    setWindowTitle(tr("Address Book"));
 
     QTimer *timer = new QTimer(this);
@@ -154,8 +156,3 @@ void MainWindow::updateActions(const QItemSelection &selection)
 //    }
 }
 //! [4]
-
-void setModel(Node& node)
-{
-
-}

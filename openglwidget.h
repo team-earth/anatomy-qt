@@ -3,7 +3,7 @@
 
 
 #include <QOpenGLWidget>
-#include "node.h"
+#include "model.h"
 #include "paintHelper.h"
 
 class OpenGLWidget : public QOpenGLWidget
@@ -12,7 +12,7 @@ public:
     OpenGLWidget(QWidget* parent);
     virtual ~OpenGLWidget();
 
-    void setModel(Node* node);
+    void setModel(Model* node);
 
     void initializeGL() override;
     void paintGL() override;
@@ -23,7 +23,7 @@ public:
     void animate();
 
 protected:
-    Node* node_;
+    Model* model_;
     PaintHelper paintHelper_;
     int elapsed_;
 };

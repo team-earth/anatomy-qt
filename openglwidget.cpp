@@ -9,14 +9,14 @@
 #include <QOpenGLFunctions>
 
 OpenGLWidget::OpenGLWidget(QWidget* parent) :
-    QOpenGLWidget(parent), node_(nullptr), elapsed_(0)
+    QOpenGLWidget(parent), model_(nullptr), elapsed_(0)
 {
     std::cout << "OpenGLWidget::OpenGLWidget()" << std::endl;
 }
 
-void OpenGLWidget::setModel(Node* node)
+void OpenGLWidget::setModel(Model* model)
 {
-    node_ = node;
+    model_ = model;
 
 //    this->
 }
