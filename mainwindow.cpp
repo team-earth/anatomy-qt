@@ -66,7 +66,6 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
 //    setCentralWidget(addressWidget);
     createMenus();
-    loadData(Node::makeExampleData());
 
 //    setWindowTitle(tr("Address Book"));
 
@@ -77,10 +76,6 @@ MainWindow::MainWindow(QWidget* parent)
 }
 //! [0]
 
-void MainWindow::loadData(std::unique_ptr<Node> data)
-{
-    data_ = std::move(data);
-}
 
 //! [1a]
 void MainWindow::createMenus()

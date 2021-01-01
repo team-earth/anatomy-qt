@@ -14,7 +14,6 @@ public:
     std::string text_;
     std::vector<Node> children_;
 
-    static std::unique_ptr<Node> makeExampleData();
 
 };
 

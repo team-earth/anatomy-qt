@@ -55,6 +55,7 @@
 #include <QItemSelection>
 #include <QMainWindow>
 #include "node.h"
+#include "model.h"
 
 namespace Ui { class CustomMainWindow; }
 
@@ -66,8 +67,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget* parent);
 
-    void loadData(std::unique_ptr<Node>);
-
 private slots:
     void updateActions(const QItemSelection &selection);
     void openFile();
@@ -78,7 +77,7 @@ private:
 
     Ui::CustomMainWindow* ui;
 
-    std::unique_ptr<Node> data_;
+    Model model_;
 
 //    AddressWidget *addressWidget;
 //    QAction *editAct;

@@ -100,7 +100,7 @@ void PaintHelper::paint(QPainter *painter, QPaintEvent *event, int elapsed)
 //! [3]
     painter->setPen(textPen);
     painter->setFont(textFont);
-    painter->drawText(QRect(-50, -50, 100, 100), Qt::AlignCenter, QStringLiteral("Qt"));
+    painter->drawText(QRect(-50, -50, 100, 100), Qt::AlignCenter, QStringLiteral("KK"));
     qDebug() << "PaintHelper::paint()";
 
 }
