@@ -51,7 +51,7 @@
 #include "mainwindow.h"
 #include "ui_custommainwindow.h"
 #include "node.h"
-#include "openglwidget.h"
+#include "view.h"
 
 #include <QAction>
 #include <QFileDialog>
@@ -67,12 +67,12 @@ MainWindow::MainWindow(QWidget* parent)
 //    setCentralWidget(addressWidget);
     createMenus();
 
-    ui->openGLWidget->setModel(&model_);
+    ui->view->setModel(&model_);
 
 //    setWindowTitle(tr("Address Book"));
 
     QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, ui->openGLWidget, &OpenGLWidget::animate);
+    connect(timer, &QTimer::timeout, ui->view, &View::animate);
     timer->start(50);
 
 }

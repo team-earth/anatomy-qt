@@ -1,16 +1,16 @@
-#ifndef OPENGLWIDGET_H
-#define OPENGLWIDGET_H
+#ifndef VIEW_H
+#define VIEW_H
 
 
 #include <QOpenGLWidget>
 #include "model.h"
 #include "paintHelper.h"
 
-class OpenGLWidget : public QOpenGLWidget
+class View : public QOpenGLWidget
 {
 public:
-    OpenGLWidget(QWidget* parent);
-    virtual ~OpenGLWidget();
+    View(QWidget* parent);
+    virtual ~View();
 
     void setModel(Model* node);
 
@@ -28,4 +28,4 @@ protected:
     int elapsed_;
 };
 
-#endif // OPENGLWIDGET_H
+#endif // VIEW_H

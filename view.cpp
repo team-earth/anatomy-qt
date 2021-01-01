@@ -1,4 +1,4 @@
-#include "openglwidget.h"
+#include "view.h"
 #include "paintHelper.h"
 
 #include <iostream>
@@ -8,20 +8,20 @@
 #include <QTimer>
 #include <QOpenGLFunctions>
 
-OpenGLWidget::OpenGLWidget(QWidget* parent) :
+View::View(QWidget* parent) :
     QOpenGLWidget(parent), model_(nullptr), elapsed_(0)
 {
     std::cout << "OpenGLWidget::OpenGLWidget()" << std::endl;
 }
 
-void OpenGLWidget::setModel(Model* model)
+void View::setModel(Model* model)
 {
     model_ = model;
 
 //    this->
 }
 
-OpenGLWidget::~OpenGLWidget()
+View::~View()
 {
 //    // Make sure the context is current and then explicitly
 //    // destroy all underlying OpenGL resources.
@@ -39,7 +39,7 @@ OpenGLWidget::~OpenGLWidget()
 
 }
 
-void OpenGLWidget::initializeGL()
+void View::initializeGL()
 {
 //    m_vao.create();
 //    if (m_vao.isCreated())
@@ -59,7 +59,7 @@ void OpenGLWidget::initializeGL()
     qDebug() << "OpenGLWidget::initializeGL()";
 }
 
-void OpenGLWidget::paintGL()
+void View::paintGL()
 {
 //    m_vao.create();
 //    if (m_vao.isCreated())
@@ -77,14 +77,14 @@ void OpenGLWidget::paintGL()
     qDebug() << "OpenGLWidget::paintGL()";
 }
 
-void OpenGLWidget::animate()
+void View::animate()
 {
     elapsed_ = (elapsed_ + qobject_cast<QTimer*>(sender())->interval()) % 1000;
     update();
 }
 //! [1]
 
-void OpenGLWidget::paintEvent(QPaintEvent *e)
+void View::paintEvent(QPaintEvent *e)
 {
     QPainter painter;
     painter.begin(this);
@@ -96,13 +96,13 @@ void OpenGLWidget::paintEvent(QPaintEvent *e)
     std::cout << "OpenGLWidget::paintEvent()" << std::endl;
 //    QOpenGLWidget::paintEvent(e);
 }
-void OpenGLWidget::resizeEvent(QResizeEvent *e)
+void View::resizeEvent(QResizeEvent *e)
 {
     std::cout << "OpenGLWidget::resizeEvent()" << std::endl;
     QOpenGLWidget::resizeEvent(e);
 
 }
-bool OpenGLWidget::event(QEvent *e){
+bool View::event(QEvent *e){
     qDebug() << "OpenGLWidget::event()" << e->type();
     return QOpenGLWidget::event(e);
 }
