@@ -1,8 +1,8 @@
 QT += widgets uitools
 #requires(qtConfig(filedialog))
 
-HEADERS       =
-SOURCES       = main.cpp
+HEADERS       = mainwindow.h
+SOURCES       = main.cpp mainwindow.cpp
 #! [0]
 RESOURCES     = anatomy.qrc
 #! [0]
@@ -12,4 +12,4 @@ target.path = $$[QT_INSTALL_EXAMPLES]/widgets/mainwindows/anatomy
 INSTALLS += target
 
 FORMS += \
-    mainwindow.ui
+    ui_mainwindow.ui

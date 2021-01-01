@@ -48,35 +48,38 @@
 **
 ****************************************************************************/
 
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+//#include "addresswidget.h"
+#include <QItemSelection>
+
+#include <QMainWindow>
+
+namespace Ui { class MainWindow; }
+
 //! [0]
-#include <QApplication>
-#include <QCommandLineParser>
-#include <QCommandLineOption>
-
-#include "mainwindow.h"
-
-int main(int argc, char *argv[])
+class MainWindow : public QMainWindow
 {
-    Q_INIT_RESOURCE(anatomy);
-#ifdef Q_OS_ANDROID
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+    Q_OBJECT
 
-    QApplication app(argc, argv);
-    QCoreApplication::setOrganizationName("QtProject");
-    QCoreApplication::setApplicationName("Anatomy");
-    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
-    QCommandLineParser parser;
-    parser.setApplicationDescription(QCoreApplication::applicationName());
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.addPositionalArgument("file", "The file to open.");
-    parser.process(app);
+public:
+    MainWindow(QWidget* parent);
 
-    MainWindow mainWin(nullptr);
-//    if (!parser.positionalArguments().isEmpty())
-//        mainWin.loadFile(parser.positionalArguments().first());
-    mainWin.show();
-    return app.exec();
-}
+private slots:
+    void updateActions(const QItemSelection &selection);
+    void openFile();
+    void saveFile();
+
+private:
+    void createMenus();
+
+    Ui::MainWindow* ui;
+
+//    AddressWidget *addressWidget;
+//    QAction *editAct;
+//    QAction *removeAct;
+};
 //! [0]
+
+#endif // MAINWINDOW_H
