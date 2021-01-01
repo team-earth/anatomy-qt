@@ -64,6 +64,8 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
 //    setCentralWidget(addressWidget);
     createMenus();
+    loadData(Node::makeExampleData());
+
 //    setWindowTitle(tr("Address Book"));
 }
 //! [0]
@@ -150,3 +152,8 @@ void MainWindow::updateActions(const QItemSelection &selection)
 //    }
 }
 //! [4]
+
+void setModel(Node& node)
+{
+
+}

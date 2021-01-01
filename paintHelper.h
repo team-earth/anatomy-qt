@@ -1,3 +1,6 @@
+#ifndef PAINTHELPER_H
+#define PAINTHELPER_H
+
 /****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
@@ -48,45 +51,28 @@
 **
 ****************************************************************************/
 
+
+#include <QBrush>
+#include <QFont>
+#include <QPen>
+#include <QWidget>
+
 //! [0]
-#include <QApplication>
-#include <QCommandLineParser>
-#include <QCommandLineOption>
-#include <QSurfaceFormat>
-
-#include "mainwindow.h"
-#include "node.h"
-
-int main(int argc, char *argv[])
+class PaintHelper
 {
-    Q_INIT_RESOURCE(anatomy);
-#ifdef Q_OS_ANDROID
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+public:
+    PaintHelper();
 
-    QApplication app(argc, argv);
-    QCoreApplication::setOrganizationName("QtProject");
-    QCoreApplication::setApplicationName("Anatomy");
-    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
-    QCommandLineParser parser;
-    parser.setApplicationDescription(QCoreApplication::applicationName());
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.addPositionalArgument("file", "The file to open.");
-    parser.process(app);
+public:
+    void paint(QPainter *painter, QPaintEvent *event);
 
-    QSurfaceFormat format;
-    format.setDepthBufferSize(24);
-    format.setStencilBufferSize(8);
-    format.setVersion(3, 2);
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    QSurfaceFormat::setDefaultFormat(format);
-
-    MainWindow mainWin(nullptr);
-//    if (!parser.positionalArguments().isEmpty())
-//        mainWin.loadFile(parser.positionalArguments().first());
-
-    mainWin.show();
-    return app.exec();
-}
+private:
+    QBrush background;
+    QBrush circleBrush;
+    QFont textFont;
+    QPen circlePen;
+    QPen textPen;
+};
 //! [0]
+
+#endif // PAINTHELPER_H

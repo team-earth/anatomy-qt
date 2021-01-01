@@ -3,10 +3,12 @@ QT += widgets uitools
 
 HEADERS       = mainwindow.h \
     node.h \
-    openglwidget.h
+    openglwidget.h \
+    paintHelper.h
 SOURCES       = main.cpp mainwindow.cpp \
     node.cpp \
-    openglwidget.cpp
+    openglwidget.cpp \
+    paintHelper.cpp
 #! [0]
 RESOURCES     = anatomy.qrc
 #! [0]
