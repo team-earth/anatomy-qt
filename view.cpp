@@ -107,7 +107,6 @@ void View::resizeEvent(QResizeEvent *e)
 {
     std::cout << "OpenGLWidget::resizeEvent()" << std::endl;
     QOpenGLWidget::resizeEvent(e);
-
 }
 
 //bool View::resizeGL()
@@ -121,9 +120,13 @@ bool View::event(QEvent *e){
     return QOpenGLWidget::event(e);
 }
 #endif
-
-void View::setZoomValue(int value)
+void View::setZoomValue(int scale)
 {
-    qDebug() << "valueChanged" << value;
-    scale_ = value;
+//    painter->translate(v.width()/2, v.height()/2);
+
+    qreal s = scale/100.0;
+    QTransform t = QTransform::fromScale(s,s);
+    qDebug() << "valueChanged" << scale << t;
+
+    setTransform(t);
 }
