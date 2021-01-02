@@ -3,7 +3,6 @@
 
 
 #include <QOpenGLWidget>
-#include "model.h"
 #include "paintHelper.h"
 #include <QObject>
 #include <QGraphicsScene>
@@ -16,7 +15,7 @@ public:
     View(QWidget* parent);
     virtual ~View();
 
-    void setModel(Model* node);
+//    void setModel(Model* node);
 
 //    void initializeGL() override;
 //    void paintGL() override;
@@ -34,7 +33,7 @@ public slots:
 protected:
     std::unique_ptr<QGraphicsScene> scene_;
 
-    Model* model_;
+//    Model* model_;
     PaintHelper paintHelper_;
     int elapsed_;
     int scale_;

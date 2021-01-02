@@ -5,7 +5,7 @@
 #include <QPainter>
 #include <cmath>
 
-Node::Node(QString text) : text_(text)
+Node::Node(QString text) : text_(text), parentNode_(nullptr)
 {
 
 }

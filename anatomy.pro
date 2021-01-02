@@ -2,12 +2,10 @@ QT += widgets uitools
 #requires(qtConfig(filedialog))
 
 HEADERS       = mainwindow.h \
-    model.h \
     node.h \
     paintHelper.h \
     view.h
 SOURCES       = main.cpp mainwindow.cpp \
-    model.cpp \
     node.cpp \
     paintHelper.cpp \
     view.cpp

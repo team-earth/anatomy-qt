@@ -23,7 +23,8 @@ protected:
 
 public:
     QString text_;
-    std::vector<Node> children_;
+    std::vector<Node*> children_;
+    Node* parentNode_;
 
 };
 

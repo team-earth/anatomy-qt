@@ -88,10 +88,13 @@ void MainWindow::populate()
     n->setPos(QPointF(0, 0));
     ui->view->scene()->addItem(n);
 
-    for (std::size_t i = 0 ; i < 3 ; i++)
+    for (std::size_t i = 0 ; i < 5 ; i++)
     {
-        QString t = n->text_ + QString(" / Sub-") + i ;
-        n->children_.push_back(Node(t));
+        QString t = n->text_ + QString(" / Sub-") + QString::number(i);
+        Node* child = new Node(t);
+        n->parentNode_ = n;
+        n->children_.push_back(child);
+        ui->view->scene()->addItem(child);
     }
 }
 
