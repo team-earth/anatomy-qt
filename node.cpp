@@ -3,21 +3,59 @@
 #include <memory>
 #include <sstream>
 #include <QPainter>
+#include <QDebug>
+#include <QtMath>
 #include <cmath>
+#include <QGraphicsSceneMouseEvent>
 
-Node::Node(QString text) : text_(text), parentNode_(nullptr)
+Node::Node(QString text, Node* parent) :
+    QGraphicsPathItem(parent), text_(text), parentNode_(parent), selected_(false)
 {
+    setAcceptHoverEvents(true);
+    setAcceptTouchEvents(true);
+}
+
+void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
+{
+    qDebug() << "Node::hoverEnterEvent" << e->type();
+    selected_ = true;
+    setZValue(1);
+    update();
+}
+
+void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent * e)
+{
+    qDebug() << "Node::hoverMouseEvent" << e->type();
+    selected_ = false;
+    setZValue(0);
+    update();
 
 }
 
+void Node::hoverMoveEvent(QGraphicsSceneHoverEvent * e)
+{
+//    qDebug() << "Node::hoverMoveEvent" << e->type();
+
+}
+
+bool Node::sceneEvent(QEvent* e)
+{
+//    qDebug() << "Node::sceneEvent" << e->type();
+    return QGraphicsPathItem::sceneEvent(e);
+}
+
+void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
+{
+    qDebug() << "Node::mouseMoveEvent" << e->type();
+}
 
 static void optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)
 {
-//    qDebug() << "init textBox" << textBox;
+    //    qDebug() << "init textBox" << textBox;
     QFontMetrics fm(textFont);
 #if 0
     int textWidth = fm.horizontalAdvance(text);
-//    int pixelsHigh = fm.height();
+    //    int pixelsHigh = fm.height();
 
     int lines = std::ceil(double(textWidth) / pixelWidth);
 
@@ -39,13 +77,13 @@ static void optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString
 #endif
     QRect draftBox = textBox;
     draftBox = fm.boundingRect(draftBox, Qt::TextWordWrap, text);
-//    int width0 = draftBox.width();
-//    int height0 = draftBox.height();
+    //    int width0 = draftBox.width();
+    //    int height0 = draftBox.height();
 
     int width1 = 2 * sqrt ( pow(radius, 2) - pow(draftBox.height()/2,2));
     draftBox.setWidth(width1);
 
-//    qDebug() << "width0" << width0 << "width1" << width1;
+    //    qDebug() << "width0" << width0 << "width1" << width1;
 
     draftBox = fm.boundingRect(draftBox, Qt::TextWordWrap, text);
     int width2 = 2 * sqrt ( pow(radius, 2) - pow(draftBox.height()/2,2) );
@@ -59,56 +97,120 @@ static void optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString
     textBox.setLeft(textBox.center().x() - draftBox.width() / 2);
     textBox.setRight(textBox.center().x() + draftBox.width() / 2);
 
-//    qDebug() << "draftBox.height()" << draftBox.height();
-//    qDebug() << "width0" << width0 << "width1" << width1 << "width2" << width2;
-//    qDebug() << "draftBox" << draftBox;
-//    qDebug() << "textBox" << textBox;
+    //    qDebug() << "draftBox.height()" << draftBox.height();
+    //    qDebug() << "width0" << width0 << "width1" << width1 << "width2" << width2;
+    //    qDebug() << "draftBox" << draftBox;
+    //    qDebug() << "textBox" << textBox;
 
 }
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-
-//    painter->fillRect(event->rect(), background);
-//    painter->translate(100, 100);
-
+    int radius = 300;
     painter->save();
-
-    QRect v = painter->window();
-
-//    painter->setViewport(v.left() - v.width(), v.right() + v.height()/2, v.width(), v.height() );
-
-//    QRect window = painter->window();
-
-//    painter->translate(v.width()/2, v.height()/2);
-//    qreal s = scale/100.0;
-//    painter->scale(s,s);
 
     QBrush background = QBrush(Qt::white);
     QBrush circleBrush = QBrush(QColor(153,204,255));
-    QPen circlePen(Qt::white);
     QFont textFont;
-    circlePen.setWidth(2);
-    QPen textPen(Qt::black);
     textFont.setPixelSize(50);
 
+    QPen textPen(Qt::black);
+
+    QPen selectedPen(Qt::red);
+    selectedPen.setWidth(4);
+
+    QPen unselectedPen(Qt::white);
+    unselectedPen.setWidth(4);
+
+    painter->setPen( selected_ ? selectedPen : unselectedPen );
     painter->setBrush(circleBrush);
-    painter->setPen(circlePen);
 
-    int radius = 300;
-//    int radius = std::min(window.height(), window.width())/2;
-    painter->drawEllipse(QPoint(0,0), radius, radius);
+    if (parentNode_ == nullptr)
+    {
+        qDebug() << "root" << painter->pen();
 
-    int padding=20;
-    QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
-    optimizeTextBox(textFont, textBox, radius-padding, text_);
-    QTextOption textOption;
-//    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-    textOption.setWrapMode(QTextOption::WordWrap);
+        QPainterPath path;
+        path.moveTo(0,0);
+        path.addEllipse(QPoint(0,0), radius, radius);
 
-    painter->setPen(textPen);
-    painter->setFont(textFont);
-    painter->drawText(textBox, text_, textOption);
+        path_ = path;
+        bbox_ = path.boundingRect();
+
+//        qDebug() << bbox_ << path_;
+
+        painter->drawPath(path);
+
+        int padding=20;
+        QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
+
+        optimizeTextBox(textFont, textBox, radius-padding, text_);
+
+        QTextOption textOption;
+        textOption.setWrapMode(QTextOption::WordWrap);
+
+        painter->setPen(textPen);
+        painter->setFont(textFont);
+        painter->drawText(textBox, text_, textOption);
+    }
+    else
+    {
+//        qDebug() << QString::number(childIndex) << painter->pen();
+
+        qreal arc = 2 * M_PI / parentNode_->children_.size();
+
+        int radiusInner = radius;
+        int radiusOuter = radiusInner + radius;
+
+        QRectF bboxInner(
+                    QPointF(-radiusInner, radiusInner),
+                    QPointF(radiusInner,-radiusInner)
+                    );
+        QRectF bboxOuter(
+                    QPointF(-radiusOuter, radiusOuter),
+                    QPointF(radiusOuter, -radiusOuter)
+                    );
+
+        qreal qarc = 360 / parentNode_->children_.size();
+        qreal qangleStart = qarc * childIndex;
+        qreal qangleEnd = qarc * (childIndex + 1);
+
+        QPainterPath path;
+        path.moveTo(0,0);
+        path.arcTo(bboxOuter, qangleStart, qarc);
+
+        QPainterPath subtr;
+        subtr.moveTo(0,0);
+        subtr.arcTo(bboxInner, qangleStart, qarc);
+        path -= subtr;
+
+        path_ = path;
+        bbox_ = path.boundingRect();
+
+//        qDebug() << bboxInner << qarc << qangleStart << qangleEnd;
+
+        painter->drawPath(path);
+
+        //        painter->setPen(QPen(Qt::green));
+
+        //        painter->drawArc(
+        //                    QRectF(
+        //                        QPointF(-300,-300),
+        //                        QPointF(300,300)
+        //                        ),
+        //                    -1440,
+        //                    2880);
+
+        //        painter->setPen(QPen(Qt::black));
+
+        //        painter->setBrush(QBrush());
+        //        painter->drawRect(
+        //                    QRectF(
+        //                        QPointF(-300,-300),
+        //                        QPointF(300,300)
+        //                        )
+        //                    );
+
+    }
 
     painter->restore();
 
@@ -116,5 +218,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
 QRectF Node::boundingRect() const
 {
-
+    //    qDebug() << "Node::boundintRect()" << bbox_;
+    return bbox_;
 }

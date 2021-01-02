@@ -58,6 +58,19 @@
 #include <QMenuBar>
 #include <QTimer>
 #include <QGraphicsScene>
+#include <QDebug>
+
+class MyQGraphicsScene : public QGraphicsScene
+{
+public:
+    MyQGraphicsScene(QWidget* parent) : QGraphicsScene(parent) {}
+
+    bool event(QEvent* e)
+    {
+//        qDebug() << "MyQGraphicsScene::event" << e->type();
+        return QGraphicsScene::event(e);
+    }
+};
 
 //! [0]
 MainWindow::MainWindow(QWidget* parent)
@@ -66,7 +79,8 @@ MainWindow::MainWindow(QWidget* parent)
 {
     ui->setupUi(this);
 
-    ui->view->setScene(new QGraphicsScene(parent));
+    MyQGraphicsScene* scene = new MyQGraphicsScene(parent);
+    ui->view->setScene(scene);
     populate();
 
 //    ui->view->setModel(&model_);
@@ -88,11 +102,12 @@ void MainWindow::populate()
     n->setPos(QPointF(0, 0));
     ui->view->scene()->addItem(n);
 
-    for (std::size_t i = 0 ; i < 5 ; i++)
+    const int count = 3;
+    for (std::size_t i = 0 ; i < count ; i++)
     {
         QString t = n->text_ + QString(" / Sub-") + QString::number(i);
-        Node* child = new Node(t);
-        n->parentNode_ = n;
+        Node* child = new Node(t, n);
+        child->childIndex = i;
         n->children_.push_back(child);
         ui->view->scene()->addItem(child);
     }
