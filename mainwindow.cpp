@@ -101,6 +101,7 @@ void MainWindow::populate()
 //! [1a]
 void MainWindow::createMenus()
 {
+#if 0
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
 
     QAction *openAct = new QAction(tr("&Open..."), this);
@@ -140,6 +141,7 @@ void MainWindow::createMenus()
 
 //    connect(addressWidget, &AddressWidget::selectionChanged,
 //        this, &MainWindow::updateActions);
+#endif
 }
 //! [1b]
 
@@ -175,3 +177,8 @@ void MainWindow::updateActions(const QItemSelection &selection)
 //    }
 }
 //! [4]
+
+void MainWindow::on_actionExit_triggered()
+{
+    QApplication::quit();
+}

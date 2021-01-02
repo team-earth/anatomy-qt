@@ -73,6 +73,8 @@ private slots:
     void openFile();
     void saveFile();
 
+    void on_actionExit_triggered();
+
 private:
     void createMenus();
     void populate();
