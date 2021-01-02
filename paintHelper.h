@@ -65,7 +65,7 @@ public:
     PaintHelper();
 
 public:
-    void paint(QPainter *painter, QPaintEvent *event, Node* node);
+    void paint(QPainter *painter, QPaintEvent *event, Node* node, int scale);
     void paintOld(QPainter *painter, QPaintEvent *event, Node& node);
 
 protected:

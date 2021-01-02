@@ -74,29 +74,33 @@ PaintHelper::PaintHelper()
 }
 //! [0]
 
-void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node)
+void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node, int scale)
 {
     int elapsed = 0;
 
-    QRect window = painter->window();
-
-    painter->fillRect(event->rect(), background);
+//    painter->fillRect(event->rect(), background);
 //    painter->translate(100, 100);
 
     painter->save();
+
+    QRect v = painter->window();
+
+//    painter->setViewport(v.left() - v.width(), v.right() + v.height()/2, v.width(), v.height() );
+
+//    QRect window = painter->window();
+
+    painter->translate(v.width()/2, v.height()/2);
+    qreal s = scale/100.0;
+    painter->scale(s,s);
+
     painter->setBrush(circleBrush);
     painter->setPen(circlePen);
 
+    int radius = 300;
+//    int radius = std::min(window.height(), window.width())/2;
+    painter->drawEllipse(QPoint(0,0), radius, radius);
 
-//    painter->rotate(elapsed * 0.030);
-
-    int radius = std::min(window.height(), window.width())/2;
-    painter->drawEllipse(window.center(), radius, radius);
-    painter->restore();
-
-    QRect textBox(
-                QPoint(window.center().x() - radius, window.center().y()),
-                QPoint(window.center().x() + radius, window.center().y()));
+    QRect textBox(QPoint(-radius, 0), QPoint(radius, 0));
     optimizeTextBox(textFont, textBox, radius, node->text_);
     QTextOption textOption;
 //    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
@@ -105,6 +109,9 @@ void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node)
     painter->setPen(textPen);
     painter->setFont(textFont);
     painter->drawText(textBox, node->text_, textOption);
+
+    painter->restore();
+
 }
 
 void PaintHelper::optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)

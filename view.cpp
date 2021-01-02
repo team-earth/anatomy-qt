@@ -9,7 +9,7 @@
 #include <QOpenGLFunctions>
 
 View::View(QWidget* parent) :
-    QOpenGLWidget(parent), model_(nullptr), elapsed_(0)
+    QOpenGLWidget(parent), model_(nullptr), elapsed_(0), scale_(50)
 {
     std::cout << "OpenGLWidget::OpenGLWidget()" << std::endl;
 }
@@ -56,6 +56,8 @@ void View::initializeGL()
     QOpenGLWidget::initializeGL();
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+    setAutoFillBackground(true);
 //    qDebug() << "OpenGLWidget::initializeGL()";
 }
 
@@ -90,7 +92,7 @@ void View::paintEvent(QPaintEvent *e)
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    paintHelper_.paint(&painter, e, model_->getCenterNode());
+    paintHelper_.paint(&painter, e, model_->getCenterNode(), scale_);
 
     painter.end();
 //    std::cout << "OpenGLWidget::paintEvent()" << std::endl;
@@ -102,7 +104,20 @@ void View::resizeEvent(QResizeEvent *e)
     QOpenGLWidget::resizeEvent(e);
 
 }
+
+//bool View::resizeGL()
+//{
+
+
+//}
+
 bool View::event(QEvent *e){
 //    qDebug() << "OpenGLWidget::event()" << e->type();
     return QOpenGLWidget::event(e);
+}
+
+void View::setZoomValue(int value)
+{
+    qDebug() << "valueChanged" << value;
+    scale_ = value;
 }
