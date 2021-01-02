@@ -61,15 +61,15 @@
 //! [0]
 PaintHelper::PaintHelper()
 {
-    QLinearGradient gradient(QPointF(50, -20), QPointF(80, 20));
-    gradient.setColorAt(0.0, Qt::green);
-    gradient.setColorAt(1.0, QColor(0xa6, 0xce, 0x39));
+//    QLinearGradient gradient(QPointF(50, -20), QPointF(80, 20));
+//    gradient.setColorAt(0.0, Qt::green);
+//    gradient.setColorAt(1.0, QColor(0xa6, 0xce, 0x39));
 
     background = QBrush(QColor(64, 32, 64));
-    circleBrush = QBrush(gradient);
+    circleBrush = QBrush(Qt::white);
     circlePen = QPen(Qt::black);
     circlePen.setWidth(1);
-    textPen = QPen(Qt::red);
+    textPen = QPen(Qt::black);
     textFont.setPixelSize(50);
 }
 //! [0]

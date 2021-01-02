@@ -91,6 +91,7 @@ void View::paintEvent(QPaintEvent *e)
     QPainter painter;
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::TextAntialiasing);
 
     paintHelper_.paint(&painter, e, model_->getCenterNode(), scale_);
 
