@@ -23,6 +23,9 @@
       <property name="maximum">
        <number>200</number>
       </property>
+      <property name="singleStep">
+       <number>0</number>
+      </property>
       <property name="sliderPosition">
        <number>50</number>
       </property>

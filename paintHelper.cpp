@@ -65,10 +65,10 @@ PaintHelper::PaintHelper()
 //    gradient.setColorAt(0.0, Qt::green);
 //    gradient.setColorAt(1.0, QColor(0xa6, 0xce, 0x39));
 
-    background = QBrush(QColor(64, 32, 64));
-    circleBrush = QBrush(Qt::white);
-    circlePen = QPen(Qt::black);
-    circlePen.setWidth(1);
+    background = QBrush(Qt::white);
+    circleBrush = QBrush(QColor(153,204,255));
+    circlePen = QPen(Qt::white);
+    circlePen.setWidth(2);
     textPen = QPen(Qt::black);
     textFont.setPixelSize(50);
 }
@@ -76,7 +76,7 @@ PaintHelper::PaintHelper()
 
 void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node, int scale)
 {
-    int elapsed = 0;
+    painter->fillRect(event->rect(), background);
 
 //    painter->fillRect(event->rect(), background);
 //    painter->translate(100, 100);
@@ -100,8 +100,9 @@ void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node, int s
 //    int radius = std::min(window.height(), window.width())/2;
     painter->drawEllipse(QPoint(0,0), radius, radius);
 
-    QRect textBox(QPoint(-radius, 0), QPoint(radius, 0));
-    optimizeTextBox(textFont, textBox, radius, node->text_);
+    int padding=20;
+    QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
+    optimizeTextBox(textFont, textBox, radius-padding, node->text_);
     QTextOption textOption;
 //    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     textOption.setWrapMode(QTextOption::WordWrap);
