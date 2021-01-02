@@ -117,7 +117,7 @@ void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node, int s
 
 void PaintHelper::optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)
 {
-    qDebug() << "init textBox" << textBox;
+//    qDebug() << "init textBox" << textBox;
     QFontMetrics fm(textFont);
 #if 0
     int textWidth = fm.horizontalAdvance(text);
@@ -143,13 +143,13 @@ void PaintHelper::optimizeTextBox(QFont& textFont, QRect& textBox, int radius, Q
 #endif
     QRect draftBox = textBox;
     draftBox = fm.boundingRect(draftBox, Qt::TextWordWrap, text);
-    int width0 = draftBox.width();
-    int height0 = draftBox.height();
+//    int width0 = draftBox.width();
+//    int height0 = draftBox.height();
 
     int width1 = 2 * sqrt ( pow(radius, 2) - pow(draftBox.height()/2,2));
     draftBox.setWidth(width1);
 
-    qDebug() << "width0" << width0 << "width1" << width1;
+//    qDebug() << "width0" << width0 << "width1" << width1;
 
     draftBox = fm.boundingRect(draftBox, Qt::TextWordWrap, text);
     int width2 = 2 * sqrt ( pow(radius, 2) - pow(draftBox.height()/2,2) );
@@ -163,10 +163,10 @@ void PaintHelper::optimizeTextBox(QFont& textFont, QRect& textBox, int radius, Q
     textBox.setLeft(textBox.center().x() - draftBox.width() / 2);
     textBox.setRight(textBox.center().x() + draftBox.width() / 2);
 
-    qDebug() << "draftBox.height()" << draftBox.height();
-    qDebug() << "width0" << width0 << "width1" << width1 << "width2" << width2;
-    qDebug() << "draftBox" << draftBox;
-    qDebug() << "textBox" << textBox;
+//    qDebug() << "draftBox.height()" << draftBox.height();
+//    qDebug() << "width0" << width0 << "width1" << width1 << "width2" << width2;
+//    qDebug() << "draftBox" << draftBox;
+//    qDebug() << "textBox" << textBox;
 
 }
 
