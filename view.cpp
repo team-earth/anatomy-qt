@@ -7,9 +7,11 @@
 #include <QPainter>
 #include <QTimer>
 #include <QOpenGLFunctions>
+#include <QGraphicsScene>
 
 View::View(QWidget* parent) :
-    QOpenGLWidget(parent), model_(nullptr), elapsed_(0), scale_(50)
+    scene_(new QGraphicsScene(parent)),
+    /*QOpenGLWidget(parent),*/ model_(nullptr), elapsed_(0), scale_(50)
 {
     std::cout << "OpenGLWidget::OpenGLWidget()" << std::endl;
 }
@@ -39,6 +41,7 @@ View::~View()
 
 }
 
+#if 0
 void View::initializeGL()
 {
 //    m_vao.create();
@@ -117,6 +120,7 @@ bool View::event(QEvent *e){
 //    qDebug() << "OpenGLWidget::event()" << e->type();
     return QOpenGLWidget::event(e);
 }
+#endif
 
 void View::setZoomValue(int value)
 {

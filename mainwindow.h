@@ -54,8 +54,9 @@
 //#include "addresswidget.h"
 #include <QItemSelection>
 #include <QMainWindow>
+#include <QGraphicsScene>
 #include "node.h"
-#include "model.h"
+//#include "model.h"
 
 namespace Ui { class CustomMainWindow; }
 
@@ -74,10 +75,11 @@ private slots:
 
 private:
     void createMenus();
+    void populate();
 
     Ui::CustomMainWindow* ui;
 
-    Model model_;
+//    Model model_;
 
 //    AddressWidget *addressWidget;
 //    QAction *editAct;

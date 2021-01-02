@@ -88,22 +88,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>horizontalSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>view</receiver>
-   <slot>setZoomValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>566</x>
-     <y>710</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>567</x>
-     <y>594</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

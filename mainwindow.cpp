@@ -57,6 +57,7 @@
 #include <QFileDialog>
 #include <QMenuBar>
 #include <QTimer>
+#include <QGraphicsScene>
 
 //! [0]
 MainWindow::MainWindow(QWidget* parent)
@@ -67,16 +68,34 @@ MainWindow::MainWindow(QWidget* parent)
 //    setCentralWidget(addressWidget);
     createMenus();
 
-    ui->view->setModel(&model_);
+    ui->view->setScene(new QGraphicsScene(parent));
+    populate();
+
+//    ui->view->setModel(&model_);
 
 //    setWindowTitle(tr("Address Book"));
 
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, ui->view, &View::animate);
-    timer->start(50);
+//    QTimer *timer = new QTimer(this);
+//    connect(timer, &QTimer::timeout, ui->view, &View::animate);
+//    timer->start(50);
 
 }
 //! [0]
+
+void MainWindow::populate()
+{
+//    QGraphicsItem *item
+    Node* n = new Node("MEDIA, NEWS, FACTS. Splintered media landscape reduces common baseline of news facts.");
+
+    n->setPos(QPointF(0, 0));
+    ui->view->scene()->addItem(n);
+
+    for (std::size_t i = 0 ; i < 3 ; i++)
+    {
+        QString t = n->text_ + QString(" / Sub-") + i ;
+        n->children_.push_back(Node(t));
+    }
+}
 
 
 //! [1a]
