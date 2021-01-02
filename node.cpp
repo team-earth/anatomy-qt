@@ -17,7 +17,7 @@ Node::Node(QString text, Node* parent) :
 
 void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
 {
-    qDebug() << "Node::hoverEnterEvent" << e->type();
+    qDebug() << "Node::hoverEnterEvent" << e->type() << text_;
     selected_ = true;
     setZValue(1);
     update();
@@ -25,7 +25,7 @@ void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
 
 void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent * e)
 {
-    qDebug() << "Node::hoverMouseEvent" << e->type();
+    qDebug() << "Node::hoverMouseEvent" << e->type() << text_;
     selected_ = false;
     setZValue(0);
     update();
@@ -109,7 +109,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     int radius = 300;
     painter->save();
 
-    QBrush background = QBrush(Qt::white);
+//    QBrush background = QBrush(Qt::white);
     QBrush circleBrush = QBrush(QColor(153,204,255));
     QFont textFont;
     textFont.setPixelSize(50);
@@ -119,7 +119,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     QPen selectedPen(Qt::red);
     selectedPen.setWidth(4);
 
-    QPen unselectedPen(Qt::white);
+    QPen unselectedPen(Qt::green);
     unselectedPen.setWidth(4);
 
     painter->setPen( selected_ ? selectedPen : unselectedPen );
@@ -127,13 +127,15 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
     if (parentNode_ == nullptr)
     {
-        qDebug() << "root" << painter->pen();
+//        qDebug() << "root" << painter->pen();
 
         QPainterPath path;
         path.moveTo(0,0);
         path.addEllipse(QPoint(0,0), radius, radius);
 
         path_ = path;
+
+        prepareGeometryChange();
         bbox_ = path.boundingRect();
 
 //        qDebug() << bbox_ << path_;
@@ -156,7 +158,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     {
 //        qDebug() << QString::number(childIndex) << painter->pen();
 
-        qreal arc = 2 * M_PI / parentNode_->children_.size();
+//        qreal arc = 2 * M_PI / parentNode_->children_.size();
 
         int radiusInner = radius;
         int radiusOuter = radiusInner + radius;
@@ -172,7 +174,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         qreal qarc = 360 / parentNode_->children_.size();
         qreal qangleStart = qarc * childIndex;
-        qreal qangleEnd = qarc * (childIndex + 1);
+//        qreal qangleEnd = qarc * (childIndex + 1);
 
         QPainterPath path;
         path.moveTo(0,0);
@@ -184,6 +186,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         path -= subtr;
 
         path_ = path;
+        prepareGeometryChange();
+
         bbox_ = path.boundingRect();
 
 //        qDebug() << bboxInner << qarc << qangleStart << qangleEnd;
@@ -218,6 +222,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
 QRectF Node::boundingRect() const
 {
-    //    qDebug() << "Node::boundintRect()" << bbox_;
+    static int count = 0;
+//        qDebug() << "Node::boundintRect()" << bbox_ << count++;
     return bbox_;
 }

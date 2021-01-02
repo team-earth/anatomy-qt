@@ -67,7 +67,7 @@ public:
 
     bool event(QEvent* e)
     {
-//        qDebug() << "MyQGraphicsScene::event" << e->type();
+        //qDebug() << "MyQGraphicsScene::event" << e->type();
         return QGraphicsScene::event(e);
     }
 };
