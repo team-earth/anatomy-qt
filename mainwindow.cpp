@@ -65,8 +65,6 @@ MainWindow::MainWindow(QWidget* parent)
       ui(new Ui::CustomMainWindow())
 {
     ui->setupUi(this);
-//    setCentralWidget(addressWidget);
-    createMenus();
 
     ui->view->setScene(new QGraphicsScene(parent));
     populate();
@@ -96,54 +94,6 @@ void MainWindow::populate()
         n->children_.push_back(Node(t));
     }
 }
-
-
-//! [1a]
-void MainWindow::createMenus()
-{
-#if 0
-    QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
-
-    QAction *openAct = new QAction(tr("&Open..."), this);
-    fileMenu->addAction(openAct);
-    connect(openAct, &QAction::triggered, this, &MainWindow::openFile);
-//! [1a]
-
-    QAction *saveAct = new QAction(tr("&Save As..."), this);
-    fileMenu->addAction(saveAct);
-    connect(saveAct, &QAction::triggered, this, &MainWindow::saveFile);
-
-    fileMenu->addSeparator();
-
-    QAction *exitAct = new QAction(tr("E&xit"), this);
-    fileMenu->addAction(exitAct);
-    connect(exitAct, &QAction::triggered, this, &QWidget::close);
-
-    QMenu *toolMenu = menuBar()->addMenu(tr("&Tools"));
-
-//    QAction *addAct = new QAction(tr("&Add Entry..."), this);
-//    toolMenu->addAction(addAct);
-//    connect(addAct, &QAction::triggered,
-//            addressWidget, &AddressWidget::showAddEntryDialog);
-
-//! [1b]
-//    editAct = new QAction(tr("&Edit Entry..."), this);
-//    editAct->setEnabled(false);
-//    toolMenu->addAction(editAct);
-//    connect(editAct, &QAction::triggered, addressWidget, &AddressWidget::editEntry);
-
-//    toolMenu->addSeparator();
-
-//    removeAct = new QAction(tr("&Remove Entry"), this);
-//    removeAct->setEnabled(false);
-//    toolMenu->addAction(removeAct);
-//    connect(removeAct, &QAction::triggered, addressWidget, &AddressWidget::removeEntry);
-
-//    connect(addressWidget, &AddressWidget::selectionChanged,
-//        this, &MainWindow::updateActions);
-#endif
-}
-//! [1b]
 
 //! [2]
 void MainWindow::openFile()

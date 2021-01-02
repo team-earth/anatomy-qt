@@ -126,7 +126,7 @@ void View::setZoomValue(int scale)
 
     qreal s = scale/100.0;
     QTransform t = QTransform::fromScale(s,s);
-    qDebug() << "valueChanged" << scale << t;
+//    qDebug() << "valueChanged" << scale << t;
 
     setTransform(t);
 }
