@@ -101,6 +101,7 @@ void MainWindow::populate()
 
     n->setPos(QPointF(0, 0));
     ui->view->scene()->addItem(n);
+    n->setZValue(100);
 
     const int count = 3;
     for (std::size_t i = 0 ; i < count ; i++)

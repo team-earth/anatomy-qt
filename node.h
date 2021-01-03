@@ -33,6 +33,7 @@ public:
     bool selected_;
     QRectF bbox_;
     QPainterPath path_;
+    qreal z_;
 
 };
 
