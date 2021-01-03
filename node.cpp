@@ -91,7 +91,7 @@ void Node::hoverMoveEvent(QGraphicsSceneHoverEvent * e)
     QGraphicsPathItem::hoverMoveEvent(e);
 }
 
-static void optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)
+static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)
 {
     //    qDebug() << "init textBox" << textBox;
     QFontMetrics fm(textFont);
@@ -144,6 +144,8 @@ static void optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString
     //    qDebug() << "draftBox" << draftBox;
     //    qDebug() << "textBox" << textBox;
 
+    return draftBox.width();
+
 }
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
@@ -191,16 +193,27 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         painter->drawPath(path);
 
         int padding=20;
-        QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
+        QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
 
-        optimizeTextBox(textFont, textBox, radius-padding, text_);
+        qreal offset = 0.707106781186547*(radius - padding);
 
-        QTextOption textOption;
-        textOption.setWrapMode(QTextOption::WordWrap);
+//        QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
 
-        painter->setPen(textPen);
-        painter->setFont(textFont);
-        painter->drawText(textBox, text_, textOption);
+//        QString text = ti->toHtml();
+//        qreal width = optimizeTextBox(textFont, textBox, radius-padding, text);
+
+        QPoint origin(-offset, -offset);
+        ti->setPos(origin);
+        ti->setTextWidth(2*offset);
+        //        ti->setHtml("Ok"+text_);
+//        QTextOption textOption;
+//        textOption.setWrapMode(QTextOption::WordWrap);
+
+//        painter->setPen(textPen);
+//        painter->setFont(textFont);
+//        painter->drawText(textBox, text_, textOption);
+
+
     }
     else
     {
