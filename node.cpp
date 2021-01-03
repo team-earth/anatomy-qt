@@ -21,7 +21,7 @@ Node::Node(QString text, Node* parent) :
 
 void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
 {
-    qDebug() << "Node::hoverEnterEvent" << e->type() << zValue() << z_ << text_ << bbox_;
+//    qDebug() << "Node::hoverEnterEvent" << e->type() << zValue() << z_ << text_ << bbox_;
     selected_ = true;
     z_ = zValue();
     setZValue(1);
@@ -31,7 +31,7 @@ void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
 
 void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent * e)
 {
-    qDebug() << "Node::hoverLeaveEvent" << e->type() << zValue() << z_ << text_ << bbox_;
+//    qDebug() << "Node::hoverLeaveEvent" << e->type() << zValue() << z_ << text_ << bbox_;
     selected_ = false;
     setZValue(z_);
     update();
@@ -42,10 +42,10 @@ void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent * e)
 
 void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
-    if (parentNode_ == nullptr)
-    {
-    qDebug() << "top node Node::mouseMoveEvent" << e->type();
-    }
+//    if (parentNode_ == nullptr)
+//    {
+//    qDebug() << "top node Node::mouseMoveEvent" << e->type();
+//    }
 
 //    if (shape().contains(e->pos()))
 //    {
@@ -76,16 +76,16 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 bool Node::sceneEvent(QEvent* e)
 {
-    qDebug() << "Node::sceneEvent" << e->type();
+//    qDebug() << "Node::sceneEvent" << e->type();
     return QGraphicsPathItem::sceneEvent(e);
 }
 
 void Node::hoverMoveEvent(QGraphicsSceneHoverEvent * e)
 {
-    if (parentNode_ == nullptr)
-    {
-    qDebug() << "top node Node::hoverMoveEvent" << e->type();
-    }
+//    if (parentNode_ == nullptr)
+//    {
+//    qDebug() << "top node Node::hoverMoveEvent" << e->type();
+//    }
     QGraphicsPathItem::hoverMoveEvent(e);
 }
 
@@ -156,18 +156,18 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
     QPen textPen(Qt::black);
 
-    QPen selectedPen(Qt::red);
-    selectedPen.setWidth(4);
+    QPen selectedPen(QColor(140,180,245));
+    selectedPen.setWidth(6);
 
-    QPen unselectedPen(Qt::green);
-    unselectedPen.setWidth(4);
+    QPen unselectedPen(Qt::white);
+    unselectedPen.setWidth(6);
 
     painter->setPen( selected_ ? selectedPen : unselectedPen );
     painter->setBrush(circleBrush);
 
     if (parentNode_ == nullptr)
     {
-        qDebug() << "root";
+//        qDebug() << "root";
 
         QPainterPath path;
         path.moveTo(0,0);
@@ -177,14 +177,14 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         prepareGeometryChange();
         bbox_ = path.boundingRect();
-        qDebug() << "bbox_ for top: " << bbox_;
+//        qDebug() << "bbox_ for top: " << bbox_;
 
-        static bool printme = true;
-        if (printme)
-        {
-            qDebug() << path_ << bbox_;
-            printme = false;
-        }
+//        static bool printme = true;
+//        if (printme)
+//        {
+//            qDebug() << path_ << bbox_;
+//            printme = false;
+//        }
 
         painter->drawPath(path);
 
@@ -202,7 +202,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     }
     else
     {
-        qDebug() << "child: " << QString::number(childIndex);
+//        qDebug() << "child: " << QString::number(childIndex);
 
 //        qreal arc = 2 * M_PI / parentNode_->children_.size();
 
@@ -236,12 +236,12 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         bbox_ = path.boundingRect();
 
-        static bool printme = true;
-        if (printme)
-        {
-            qDebug() << path_ << bbox_;
-            printme = false;
-        }
+//        static bool printme = true;
+//        if (printme)
+//        {
+//            qDebug() << path_ << bbox_;
+//            printme = false;
+//        }
         painter->drawPath(path);
 
     }
