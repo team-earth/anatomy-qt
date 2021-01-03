@@ -7,6 +7,8 @@
 #include <QtMath>
 #include <cmath>
 #include <QGraphicsSceneMouseEvent>
+#include <QTextDocument>
+#include <QAbstractTextDocumentLayout>
 
 Node::Node(QString text, Node* parent) :
     QGraphicsPathItem(), text_(text), parentNode_(parent), selected_(false)
@@ -236,14 +238,16 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         bbox_ = path.boundingRect();
 
-//        static bool printme = true;
-//        if (printme)
-//        {
-//            qDebug() << path_ << bbox_;
-//            printme = false;
-//        }
+//        QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
+//        optimizeTextBox(textFont, textBox, radius-padding, text_);
+
         painter->drawPath(path);
 
+        QTextDocument td;
+        td.setHtml("<b>This</b> is an example of <i>text</i>.");
+        QAbstractTextDocumentLayout::PaintContext ctx;
+        painter->translate(QPointF(300,0));
+        td.documentLayout()->draw(painter, ctx);
     }
 
     painter->restore();

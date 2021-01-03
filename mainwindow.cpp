@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget* parent)
 void MainWindow::populate()
 {
 //    QGraphicsItem *item
-    Node* n = new Node("MEDIA, NEWS, FACTS. Splintered media landscape reduces common baseline of news facts.");
+    Node* n = new Node("<b>MEDIA, NEWS, FACTS.</b> Splintered media landscape reduces common baseline of news facts.");
 
     n->setPos(QPointF(0, 0));
     ui->view->scene()->addItem(n);
