@@ -37,7 +37,7 @@ void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent * e)
     selected_ = false;
     setZValue(z_);
     update();
-//    QGraphicsPathItem::hoverLeaveEvent(e);
+    QGraphicsPathItem::hoverLeaveEvent(e);
 
 
 }
@@ -243,11 +243,11 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         painter->drawPath(path);
 
-        QTextDocument td;
-        td.setHtml("<b>This</b> is an example of <i>text</i>.");
-        QAbstractTextDocumentLayout::PaintContext ctx;
-        painter->translate(QPointF(300,0));
-        td.documentLayout()->draw(painter, ctx);
+//        QTextDocument td;
+//        td.setHtml("<b>This</b> is an example of <i>text</i>.");
+//        QAbstractTextDocumentLayout::PaintContext ctx;
+//        painter->translate(QPointF(300,0));
+//        td.documentLayout()->draw(painter, ctx);
     }
 
     painter->restore();

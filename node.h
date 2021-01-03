@@ -34,6 +34,7 @@ public:
     QRectF bbox_;
     QPainterPath path_;
     qreal z_;
+//    QGraphicsTextItem textItem_;
 
 };
 

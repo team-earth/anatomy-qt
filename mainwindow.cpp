@@ -72,6 +72,36 @@ public:
     }
 };
 
+class MyQGraphicsItemGroup : public QGraphicsItemGroup
+{
+public:
+    MyQGraphicsItemGroup(QGraphicsItem *parent = nullptr) :
+        QGraphicsItemGroup(parent)
+    {
+        setAcceptHoverEvents(true);
+        setAcceptTouchEvents(true);
+        setFlag(QGraphicsItem::ItemIsMovable, true);
+        setFlag(QGraphicsItem::ItemIsSelectable, true);
+        setFlag(QGraphicsItem::ItemIsFocusable, true);
+        setFlag(QGraphicsItem::ItemClipsToShape, true);
+    }
+};
+
+static void test(MyQGraphicsScene* scene)
+{
+
+    MyQGraphicsItemGroup* group = new MyQGraphicsItemGroup();
+    scene->addItem(group);
+
+    QGraphicsTextItem* ti = new QGraphicsTextItem();
+    ti->setHtml("<b>This</b> is a text");
+    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+    //ui->view->scene()->addItem(ti);
+//    scene->addItem(ti);
+    group->addToGroup(ti);
+
+}
+
 //! [0]
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
@@ -82,6 +112,9 @@ MainWindow::MainWindow(QWidget* parent)
     MyQGraphicsScene* scene = new MyQGraphicsScene(parent);
     ui->view->setScene(scene);
     populate();
+
+    test(scene);
+
 
 //    ui->view->setModel(&model_);
 
@@ -94,23 +127,50 @@ MainWindow::MainWindow(QWidget* parent)
 }
 //! [0]
 
+
+
 void MainWindow::populate()
 {
 //    QGraphicsItem *item
-    Node* n = new Node("<b>MEDIA, NEWS, FACTS.</b> Splintered media landscape reduces common baseline of news facts.");
+    QString txt = "<b>MEDIA, NEWS, FACTS.</b> Splintered media landscape reduces common baseline of news facts.";
+
+    Node* n = new Node(txt);
 
     n->setPos(QPointF(0, 0));
-    ui->view->scene()->addItem(n);
-    n->setZValue(100);
+
+    QGraphicsScene* scene = ui->view->scene();
+
+    scene->addItem(n);
+
+//    MyQGraphicsItemGroup* group = new MyQGraphicsItemGroup();
+//    scene->addItem(group);
+//    group->addToGroup(n);
+//    n->setZValue(100);
+
+    QGraphicsTextItem* ti = new QGraphicsTextItem(n);
+    ti->setHtml(txt);
+    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+    scene->addItem(ti);
+//    group->addToGroup(ti);
 
     const int count = 3;
     for (std::size_t i = 0 ; i < count ; i++)
     {
-        QString t = n->text_ + QString(" / Sub-") + QString::number(i);
-        Node* child = new Node(t, n);
+        QString txt = n->text_ + QString(" / Sub-") + QString::number(i);
+        Node* child = new Node(txt, n);
         child->childIndex = i;
         n->children_.push_back(child);
-        ui->view->scene()->addItem(child);
+        scene->addItem(child);
+//        group = new MyQGraphicsItemGroup();
+//        ui->view->scene()->addItem(group);
+//        group->addToGroup(child);
+
+        QGraphicsTextItem* ti = new QGraphicsTextItem(child);
+        ti->setHtml(txt);
+        ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+        scene->addItem(ti);
+//        group->addToGroup(ti);
+
     }
 }
 
