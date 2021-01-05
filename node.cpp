@@ -150,7 +150,7 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-    int radius = 300;
+    qreal radius = 300;
     painter->save();
 
 //    QBrush background = QBrush(Qt::white);
@@ -176,8 +176,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 //        qDebug() << "root";
 
         QPainterPath path;
-        path.moveTo(0,0);
-        path.addEllipse(QPoint(0,0), radius, radius);
+        path.moveTo(0.0,0.0);
+        path.addEllipse(QPoint(0.0,0.0), radius, radius);
 
         path_ = path;
 
@@ -223,8 +223,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
 //        qreal arc = 2 * M_PI / parentNode_->children_.size();
 
-        int radiusInner = radius;
-        int radiusOuter = radiusInner + 2*radius;
+        qreal radiusInner = radius;
+        qreal radiusOuter = radiusInner + 2.0*radius;
 
         QRectF bboxInner(
                     QPointF(-radiusInner, radiusInner),
@@ -235,31 +235,36 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
                     QPointF(radiusOuter, -radiusOuter)
                     );
 
-        qreal qarc = 360 / parentNode_->children_.size();
+        qreal qarc = 360.0 / parentNode_->children_.size();
         qreal qangleStart = qarc * childIndex;
 //        qreal qangleEnd = qarc * (childIndex + 1);
 
 
         QPainterPath path;
-        path.moveTo(0,0);
+        path.moveTo(0.0,0.0);
         path.arcTo(bboxOuter, qangleStart, qarc);
+        path.setFillRule(Qt::WindingFill);
+
 
         QPainterPath subtr;
-        subtr.moveTo(0,0);
+        subtr.moveTo(0.0,0.0);
         subtr.arcTo(bboxInner, qangleStart, qarc);
-        path -= subtr;
+        subtr.setFillRule(Qt::WindingFill);
 
-        path_ = path;
-        prepareGeometryChange();
+//        path -= subtr;
 
-        bbox_ = path.boundingRect();
+        path_ = path.subtracted(subtr);
+        path_.setFillRule(Qt::WindingFill);
+
+        bbox_ = path_.boundingRect();
 
 //        QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
 //        optimizeTextBox(textFont, textBox, radius-padding, text_);
 
+        prepareGeometryChange();
         painter->drawPath(path);
 
-
+#if 1
         QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
 
         qreal arc_r = 2 * M_PI / parentNode_->children_.size();
@@ -294,7 +299,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         ti->setTextWidth(2*radius /* - 2*padding*/);
 
         ti->setTransform(tr);
-
+#endif
 //        QTextDocument td;
 //        td.setHtml("<b>This</b> is an example of <i>text</i>.");
 //        QAbstractTextDocumentLayout::PaintContext ctx;
