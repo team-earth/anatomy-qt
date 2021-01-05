@@ -247,13 +247,13 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
 
         QPainterPath subtr;
-        subtr.moveTo(0.0,0.0);
+//        subtr.moveTo(0.0,0.0);
         subtr.arcTo(bboxInner, qangleStart, qarc);
         subtr.setFillRule(Qt::WindingFill);
 
-//        path -= subtr;
+        path -= subtr;
 
-        path_ = path.subtracted(subtr);
+        path_ = path; //.subtracted(subtr);
         path_.setFillRule(Qt::WindingFill);
 
         bbox_ = path_.boundingRect();
