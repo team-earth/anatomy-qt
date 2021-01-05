@@ -169,6 +169,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     painter->setPen( selected_ ? selectedPen : unselectedPen );
     painter->setBrush(circleBrush);
 
+    int padding=20;
+
     if (parentNode_ == nullptr)
     {
 //        qDebug() << "root";
@@ -192,7 +194,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         painter->drawPath(path);
 
-        int padding=20;
         QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
 
         qreal offset = 0.707106781186547*(radius - padding);
@@ -205,6 +206,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         QPoint origin(-offset, -offset);
         ti->setPos(origin);
         ti->setTextWidth(2*offset);
+
         //        ti->setHtml("Ok"+text_);
 //        QTextOption textOption;
 //        textOption.setWrapMode(QTextOption::WordWrap);
@@ -222,7 +224,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 //        qreal arc = 2 * M_PI / parentNode_->children_.size();
 
         int radiusInner = radius;
-        int radiusOuter = radiusInner + radius;
+        int radiusOuter = radiusInner + 2*radius;
 
         QRectF bboxInner(
                     QPointF(-radiusInner, radiusInner),
@@ -236,6 +238,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         qreal qarc = 360 / parentNode_->children_.size();
         qreal qangleStart = qarc * childIndex;
 //        qreal qangleEnd = qarc * (childIndex + 1);
+
 
         QPainterPath path;
         path.moveTo(0,0);
@@ -255,6 +258,42 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 //        optimizeTextBox(textFont, textBox, radius-padding, text_);
 
         painter->drawPath(path);
+
+
+        QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
+
+        qreal arc_r = 2 * M_PI / parentNode_->children_.size();
+        qreal angle_r_1 = arc_r * (childIndex - 0.5);
+        qreal angle_r_2 = arc_r * (childIndex + 0.5);
+
+        qreal x;
+        qreal y;
+        QTransform tr;
+        qreal rotate;
+        if (angle_r_2 < M_PI / 2.0 || angle_r_2 > 3 * M_PI / 2.0 )
+        {
+            // lower hemishphere
+            x = cos(angle_r_2) * radiusInner;
+            y = sin(angle_r_2) * radiusInner;
+            rotate = 180 * angle_r_2 / M_PI;
+            ti->setHtml(QString::number(rotate) + " f " + QString::number(childIndex));
+        }
+        else
+        {
+            // upper hemisphere
+            x = cos(angle_r_2) * radiusOuter;
+            y = sin(angle_r_2) * radiusOuter;
+            rotate = 180 * angle_r_2 / M_PI - 180;
+            ti->setHtml(QString::number(rotate) + " r " + QString::number(childIndex));
+        }
+
+        tr.rotate(rotate);
+
+        QPoint origin(x, y);
+        ti->setPos(origin);
+        ti->setTextWidth(2*radius /* - 2*padding*/);
+
+        ti->setTransform(tr);
 
 //        QTextDocument td;
 //        td.setHtml("<b>This</b> is an example of <i>text</i>.");
