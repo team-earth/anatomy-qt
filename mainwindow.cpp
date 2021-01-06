@@ -153,7 +153,7 @@ void MainWindow::populate()
 //    scene->addItem(ti);
 //    group->addToGroup(ti);
 
-    const int count = 7;
+    const int count = 9;
     for (std::size_t i = 0 ; i < count ; i++)
     {
         QString txt = n->text_ + QString(" / Sub-") + QString::number(i);

@@ -9,6 +9,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QTextDocument>
 #include <QAbstractTextDocumentLayout>
+#include <QStyleOptionGraphicsItem>
 
 Node::Node(QString text, Node* parent) :
     QGraphicsPathItem(), text_(text), parentNode_(parent), selected_(false)
@@ -150,6 +151,7 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
+
     qreal radius = 300;
     painter->save();
 
@@ -236,36 +238,44 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
                     );
 
         qreal qarc = 360.0 / parentNode_->children_.size();
-        qreal qangleStart = qarc * childIndex;
+        qreal qangleStart = qarc; // * childIndex;
 //        qreal qangleEnd = qarc * (childIndex + 1);
 
 
         QPainterPath path;
         path.moveTo(0.0,0.0);
         path.arcTo(bboxOuter, qangleStart, qarc);
-        path.setFillRule(Qt::WindingFill);
+        path.closeSubpath();
 
 
         QPainterPath subtr;
 //        subtr.moveTo(0.0,0.0);
         subtr.arcTo(bboxInner, qangleStart, qarc);
-        subtr.setFillRule(Qt::WindingFill);
+        subtr.closeSubpath();
 
-        path -= subtr;
 
-        path_ = path; //.subtracted(subtr);
-        path_.setFillRule(Qt::WindingFill);
+        QTransform tr2;
+        tr2.rotate(qangleStart * childIndex);
+        path_ = tr2.map(path - subtr); //.subtracted(subtr);
+        prepareGeometryChange();
+
+        painter->drawPath(path_);
+
+        static std::map<int,bool> printed;
+//        if (printed.find(childIndex) == printed.end() )
+//        {
+//            qDebug() << childIndex << path << subtr << path_;
+//        }
+
+//        path_.setFillRule(Qt::WindingFill);
 
         bbox_ = path_.boundingRect();
 
 //        QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
 //        optimizeTextBox(textFont, textBox, radius-padding, text_);
 
-        prepareGeometryChange();
-        painter->drawPath(path);
 
 #if 1
-        static std::map<int,bool> printed;
         MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
         qreal arc_r = 2 * M_PI / parentNode_->children_.size();
@@ -303,7 +313,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 //            ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         }
 
-        tr.rotate(rotate);
 
         QPoint origin(x, y);
         ti->setPos(origin);
@@ -311,6 +320,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         ti->setTransform(tr);
 #endif
+
 //        QTextDocument td;
 //        td.setHtml("<b>This</b> is an example of <i>text</i>.");
 //        QAbstractTextDocumentLayout::PaintContext ctx;
