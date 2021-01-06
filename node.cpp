@@ -265,7 +265,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         painter->drawPath(path);
 
 #if 1
-        QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
+        static std::map<int,bool> printed;
+        MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
         qreal arc_r = 2 * M_PI / parentNode_->children_.size();
         qreal angle_r_1 = arc_r * (childIndex - 0.5);
@@ -281,7 +282,12 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             x = cos(angle_r_2) * radiusInner;
             y = sin(angle_r_2) * radiusInner;
             rotate = 180 * angle_r_2 / M_PI;
-            ti->setHtml(QString::number(rotate) + " f " + QString::number(childIndex));
+            if (printed.find(childIndex) == printed.end() )
+            {
+                printed.insert(std::pair<int,bool>(childIndex, true));
+                ti->setHtml(QString::number(rotate) + " f " + QString::number(childIndex));
+            }
+            //ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         }
         else
         {
@@ -289,7 +295,12 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             x = cos(angle_r_2) * radiusOuter;
             y = sin(angle_r_2) * radiusOuter;
             rotate = 180 * angle_r_2 / M_PI - 180;
-            ti->setHtml(QString::number(rotate) + " r " + QString::number(childIndex));
+            if (printed.find(childIndex) == printed.end() )
+            {
+                printed.insert(std::pair<int,bool>(childIndex, true));
+                ti->setHtml(QString::number(rotate) + " f " + QString::number(childIndex));
+            }
+//            ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         }
 
         tr.rotate(rotate);

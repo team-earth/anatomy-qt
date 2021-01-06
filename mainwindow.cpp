@@ -147,7 +147,7 @@ void MainWindow::populate()
 //    group->addToGroup(n);
 //    n->setZValue(100);
 
-    QGraphicsTextItem* ti = new QGraphicsTextItem(n);
+    MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(n);
     ti->setHtml(txt);
     ti->setTextInteractionFlags(Qt::TextEditorInteraction);
 //    scene->addItem(ti);
@@ -165,7 +165,7 @@ void MainWindow::populate()
 //        ui->view->scene()->addItem(group);
 //        group->addToGroup(child);
 
-        QGraphicsTextItem* ti = new QGraphicsTextItem(child);
+        MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(child);
         ti->setHtml(txt);
         ti->setTextInteractionFlags(Qt::TextEditorInteraction);
 //        scene->addItem(ti);

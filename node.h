@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 #include <QString>
+#include <QDebug>
+#include <QEvent>
 #include <QGraphicsPathItem>
 
 class Node : public QGraphicsPathItem
@@ -36,6 +38,17 @@ public:
     qreal z_;
 //    QGraphicsTextItem textItem_;
 
+};
+
+class MyQGraphicsTextItem : public QGraphicsTextItem
+{
+public:
+    MyQGraphicsTextItem(QGraphicsItem* parent) : QGraphicsTextItem(parent) {}
+    bool sceneEvent(QEvent* e)
+    {
+//        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
+        return QGraphicsTextItem::sceneEvent(e);
+    }
 };
 
 #endif // NODE_H
