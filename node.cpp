@@ -151,11 +151,9 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-
     qreal radius = 300;
     painter->save();
 
-//    QBrush background = QBrush(Qt::white);
     QBrush circleBrush = QBrush(QColor(153,204,255));
     QFont textFont;
     textFont.setPixelSize(50);
@@ -175,8 +173,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
     if (parentNode_ == nullptr)
     {
-//        qDebug() << "root";
-
         QPainterPath path;
         path.moveTo(0.0,0.0);
         path.addEllipse(QPoint(0.0,0.0), radius, radius);
@@ -185,14 +181,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         prepareGeometryChange();
         bbox_ = path.boundingRect();
-//        qDebug() << "bbox_ for top: " << bbox_;
-
-//        static bool printme = true;
-//        if (printme)
-//        {
-//            qDebug() << path_ << bbox_;
-//            printme = false;
-//        }
 
         painter->drawPath(path);
 
@@ -200,31 +188,12 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         qreal offset = 0.707106781186547*(radius - padding);
 
-//        QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
-
-//        QString text = ti->toHtml();
-//        qreal width = optimizeTextBox(textFont, textBox, radius-padding, text);
-
         QPoint origin(-offset, -offset);
         ti->setPos(origin);
         ti->setTextWidth(2*offset);
-
-        //        ti->setHtml("Ok"+text_);
-//        QTextOption textOption;
-//        textOption.setWrapMode(QTextOption::WordWrap);
-
-//        painter->setPen(textPen);
-//        painter->setFont(textFont);
-//        painter->drawText(textBox, text_, textOption);
-
-
     }
     else
     {
-//        qDebug() << "child: " << QString::number(childIndex);
-
-//        qreal arc = 2 * M_PI / parentNode_->children_.size();
-
         qreal radiusInner = radius;
         qreal radiusOuter = radiusInner + 2.0*radius;
 
@@ -239,8 +208,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         qreal qarc = 360.0 / parentNode_->children_.size();
         qreal qangleStart = qarc; // * childIndex;
-//        qreal qangleEnd = qarc * (childIndex + 1);
-
 
         QPainterPath path;
         path.moveTo(0.0,0.0);
@@ -249,7 +216,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
 
         QPainterPath subtr;
-//        subtr.moveTo(0.0,0.0);
         subtr.arcTo(bboxInner, qangleStart, qarc);
         subtr.closeSubpath();
 
@@ -262,25 +228,13 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         painter->drawPath(path_);
 
         static std::map<int,bool> printed;
-//        if (printed.find(childIndex) == printed.end() )
-//        {
-//            qDebug() << childIndex << path << subtr << path_;
-//        }
-
-//        path_.setFillRule(Qt::WindingFill);
 
         bbox_ = path_.boundingRect();
 
-//        QRect textBox(QPoint(-radius+padding, 0), QPoint(radius-padding, 0));
-//        optimizeTextBox(textFont, textBox, radius-padding, text_);
-
-
-#if 1
         MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
         qreal arc_r = 2 * M_PI / parentNode_->children_.size();
-        qreal angle_r_1 = arc_r * (childIndex - 0.5);
-        qreal angle_r_2 = arc_r * (childIndex + 0.5);
+        qreal angle_r_2 = arc_r * (childIndex + 1.5);
 
         qreal x;
         qreal y;
@@ -297,7 +251,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
                 printed.insert(std::pair<int,bool>(childIndex, true));
                 ti->setHtml(QString::number(rotate) + " f " + QString::number(childIndex));
             }
-            //ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         }
         else
         {
@@ -310,7 +263,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
                 printed.insert(std::pair<int,bool>(childIndex, true));
                 ti->setHtml(QString::number(rotate) + " f " + QString::number(childIndex));
             }
-//            ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         }
 
 
@@ -319,13 +271,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         ti->setTextWidth(2*radius /* - 2*padding*/);
 
         ti->setTransform(tr);
-#endif
-
-//        QTextDocument td;
-//        td.setHtml("<b>This</b> is an example of <i>text</i>.");
-//        QAbstractTextDocumentLayout::PaintContext ctx;
-//        painter->translate(QPointF(300,0));
-//        td.documentLayout()->draw(painter, ctx);
     }
 
     painter->restore();
