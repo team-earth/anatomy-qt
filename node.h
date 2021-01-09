@@ -19,12 +19,13 @@ public:
 
 
 protected:
-    bool sceneEvent(QEvent*);
+//    bool sceneEvent(QEvent*);
 //    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void hoverEnterEvent(QGraphicsSceneHoverEvent *) override;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *) override;
     void hoverMoveEvent(QGraphicsSceneHoverEvent *) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+//    void mousePressEvent(QGraphicsSceneMouseEvent *);
 //    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 public:
@@ -32,7 +33,7 @@ public:
     std::vector<Node*> children_;
     Node* parentNode_;
     size_t childIndex;
-    bool selected_;
+    bool hovered_;
     QRectF bbox_;
     QPainterPath path_;
     qreal z_;

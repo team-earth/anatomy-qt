@@ -12,7 +12,7 @@
 #include <QStyleOptionGraphicsItem>
 
 Node::Node(QString text, Node* parent) :
-    QGraphicsPathItem(), text_(text), parentNode_(parent), selected_(false)
+    QGraphicsPathItem(), text_(text), parentNode_(parent), hovered_(false)
 {
     setAcceptHoverEvents(true);
     setAcceptTouchEvents(true);
@@ -25,7 +25,7 @@ Node::Node(QString text, Node* parent) :
 void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
 {
 //    qDebug() << "Node::hoverEnterEvent" << e->type() << zValue() << z_ << text_ << bbox_;
-    selected_ = true;
+    hovered_ = true;
     z_ = zValue();
     setZValue(1);
     update();
@@ -35,7 +35,7 @@ void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
 void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent * e)
 {
 //    qDebug() << "Node::hoverLeaveEvent" << e->type() << zValue() << z_ << text_ << bbox_;
-    selected_ = false;
+    hovered_ = false;
     setZValue(z_);
     update();
     QGraphicsPathItem::hoverLeaveEvent(e);
@@ -52,21 +52,21 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 //    if (shape().contains(e->pos()))
 //    {
-//        if (!selected_)
+//        if (!hovered_)
 //        {
 //            qDebug() << "Mouse is over, but not selected, selecting";
 
-//            selected_ = true;
+//            hovered_ = true;
 //            z_ = zValue();
 //            setZValue(1);
 //            update();
 //        }
 //    }
-//    else if (selected_)
+//    else if (hovered_)
 //    {
 //        qDebug() << "Mouse is not over, was selected, unselecting";
 
-//        selected_ = false;
+//        hovered_ = false;
 //        setZValue(z_);
 //        update();
 //    }
@@ -77,11 +77,11 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 }
 
-bool Node::sceneEvent(QEvent* e)
-{
-//    qDebug() << "Node::sceneEvent" << e->type();
-    return QGraphicsPathItem::sceneEvent(e);
-}
+//bool Node::sceneEvent(QEvent* e)
+//{
+////    qDebug() << "Node::sceneEvent" << e->type();
+//    return QGraphicsPathItem::sceneEvent(e);
+//}
 
 void Node::hoverMoveEvent(QGraphicsSceneHoverEvent * e)
 {
@@ -160,13 +160,28 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
     QPen textPen(Qt::black);
 
-    QPen selectedPen(QColor(140,180,245));
+    QPen selectedPen(QColor(34,87,171));
     selectedPen.setWidth(6);
+
+    QPen hoveredPen(QColor(140,180,245));
+    hoveredPen.setWidth(6);
 
     QPen unselectedPen(Qt::white);
     unselectedPen.setWidth(6);
 
-    painter->setPen( selected_ ? selectedPen : unselectedPen );
+    if (isSelected())
+    {
+        painter->setPen(selectedPen);
+    }
+    else if (hovered_)
+    {
+        painter->setPen(hoveredPen);
+    }
+    else
+    {
+        painter->setPen(unselectedPen);
+    }
+
     painter->setBrush(circleBrush);
 
     int padding=20;
