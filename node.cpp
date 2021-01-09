@@ -171,6 +171,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
     int padding=20;
 
+    QTransform tr2;
+
     if (parentNode_ == nullptr)
     {
         QPainterPath path;
@@ -207,20 +209,17 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
                     );
 
         qreal qarc = 360.0 / parentNode_->children_.size();
-        qreal qangleStart = 0.0; // * childIndex;
+        qreal qangleStart = 0.0;
 
         QPainterPath path;
         path.moveTo(0.0,0.0);
         path.arcTo(bboxOuter, qangleStart, qarc);
         path.closeSubpath();
 
-
         QPainterPath subtr;
         subtr.arcTo(bboxInner, qangleStart, qarc);
         subtr.closeSubpath();
 
-
-        QTransform tr2;
         tr2.rotate(qarc * childIndex);
         path_ = tr2.map(path - subtr); //.subtracted(subtr);
         prepareGeometryChange();
@@ -242,30 +241,30 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         qreal rotate;
         if (angle_r_2 < M_PI / 2.0 || angle_r_2 > 3 * M_PI / 2.0 )
         {
-            // lower hemishphere
+            // start inside
             x = cos(angle_r_2) * radiusInner;
             y = sin(angle_r_2) * radiusInner;
             rotate = 180 * angle_r_2 / M_PI;
             if (printed.find(childIndex) == printed.end() )
             {
                 printed.insert(std::pair<int,bool>(childIndex, true));
-                ti->setHtml(QString::number(rotate) + " f " + QString::number(childIndex));
+                ti->setHtml(QString::number(rotate) + " IN " + QString::number(childIndex));
             }
         }
         else
         {
-            // upper hemisphere
+            // start outside
             x = cos(angle_r_2) * radiusOuter;
             y = sin(angle_r_2) * radiusOuter;
             rotate = 180 * angle_r_2 / M_PI - 180;
             if (printed.find(childIndex) == printed.end() )
             {
                 printed.insert(std::pair<int,bool>(childIndex, true));
-                ti->setHtml(QString::number(rotate) + " f " + QString::number(childIndex));
+                ti->setHtml(QString::number(rotate) + " OUT " + QString::number(childIndex));
             }
         }
 
-
+        tr.rotate(rotate);
         QPoint origin(x, y);
         ti->setPos(origin);
         ti->setTextWidth(2*radius /* - 2*padding*/);
