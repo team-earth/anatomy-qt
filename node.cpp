@@ -207,7 +207,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
                     );
 
         qreal qarc = 360.0 / parentNode_->children_.size();
-        qreal qangleStart = qarc; // * childIndex;
+        qreal qangleStart = 0.0; // * childIndex;
 
         QPainterPath path;
         path.moveTo(0.0,0.0);
@@ -221,7 +221,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
 
         QTransform tr2;
-        tr2.rotate(qangleStart * childIndex);
+        tr2.rotate(qarc * childIndex);
         path_ = tr2.map(path - subtr); //.subtracted(subtr);
         prepareGeometryChange();
 
@@ -234,7 +234,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
         qreal arc_r = 2 * M_PI / parentNode_->children_.size();
-        qreal angle_r_2 = arc_r * (childIndex + 1.5);
+        qreal angle_r_2 = arc_r * (childIndex + 0.5);
 
         qreal x;
         qreal y;
