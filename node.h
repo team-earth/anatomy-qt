@@ -9,6 +9,7 @@
 #include <QEvent>
 #include <QGraphicsPathItem>
 #include <QGraphicsWidget>
+#include <QGraphicsScene>
 
 class Node : public QGraphicsPathItem
 {
@@ -60,6 +61,16 @@ public:
     }
     void focusInEvent(QFocusEvent *event) override
     {
+        qDebug() << "focusInEvent";
+        QList<QGraphicsItem*> items = scene()->selectedItems();
+        for (size_t i = 0; i < items.size(); i++)
+        {
+            if (items[i] != parentItem())
+            {
+                qDebug() << i << items[i];
+                items[i]->setSelected(false);
+            }
+        }
         if (parentItem() && !parentItem()->hasFocus())
         {
             parentItem()->setSelected(true);
