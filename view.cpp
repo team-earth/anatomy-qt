@@ -13,7 +13,6 @@ View::View(QWidget* parent) :
     scene_(new QGraphicsScene(parent)),
     /*QOpenGLWidget(parent), model_(nullptr),*/ elapsed_(0), scale_(50)
 {
-    std::cout << "OpenGLWidget::OpenGLWidget()" << std::endl;
 }
 
 //void View::setModel(Model* model)
@@ -37,7 +36,7 @@ View::~View()
 //    m_vao.destroy();
 
 //    doneCurrent();
-    std::cout << "OpenGLWidget::~OpenGLWidget()" << std::endl;
+//    std::cout << "OpenGLWidget::~OpenGLWidget()" << std::endl;
 
 }
 

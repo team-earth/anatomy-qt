@@ -54,20 +54,18 @@ class MyQGraphicsTextItem : public QGraphicsTextItem
 {
 public:
     MyQGraphicsTextItem(QGraphicsItem* parent) : QGraphicsTextItem(parent) {}
-    bool sceneEvent(QEvent* e)
-    {
-        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
-        return QGraphicsTextItem::sceneEvent(e);
-    }
+//    bool sceneEvent(QEvent* e)
+//    {
+//        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
+//        return QGraphicsTextItem::sceneEvent(e);
+//    }
     void focusInEvent(QFocusEvent *event) override
     {
-        qDebug() << "focusInEvent";
         QList<QGraphicsItem*> items = scene()->selectedItems();
         for (size_t i = 0; i < items.size(); i++)
         {
             if (items[i] != parentItem())
             {
-                qDebug() << i << items[i];
                 items[i]->setSelected(false);
             }
         }
@@ -77,21 +75,6 @@ public:
         }
         QGraphicsTextItem::focusInEvent(event);
     }
-//    {
-//        {
-//        qDebug() << "MyQGraphicsTextItem::focusInEvent" << event->type()
-//                 << hasFocus() << parentItem() <<parentItem()->hasFocus();
-//        }
-////        QGraphicsTextItem::focusInEvent(event);
-////        return;
-
-//        if (parentItem() && !parentItem()->hasFocus())
-//        {
-//            parentItem()->setFocus(Qt::OtherFocusReason);
-//        }
-//        //          QGraphicsPathItem::focusInEvent(event);
-//    }
-
 };
 
 #endif // NODE_H
