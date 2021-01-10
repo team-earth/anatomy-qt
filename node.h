@@ -33,7 +33,6 @@ public:
     std::vector<Node*> children_;
     Node* parentNode_;
     size_t childIndex;
-    bool hovered_;
     QRectF bbox_;
     QPainterPath path_;
     qreal z_;

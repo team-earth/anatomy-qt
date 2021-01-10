@@ -12,7 +12,7 @@
 #include <QStyleOptionGraphicsItem>
 
 Node::Node(QString text, Node* parent) :
-    QGraphicsPathItem(), text_(text), parentNode_(parent), hovered_(false)
+    QGraphicsPathItem(), text_(text), parentNode_(parent)
 {
     setAcceptHoverEvents(true);
     setAcceptTouchEvents(true);
@@ -25,22 +25,18 @@ Node::Node(QString text, Node* parent) :
 void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
 {
 //    qDebug() << "Node::hoverEnterEvent" << e->type() << zValue() << z_ << text_ << bbox_;
-    hovered_ = true;
-    z_ = zValue();
-    setZValue(1);
-    update();
-    QGraphicsPathItem::hoverEnterEvent(e);
+//    z_ = zValue();
+//    setZValue(1);
+//    update();
+//    QGraphicsPathItem::hoverEnterEvent(e);
 }
 
 void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent * e)
 {
 //    qDebug() << "Node::hoverLeaveEvent" << e->type() << zValue() << z_ << text_ << bbox_;
-    hovered_ = false;
-    setZValue(z_);
-    update();
-    QGraphicsPathItem::hoverLeaveEvent(e);
-
-
+//    setZValue(z_);
+//    update();
+//    QGraphicsPathItem::hoverLeaveEvent(e);
 }
 
 void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
@@ -173,7 +169,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     {
         painter->setPen(selectedPen);
     }
-    else if (hovered_)
+    else if (isUnderMouse())
     {
         painter->setPen(hoveredPen);
     }
