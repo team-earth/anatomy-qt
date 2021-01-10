@@ -59,6 +59,7 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QDebug>
+#include <QSettings>
 
 class MyQGraphicsScene : public QGraphicsScene
 {
@@ -107,7 +108,10 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::CustomMainWindow())
 {
+
     ui->setupUi(this);
+    connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
+
 
     MyQGraphicsScene* scene = new MyQGraphicsScene(parent);
     ui->view->setScene(scene);
@@ -115,6 +119,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     test(scene);
 
+    readSettings();
 
 //    ui->view->setModel(&model_);
 
@@ -125,9 +130,38 @@ MainWindow::MainWindow(QWidget* parent)
 //    timer->start(50);
 
 }
-//! [0]
 
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    qDebug() << "MainWindow::closeEvent";
+    if (true /*userReallyWantsToQuit()*/) {
+        writeSettings();
+        event->accept();
+    } else {
+        event->ignore();
+    }
 
+}
+
+void MainWindow::writeSettings()
+{
+    qDebug() << "MainWindow::writeSettings";
+    QSettings settings("team.earth", "anatomy");
+    settings.setValue("mainwindow/geometry", saveGeometry());
+    settings.setValue("mainwindow/windowState", saveState());
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings("team.earth", "anatomy");
+    auto keys = settings.allKeys();
+    for (size_t i = 0; i < keys.size(); i++)
+    {
+        qDebug() << keys[i] << settings.value(keys[i]);
+    }
+    restoreGeometry(settings.value("mainwindow/geometry").toByteArray());
+    restoreState(settings.value("mainwindow/windowState").toByteArray());
+}
 
 void MainWindow::populate()
 {

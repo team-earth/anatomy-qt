@@ -53,6 +53,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QSurfaceFormat>
+#include <QAction>
 
 #include "mainwindow.h"
 #include "node.h"
@@ -65,28 +66,32 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
-    QCoreApplication::setOrganizationName("QtProject");
+    QCoreApplication::setOrganizationName("team.earth");
     QCoreApplication::setApplicationName("Anatomy");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
-    QCommandLineParser parser;
-    parser.setApplicationDescription(QCoreApplication::applicationName());
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.addPositionalArgument("file", "The file to open.");
-    parser.process(app);
+//    QCommandLineParser parser;
+//    parser.setApplicationDescription(QCoreApplication::applicationName());
+//    parser.addHelpOption();
+//    parser.addVersionOption();
+//    parser.addPositionalArgument("file", "The file to open.");
+//    parser.process(app);
 
-    QSurfaceFormat format;
-    format.setDepthBufferSize(24);
-    format.setStencilBufferSize(8);
-    format.setVersion(3, 2);
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    QSurfaceFormat::setDefaultFormat(format);
+//    QSurfaceFormat format;
+//    format.setDepthBufferSize(24);
+//    format.setStencilBufferSize(8);
+//    format.setVersion(3, 2);
+//    format.setProfile(QSurfaceFormat::CoreProfile);
+//    QSurfaceFormat::setDefaultFormat(format);
+
 
     MainWindow mainWin(nullptr);
+
 //    if (!parser.positionalArguments().isEmpty())
 //        mainWin.loadFile(parser.positionalArguments().first());
 
     mainWin.show();
-    return app.exec();
+    int ret = app.exec();
+
+    qDebug() << "app.exec() = " << ret;
 }
 //! [0]

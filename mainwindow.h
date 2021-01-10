@@ -67,6 +67,9 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget* parent);
+    void closeEvent(QCloseEvent*);
+    void readSettings();
+    void writeSettings();
 
 private slots:
     void updateActions(const QItemSelection &selection);
