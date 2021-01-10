@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QEvent>
 #include <QGraphicsPathItem>
+#include <QGraphicsWidget>
 
 class Node : public QGraphicsPathItem
 {
@@ -20,13 +21,21 @@ public:
 
 protected:
 //    bool sceneEvent(QEvent*);
-//    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+//    void mousePressEvent(QGraphicsSceneMouseEvent *event) override
+//    {
+//        parentWidget()->mousePressEvent();
+//    }
 //    void hoverEnterEvent(QGraphicsSceneHoverEvent *) override;
 //    void hoverLeaveEvent(QGraphicsSceneHoverEvent *) override;
 //    void hoverMoveEvent(QGraphicsSceneHoverEvent *) override;
 //    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 //    void mousePressEvent(QGraphicsSceneMouseEvent *);
 //    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+//      void focusInEvent(QFocusEvent *event) override
+//      {
+////          parentWidget()->focusInEvent(event);
+//          QGraphicsPathItem::focusInEvent(event);
+//      }
 
 public:
     QString text_;
