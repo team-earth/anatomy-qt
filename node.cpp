@@ -22,6 +22,7 @@ Node::Node(QString text, Node* parent) :
     setFlag(QGraphicsItem::ItemClipsToShape, true);
 }
 
+#if 0
 void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
 {
 //    qDebug() << "Node::hoverEnterEvent" << e->type() << zValue() << z_ << text_ << bbox_;
@@ -87,6 +88,7 @@ void Node::hoverMoveEvent(QGraphicsSceneHoverEvent * e)
 //    }
     QGraphicsPathItem::hoverMoveEvent(e);
 }
+#endif
 
 static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)
 {

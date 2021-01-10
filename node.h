@@ -21,10 +21,10 @@ public:
 protected:
 //    bool sceneEvent(QEvent*);
 //    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *) override;
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *) override;
-    void hoverMoveEvent(QGraphicsSceneHoverEvent *) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+//    void hoverEnterEvent(QGraphicsSceneHoverEvent *) override;
+//    void hoverLeaveEvent(QGraphicsSceneHoverEvent *) override;
+//    void hoverMoveEvent(QGraphicsSceneHoverEvent *) override;
+//    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 //    void mousePressEvent(QGraphicsSceneMouseEvent *);
 //    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
@@ -46,7 +46,7 @@ public:
     MyQGraphicsTextItem(QGraphicsItem* parent) : QGraphicsTextItem(parent) {}
     bool sceneEvent(QEvent* e)
     {
-//        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
+        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
         return QGraphicsTextItem::sceneEvent(e);
     }
 };
