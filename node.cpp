@@ -74,11 +74,6 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 }
 
-//bool Node::sceneEvent(QEvent* e)
-//{
-////    qDebug() << "Node::sceneEvent" << e->type();
-//    return QGraphicsPathItem::sceneEvent(e);
-//}
 
 void Node::hoverMoveEvent(QGraphicsSceneHoverEvent * e)
 {
@@ -167,7 +162,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     QPen unselectedPen(Qt::white);
     unselectedPen.setWidth(6);
 
-    if (isSelected())
+    if (hasFocus() || isSelected())
     {
         painter->setPen(selectedPen);
     }

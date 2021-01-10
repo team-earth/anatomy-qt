@@ -150,7 +150,7 @@ void MainWindow::populate()
     MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(n);
     ti->setHtml(txt);
     ti->setTextInteractionFlags(Qt::TextEditorInteraction);
-    n->setFocusProxy(ti);
+//    n->setFocusProxy(ti);
 
 //    scene->addItem(ti);
 //    group->addToGroup(ti);
@@ -171,7 +171,7 @@ void MainWindow::populate()
         ti->setHtml(txt);
         ti->setTextInteractionFlags(Qt::TextEditorInteraction);
 
-        child->setFocusProxy(ti);
+//        child->setFocusProxy(ti);
 
 //        scene->addItem(ti);
 //        group->addToGroup(ti);

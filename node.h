@@ -33,8 +33,8 @@ protected:
 //    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 //      void focusInEvent(QFocusEvent *event) override
 //      {
-////          parentWidget()->focusInEvent(event);
-//          QGraphicsPathItem::focusInEvent(event);
+//          parentWidget()->setSelected(true);
+////          QGraphicsPathItem::focusInEvent(event);
 //      }
 
 public:
@@ -58,6 +58,29 @@ public:
         qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
         return QGraphicsTextItem::sceneEvent(e);
     }
+    void focusInEvent(QFocusEvent *event) override
+    {
+        if (parentItem() && !parentItem()->hasFocus())
+        {
+            parentItem()->setSelected(true);
+        }
+        QGraphicsTextItem::focusInEvent(event);
+    }
+//    {
+//        {
+//        qDebug() << "MyQGraphicsTextItem::focusInEvent" << event->type()
+//                 << hasFocus() << parentItem() <<parentItem()->hasFocus();
+//        }
+////        QGraphicsTextItem::focusInEvent(event);
+////        return;
+
+//        if (parentItem() && !parentItem()->hasFocus())
+//        {
+//            parentItem()->setFocus(Qt::OtherFocusReason);
+//        }
+//        //          QGraphicsPathItem::focusInEvent(event);
+//    }
+
 };
 
 #endif // NODE_H
