@@ -88,8 +88,15 @@
      <string>Tools</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuFont">
+    <property name="title">
+     <string>Font</string>
+    </property>
+    <addaction name="actionFont"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTools"/>
+   <addaction name="menuFont"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockWidget">
@@ -114,6 +121,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionFont">
+   <property name="text">
+    <string>Font</string>
    </property>
   </action>
  </widget>

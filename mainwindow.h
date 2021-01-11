@@ -78,6 +78,8 @@ private slots:
 
     void on_actionExit_triggered();
 
+    void on_actionFont_triggered();
+
 private:
     void createMenus();
     void populate();

@@ -60,6 +60,7 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QSettings>
+#include <QFontDialog>
 
 class MyQGraphicsScene : public QGraphicsScene
 {
@@ -249,4 +250,28 @@ void MainWindow::updateActions(const QItemSelection &selection)
 void MainWindow::on_actionExit_triggered()
 {
     QApplication::quit();
+}
+
+void MainWindow::on_actionFont_triggered()
+{
+    bool ok;
+
+    QWidget* widget = QApplication::focusWidget();
+    qDebug() << widget;
+
+    QList<QGraphicsItem *> items = ui->view->scene()->selectedItems();
+
+    qDebug() << items;
+
+    if (items.size() > 0)
+    {
+        QFont initFont ; //= items[0]->font();
+//        qDebug() << initFont;
+
+        QFont font = QFontDialog::getFont(&ok, initFont, this);
+        if (ok)
+        {
+            widget->setFont(font);
+        }
+    }
 }
