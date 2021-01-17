@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1005</width>
+    <width>881</width>
     <height>756</height>
    </rect>
   </property>
@@ -70,7 +70,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1005</width>
+     <width>881</width>
      <height>21</height>
     </rect>
    </property>
@@ -104,9 +104,9 @@
     <number>2</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QTextEdit" name="textEdit_2"/>
+      <widget class="TextEdit" name="textEdit_2"/>
      </item>
     </layout>
    </widget>
@@ -143,6 +143,11 @@
    <slots>
     <slot>setZoomValue(int)</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>TextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>textedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

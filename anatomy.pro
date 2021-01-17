@@ -4,10 +4,12 @@ QT += widgets uitools
 HEADERS       = mainwindow.h \
     node.h \
     paintHelper.h \
+    textedit.h \
     view.h
 SOURCES       = main.cpp mainwindow.cpp \
     node.cpp \
     paintHelper.cpp \
+    textedit.cpp \
     view.cpp
 #! [0]
 RESOURCES     = anatomy.qrc
