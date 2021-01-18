@@ -115,8 +115,8 @@ TextEdit::TextEdit(QWidget *parent)
 
 //    setToolButtonStyle(Qt::ToolButtonFollowStyle);
 //    setupFileActions();
-    setupEditActions();
-    setupTextActions();
+//    setupEditActions();
+//    setupTextActions();
 
 //    {
 //        QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
@@ -124,12 +124,14 @@ TextEdit::TextEdit(QWidget *parent)
 //        helpMenu->addAction(tr("About &Qt"), qApp, &QApplication::aboutQt);
 //    }
 
-    QFont textFont("Helvetica");
-    textFont.setStyleHint(QFont::SansSerif);
-    setFont(textFont);
-    fontChanged(font());
-    textColor();
-    alignmentChanged(alignment());
+//    qDebug() << "TextEdit::TextEdit() BEGIN";
+//    QList<QObject*> list = this->findChildren<QObject*>();
+//    foreach (auto obj, list)
+//    {
+//        qDebug() <<obj->objectName(); // << obj;
+//    }
+//    qDebug() << "TextEdit::TextEdit() END";
+
 
 //    connect(textEdit->document(), &QTextDocument::modificationChanged,
 //            actionSave, &QAction::setEnabled);
@@ -140,11 +142,52 @@ TextEdit::TextEdit(QWidget *parent)
 //    connect(textEdit->document(), &QTextDocument::redoAvailable,
 //            actionRedo, &QAction::setEnabled);
 
-    setWindowModified(document()->isModified());
 //    actionSave->setEnabled(textEdit->document()->isModified());
 //    actionUndo->setEnabled(textEdit->document()->isUndoAvailable());
 //    actionRedo->setEnabled(textEdit->document()->isRedoAvailable());
 
+}
+
+void TextEdit::setupToolbar(QToolBar* toolbar)
+{
+    tb = toolbar;
+
+//    tb = globalMainWindow->addToolBar("Font");
+
+//    connect(textEdit, &QTextEdit::currentCharFormatChanged,
+//            this, &TextEdit::currentCharFormatChanged);
+//    connect(textEdit, &QTextEdit::cursorPositionChanged,
+//            this, &TextEdit::cursorPositionChanged);
+//    setCentralWidget(textEdit);
+
+//    setToolButtonStyle(Qt::ToolButtonFollowStyle);
+//    setupFileActions();
+    setupEditActions();
+    setupTextActions();
+
+//    {
+//        QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
+//        helpMenu->addAction(tr("About"), this, &TextEdit::about);
+//        helpMenu->addAction(tr("About &Qt"), qApp, &QApplication::aboutQt);
+//    }
+
+
+    QFont textFont("Helvetica");
+    textFont.setStyleHint(QFont::SansSerif);
+    setFont(textFont);
+    fontChanged(font());
+    textColor();
+    alignmentChanged(alignment());
+
+    qDebug() << "TextEdit::TextEdit() BEGIN";
+    QList<QObject*> list = this->findChildren<QObject*>();
+    foreach (auto obj, list)
+    {
+        qDebug() <<obj->objectName(); // << obj;
+    }
+    qDebug() << "TextEdit::TextEdit() END";
+
+    setWindowModified(document()->isModified());
 #ifndef QT_NO_CLIPBOARD
     actionCut->setEnabled(false);
 //    connect(textEdit, &QTextEdit::copyAvailable, actionCut, &QAction::setEnabled);
@@ -164,6 +207,7 @@ TextEdit::TextEdit(QWidget *parent)
     pal.setColor(QPalette::Text, QColor(Qt::black));
     textEdit->setPalette(pal);
 #endif
+
 }
 
 //void TextEdit::closeEvent(QCloseEvent *e)
@@ -227,7 +271,6 @@ TextEdit::TextEdit(QWidget *parent)
 
 void TextEdit::setupEditActions()
 {
-    QToolBar *tb = new QToolBar(tr("Edit Actions"));
 //    QMenu *menu = menuBar()->addMenu(tr("&Edit"));
 
 //    const QIcon undoIcon = QIcon::fromTheme("edit-undo", QIcon(rsrcPath + "/editundo.png"));
@@ -267,7 +310,6 @@ void TextEdit::setupEditActions()
 
 void TextEdit::setupTextActions()
 {
-    QToolBar *tb = new QToolBar(tr("Format Actions"));
 //    QMenu *menu = menuBar()->addMenu(tr("F&ormat"));
 
     const QIcon boldIcon = QIcon::fromTheme("format-text-bold", QIcon(rsrcPath + "/textbold.png"));

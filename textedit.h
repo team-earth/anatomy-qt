@@ -77,6 +77,7 @@ public:
     TextEdit(QWidget *parent = 0);
 
     bool load(const QString &f);
+    void setupToolbar(QToolBar*);
 
 //public slots:
 //    void fileNew();
@@ -148,7 +149,7 @@ private:
     QFontComboBox *comboFont;
     QComboBox *comboSize;
 
-//    QToolBar *tb;
+    QToolBar *tb;
     QString fileName;
 };
 

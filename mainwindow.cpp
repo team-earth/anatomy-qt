@@ -89,20 +89,20 @@ public:
     }
 };
 
-static void test(MyQGraphicsScene* scene)
-{
+//static void test(MyQGraphicsScene* scene)
+//{
 
-    MyQGraphicsItemGroup* group = new MyQGraphicsItemGroup();
-    scene->addItem(group);
+//    MyQGraphicsItemGroup* group = new MyQGraphicsItemGroup();
+//    scene->addItem(group);
 
-    QGraphicsTextItem* ti = new QGraphicsTextItem();
-    ti->setHtml("<b>This</b> is a text");
-    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
-    //ui->view->scene()->addItem(ti);
-//    scene->addItem(ti);
-    group->addToGroup(ti);
+//    QGraphicsTextItem* ti = new QGraphicsTextItem();
+//    ti->setHtml("<b>This</b> is a text");
+//    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+//    //ui->view->scene()->addItem(ti);
+////    scene->addItem(ti);
+//    group->addToGroup(ti);
 
-}
+//}
 
 //! [0]
 MainWindow::MainWindow(QWidget* parent)
@@ -114,7 +114,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     ui->setupUi(this);
 
-    auto tb = new QToolBar();
+
+    auto tb = new QToolBar("ToolBar");
     tb->addAction("Action1");
     ui->verticalLayout->setMenuBar(tb);
 
@@ -122,11 +123,19 @@ MainWindow::MainWindow(QWidget* parent)
 
     MyQGraphicsScene* scene = new MyQGraphicsScene(parent);
     ui->view->setScene(scene);
+
+    ui->textEdit_2->setupToolbar(tb);
     populate();
 
-    test(scene);
+//    test(scene);
 
     readSettings();
+
+    QList<QObject*> list = this->findChildren<QObject*>();
+    foreach (auto obj, list)
+    {
+        qDebug() <<obj->objectName(); // << obj;
+    }
 
 //    ui->view->setModel(&model_);
 
@@ -152,7 +161,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::writeSettings()
 {
-    qDebug() << "MainWindow::writeSettings";
+//    qDebug() << "MainWindow::writeSettings";
     QSettings settings("team.earth", "anatomy");
     settings.setValue("mainwindow/geometry", saveGeometry());
     settings.setValue("mainwindow/windowState", saveState());
@@ -161,11 +170,11 @@ void MainWindow::writeSettings()
 void MainWindow::readSettings()
 {
     QSettings settings("team.earth", "anatomy");
-    auto keys = settings.allKeys();
-    for (size_t i = 0; i < keys.size(); i++)
-    {
-        qDebug() << keys[i] << settings.value(keys[i]);
-    }
+//    auto keys = settings.allKeys();
+//    for (size_t i = 0; i < keys.size(); i++)
+//    {
+//        qDebug() << keys[i] << settings.value(keys[i]);
+//    }
     restoreGeometry(settings.value("mainwindow/geometry").toByteArray());
     restoreState(settings.value("mainwindow/windowState").toByteArray());
 }
