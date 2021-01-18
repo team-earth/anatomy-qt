@@ -110,9 +110,15 @@ MainWindow::MainWindow(QWidget* parent)
       ui(new Ui::CustomMainWindow())
 {
 
-    ui->setupUi(this);
-    connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
 
+
+    ui->setupUi(this);
+
+    auto tb = new QToolBar();
+    tb->addAction("Action1");
+    ui->verticalLayout->setMenuBar(tb);
+
+    connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
 
     MyQGraphicsScene* scene = new MyQGraphicsScene(parent);
     ui->view->setScene(scene);

@@ -95,19 +95,22 @@ const QString rsrcPath = ":/images/mac";
 const QString rsrcPath = ":/images/win";
 #endif
 
+//extern QMainWindow* globalMainWindow;
+
 TextEdit::TextEdit(QWidget *parent)
-    : QWidget(parent)
+    : QTextEdit(parent)
 {
 #ifdef Q_OS_MACOS
     setUnifiedTitleAndToolBarOnMac(true);
 #endif
     setWindowTitle(QCoreApplication::applicationName());
 
-    textEdit = new QTextEdit(this);
-    connect(textEdit, &QTextEdit::currentCharFormatChanged,
-            this, &TextEdit::currentCharFormatChanged);
-    connect(textEdit, &QTextEdit::cursorPositionChanged,
-            this, &TextEdit::cursorPositionChanged);
+//    tb = globalMainWindow->addToolBar("Font");
+
+//    connect(textEdit, &QTextEdit::currentCharFormatChanged,
+//            this, &TextEdit::currentCharFormatChanged);
+//    connect(textEdit, &QTextEdit::cursorPositionChanged,
+//            this, &TextEdit::cursorPositionChanged);
 //    setCentralWidget(textEdit);
 
 //    setToolButtonStyle(Qt::ToolButtonFollowStyle);
@@ -123,10 +126,10 @@ TextEdit::TextEdit(QWidget *parent)
 
     QFont textFont("Helvetica");
     textFont.setStyleHint(QFont::SansSerif);
-    textEdit->setFont(textFont);
-    fontChanged(textEdit->font());
-    colorChanged(textEdit->textColor());
-    alignmentChanged(textEdit->alignment());
+    setFont(textFont);
+    fontChanged(font());
+    textColor();
+    alignmentChanged(alignment());
 
 //    connect(textEdit->document(), &QTextDocument::modificationChanged,
 //            actionSave, &QAction::setEnabled);
@@ -137,21 +140,21 @@ TextEdit::TextEdit(QWidget *parent)
 //    connect(textEdit->document(), &QTextDocument::redoAvailable,
 //            actionRedo, &QAction::setEnabled);
 
-    setWindowModified(textEdit->document()->isModified());
+    setWindowModified(document()->isModified());
 //    actionSave->setEnabled(textEdit->document()->isModified());
 //    actionUndo->setEnabled(textEdit->document()->isUndoAvailable());
 //    actionRedo->setEnabled(textEdit->document()->isRedoAvailable());
 
 #ifndef QT_NO_CLIPBOARD
     actionCut->setEnabled(false);
-    connect(textEdit, &QTextEdit::copyAvailable, actionCut, &QAction::setEnabled);
+//    connect(textEdit, &QTextEdit::copyAvailable, actionCut, &QAction::setEnabled);
     actionCopy->setEnabled(false);
-    connect(textEdit, &QTextEdit::copyAvailable, actionCopy, &QAction::setEnabled);
+//    connect(textEdit, &QTextEdit::copyAvailable, actionCopy, &QAction::setEnabled);
 
     connect(QApplication::clipboard(), &QClipboard::dataChanged, this, &TextEdit::clipboardDataChanged);
 #endif
 
-    textEdit->setFocus();
+//    textEdit->setFocus();
 //    setCurrentFileName(QString());
 
 #ifdef Q_OS_MACOS
@@ -241,19 +244,19 @@ void TextEdit::setupEditActions()
 
 #ifndef QT_NO_CLIPBOARD
     const QIcon cutIcon = QIcon::fromTheme("edit-cut", QIcon(rsrcPath + "/editcut.png"));
-    actionCut = new QAction(cutIcon, tr("Cu&t"), textEdit); //, &QTextEdit::cut);
+    actionCut = new QAction(cutIcon, tr("Cu&t"), this); //, &QTextEdit::cut);
     actionCut->setPriority(QAction::LowPriority);
     actionCut->setShortcut(QKeySequence::Cut);
     tb->addAction(actionCut);
 
     const QIcon copyIcon = QIcon::fromTheme("edit-copy", QIcon(rsrcPath + "/editcopy.png"));
-    actionCopy = new QAction(copyIcon, tr("&Copy"), textEdit); //, &QTextEdit::copy);
+    actionCopy = new QAction(copyIcon, tr("&Copy"), this); //, &QTextEdit::copy);
     actionCopy->setPriority(QAction::LowPriority);
     actionCopy->setShortcut(QKeySequence::Copy);
     tb->addAction(actionCopy);
 
     const QIcon pasteIcon = QIcon::fromTheme("edit-paste", QIcon(rsrcPath + "/editpaste.png"));
-    actionPaste = new QAction(pasteIcon, tr("&Paste"), textEdit);//, &QTextEdit::paste);
+    actionPaste = new QAction(pasteIcon, tr("&Paste"), this);//, &QTextEdit::paste);
     actionPaste->setPriority(QAction::LowPriority);
     actionPaste->setShortcut(QKeySequence::Paste);
     tb->addAction(actionPaste);
@@ -644,7 +647,7 @@ void TextEdit::textSize(const QString &p)
 
 void TextEdit::textStyle(int styleIndex)
 {
-    QTextCursor cursor = textEdit->textCursor();
+    QTextCursor cursor = textCursor();
     QTextListFormat::Style style = QTextListFormat::ListStyleUndefined;
     QTextBlockFormat::MarkerType marker = QTextBlockFormat::MarkerType::NoMarker;
 
@@ -707,7 +710,7 @@ void TextEdit::textStyle(int styleIndex)
         fmt.setProperty(QTextFormat::FontSizeAdjustment, sizeAdjustment);
         cursor.select(QTextCursor::LineUnderCursor);
         cursor.mergeCharFormat(fmt);
-        textEdit->mergeCurrentCharFormat(fmt);
+        mergeCurrentCharFormat(fmt);
     } else {
         blockFmt.setMarker(marker);
         cursor.setBlockFormat(blockFmt);
@@ -728,7 +731,7 @@ void TextEdit::textStyle(int styleIndex)
 
 void TextEdit::textColor()
 {
-    QColor col = QColorDialog::getColor(textEdit->textColor(), this);
+    QColor col = QColorDialog::getColor();
     if (!col.isValid())
         return;
     QTextCharFormat fmt;
@@ -740,13 +743,13 @@ void TextEdit::textColor()
 void TextEdit::textAlign(QAction *a)
 {
     if (a == actionAlignLeft)
-        textEdit->setAlignment(Qt::AlignLeft | Qt::AlignAbsolute);
+        setAlignment(Qt::AlignLeft | Qt::AlignAbsolute);
     else if (a == actionAlignCenter)
-        textEdit->setAlignment(Qt::AlignHCenter);
+        setAlignment(Qt::AlignHCenter);
     else if (a == actionAlignRight)
-        textEdit->setAlignment(Qt::AlignRight | Qt::AlignAbsolute);
+        setAlignment(Qt::AlignRight | Qt::AlignAbsolute);
     else if (a == actionAlignJustify)
-        textEdit->setAlignment(Qt::AlignJustify);
+        setAlignment(Qt::AlignJustify);
 }
 
 void TextEdit::setChecked(bool checked)
@@ -766,7 +769,7 @@ void TextEdit::unindent()
 
 void TextEdit::modifyIndentation(int amount)
 {
-    QTextCursor cursor = textEdit->textCursor();
+    QTextCursor cursor = textCursor();
     cursor.beginEditBlock();
     if (cursor.currentList()) {
         QTextListFormat listFmt = cursor.currentList()->format();
@@ -796,8 +799,8 @@ void TextEdit::currentCharFormatChanged(const QTextCharFormat &format)
 
 void TextEdit::cursorPositionChanged()
 {
-    alignmentChanged(textEdit->alignment());
-    QTextList *list = textEdit->textCursor().currentList();
+    alignmentChanged(alignment());
+    QTextList *list = textCursor().currentList();
     if (list) {
         switch (list->format().style()) {
         case QTextListFormat::ListDisc:
@@ -828,7 +831,7 @@ void TextEdit::cursorPositionChanged()
             comboStyle->setCurrentIndex(-1);
             break;
         }
-        switch (textEdit->textCursor().block().blockFormat().marker()) {
+        switch (textCursor().block().blockFormat().marker()) {
         case QTextBlockFormat::MarkerType::NoMarker:
             actionToggleCheckState->setChecked(false);
             break;
@@ -842,7 +845,7 @@ void TextEdit::cursorPositionChanged()
             break;
         }
     } else {
-        int headingLevel = textEdit->textCursor().blockFormat().headingLevel();
+        int headingLevel = textCursor().blockFormat().headingLevel();
         comboStyle->setCurrentIndex(headingLevel ? headingLevel + 10 : 0);
     }
 }
@@ -864,11 +867,11 @@ void TextEdit::about()
 
 void TextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
-    QTextCursor cursor = textEdit->textCursor();
+    QTextCursor cursor = textCursor();
     if (!cursor.hasSelection())
         cursor.select(QTextCursor::WordUnderCursor);
     cursor.mergeCharFormat(format);
-    textEdit->mergeCurrentCharFormat(format);
+    mergeCurrentCharFormat(format);
 }
 
 void TextEdit::fontChanged(const QFont &f)

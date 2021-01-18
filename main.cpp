@@ -58,6 +58,8 @@
 #include "mainwindow.h"
 #include "node.h"
 
+//QMainWindow* globalMainWindow;
+
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(anatomy);
@@ -85,6 +87,8 @@ int main(int argc, char *argv[])
 
 
     MainWindow mainWin(nullptr);
+
+//    globalMainWindow = &mainWin;
 
 //    if (!parser.positionalArguments().isEmpty())
 //        mainWin.loadFile(parser.positionalArguments().first());

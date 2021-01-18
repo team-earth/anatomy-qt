@@ -55,6 +55,8 @@
 #include <QMap>
 #include <QPointer>
 #include <QWidget>
+#include <QMainWindow>
+#include <QTextEdit>
 
 
 QT_BEGIN_NAMESPACE
@@ -67,7 +69,7 @@ class QMenu;
 class QPrinter;
 QT_END_NAMESPACE
 
-class TextEdit : public QWidget
+class TextEdit : public QTextEdit
 {
     Q_OBJECT
 
@@ -146,9 +148,8 @@ private:
     QFontComboBox *comboFont;
     QComboBox *comboSize;
 
-    QToolBar *tb;
+//    QToolBar *tb;
     QString fileName;
-    QTextEdit *textEdit;
 };
 
 #endif // TEXTEDIT_H
