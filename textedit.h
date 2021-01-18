@@ -99,7 +99,7 @@ private slots:
     void textFamily(const QString &f);
     void textSize(const QString &p);
     void textStyle(int styleIndex);
-    void textColor();
+    void textColorChooser();
     void textAlign(QAction *a);
     void setChecked(bool checked);
     void indent();

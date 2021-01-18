@@ -176,16 +176,16 @@ void TextEdit::setupToolbar(QToolBar* toolbar)
     textFont.setStyleHint(QFont::SansSerif);
     setFont(textFont);
     fontChanged(font());
-    textColor();
+//    textColor();
     alignmentChanged(alignment());
 
-    qDebug() << "TextEdit::TextEdit() BEGIN";
-    QList<QObject*> list = this->findChildren<QObject*>();
-    foreach (auto obj, list)
-    {
-        qDebug() <<obj->objectName(); // << obj;
-    }
-    qDebug() << "TextEdit::TextEdit() END";
+//    qDebug() << "TextEdit::TextEdit() BEGIN";
+//    QList<QObject*> list = this->findChildren<QObject*>();
+//    foreach (auto obj, list)
+//    {
+//        qDebug() <<obj->objectName(); // << obj;
+//    }
+//    qDebug() << "TextEdit::TextEdit() END";
 
     setWindowModified(document()->isModified());
 #ifndef QT_NO_CLIPBOARD
@@ -376,25 +376,25 @@ void TextEdit::setupTextActions()
     actionIndentLess->setShortcut(Qt::CTRL + Qt::Key_BracketLeft);
     actionIndentLess->setPriority(QAction::LowPriority);
 
-//    // Make sure the alignLeft  is always left of the alignRight
-//    QActionGroup *alignGroup = new QActionGroup(this);
-//    connect(alignGroup, &QActionGroup::triggered, this, &TextEdit::textAlign);
+    // Make sure the alignLeft  is always left of the alignRight
+    QActionGroup *alignGroup = new QActionGroup(this);
+    connect(alignGroup, &QActionGroup::triggered, this, &TextEdit::textAlign);
 
-//    if (QApplication::isLeftToRight()) {
-//        alignGroup->addAction(actionAlignLeft);
-//        alignGroup->addAction(actionAlignCenter);
-//        alignGroup->addAction(actionAlignRight);
-//    } else {
-//        alignGroup->addAction(actionAlignRight);
-//        alignGroup->addAction(actionAlignCenter);
-//        alignGroup->addAction(actionAlignLeft);
-//    }
-//    alignGroup->addAction(actionAlignJustify);
+    if (QApplication::isLeftToRight()) {
+        alignGroup->addAction(actionAlignLeft);
+        alignGroup->addAction(actionAlignCenter);
+        alignGroup->addAction(actionAlignRight);
+    } else {
+        alignGroup->addAction(actionAlignRight);
+        alignGroup->addAction(actionAlignCenter);
+        alignGroup->addAction(actionAlignLeft);
+    }
+    alignGroup->addAction(actionAlignJustify);
 
-//    tb->addActions(alignGroup->actions());
+    tb->addActions(alignGroup->actions());
 //    menu->addActions(alignGroup->actions());
-//    tb->addAction(actionIndentMore);
-//    tb->addAction(actionIndentLess);
+    tb->addAction(actionIndentMore);
+    tb->addAction(actionIndentLess);
 //    menu->addAction(actionIndentMore);
 //    menu->addAction(actionIndentLess);
 
@@ -403,7 +403,9 @@ void TextEdit::setupTextActions()
     QPixmap pix(16, 16);
     pix.fill(Qt::black);
     //    actionTextColor = menu->addAction(pix, tr("&Color..."), this, &TextEdit::textColor);
-    actionTextColor = new QAction(pix, tr("&Color..."), this); //, &TextEdit::textColor);
+    actionTextColor = new QAction(pix, tr("&Color..."), this); //, &TextEdit::textColorChooser);
+    connect(actionTextColor, &QAction::triggered, this, &TextEdit::textColorChooser);
+
     tb->addAction(actionTextColor);
 
 //    menu->addSeparator();
@@ -440,7 +442,7 @@ void TextEdit::setupTextActions()
     comboStyle->addItem("Heading 5");
     comboStyle->addItem("Heading 6");
 
-//    connect(comboStyle, QOverload<int>::of(&QComboBox::activated), this, &TextEdit::textStyle);
+    connect(comboStyle, QOverload<int>::of(&QComboBox::activated), this, &TextEdit::textStyle);
 
     comboFont = new QFontComboBox(tb);
     tb->addWidget(comboFont);
@@ -456,7 +458,7 @@ void TextEdit::setupTextActions()
         comboSize->addItem(QString::number(size));
     comboSize->setCurrentIndex(standardSizes.indexOf(QApplication::font().pointSize()));
 
-//    connect(comboSize, &QComboBox::textActivated, this, &TextEdit::textSize);
+    connect(comboSize, &QComboBox::textActivated, this, &TextEdit::textSize);
 }
 
 //bool TextEdit::load(const QString &f)
@@ -771,7 +773,7 @@ void TextEdit::textStyle(int styleIndex)
     cursor.endEditBlock();
 }
 
-void TextEdit::textColor()
+void TextEdit::textColorChooser()
 {
     QColor col = QColorDialog::getColor();
     if (!col.isValid())

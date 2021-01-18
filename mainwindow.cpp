@@ -62,32 +62,32 @@
 #include <QSettings>
 #include <QFontDialog>
 
-class MyQGraphicsScene : public QGraphicsScene
-{
-public:
-    MyQGraphicsScene(QWidget* parent) : QGraphicsScene(parent) {}
+//class MyQGraphicsScene : public QGraphicsScene
+//{
+//public:
+//    MyQGraphicsScene(QWidget* parent) : QGraphicsScene(parent) {}
 
-    bool event(QEvent* e)
-    {
-        //qDebug() << "MyQGraphicsScene::event" << e->type();
-        return QGraphicsScene::event(e);
-    }
-};
+//    bool event(QEvent* e)
+//    {
+//        //qDebug() << "MyQGraphicsScene::event" << e->type();
+//        return QGraphicsScene::event(e);
+//    }
+//};
 
-class MyQGraphicsItemGroup : public QGraphicsItemGroup
-{
-public:
-    MyQGraphicsItemGroup(QGraphicsItem *parent = nullptr) :
-        QGraphicsItemGroup(parent)
-    {
-        setAcceptHoverEvents(true);
-        setAcceptTouchEvents(true);
-        setFlag(QGraphicsItem::ItemIsMovable, true);
-        setFlag(QGraphicsItem::ItemIsSelectable, true);
-        setFlag(QGraphicsItem::ItemIsFocusable, true);
-        setFlag(QGraphicsItem::ItemClipsToShape, true);
-    }
-};
+//class MyQGraphicsItemGroup : public QGraphicsItemGroup
+//{
+//public:
+//    MyQGraphicsItemGroup(QGraphicsItem *parent = nullptr) :
+//        QGraphicsItemGroup(parent)
+//    {
+//        setAcceptHoverEvents(true);
+//        setAcceptTouchEvents(true);
+//        setFlag(QGraphicsItem::ItemIsMovable, true);
+//        setFlag(QGraphicsItem::ItemIsSelectable, true);
+//        setFlag(QGraphicsItem::ItemIsFocusable, true);
+//        setFlag(QGraphicsItem::ItemClipsToShape, true);
+//    }
+//};
 
 //static void test(MyQGraphicsScene* scene)
 //{
@@ -121,13 +121,11 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
 
-    MyQGraphicsScene* scene = new MyQGraphicsScene(parent);
+    QGraphicsScene* scene = new QGraphicsScene(parent);
     ui->view->setScene(scene);
 
     ui->textEdit_2->setupToolbar(tb);
     populate();
-
-//    test(scene);
 
     readSettings();
 

@@ -94,8 +94,8 @@ int main(int argc, char *argv[])
 //        mainWin.loadFile(parser.positionalArguments().first());
 
     mainWin.show();
-    int ret = app.exec();
+    return app.exec();
 
-    qDebug() << "app.exec() = " << ret;
+//    qDebug() << "app.exec() = " << ret;
 }
 //! [0]
