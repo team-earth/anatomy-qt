@@ -10,7 +10,7 @@
 #include <QGraphicsScene>
 
 View::View(QWidget* parent) :
-    scene_(new QGraphicsScene(parent)),
+    //scene_(new QGraphicsScene(parent)),
     /*QOpenGLWidget(parent), model_(nullptr),*/ elapsed_(0), scale_(50)
 {
 }
