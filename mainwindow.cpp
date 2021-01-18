@@ -129,11 +129,11 @@ MainWindow::MainWindow(QWidget* parent)
 
     readSettings();
 
-    QList<QObject*> list = this->findChildren<QObject*>();
-    foreach (auto obj, list)
-    {
-        qDebug() <<obj->objectName(); // << obj;
-    }
+//    QList<QObject*> list = this->findChildren<QObject*>();
+//    foreach (auto obj, list)
+//    {
+//        qDebug() <<obj->objectName(); // << obj;
+//    }
 
 //    ui->view->setModel(&model_);
 
@@ -147,7 +147,6 @@ MainWindow::MainWindow(QWidget* parent)
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-    qDebug() << "MainWindow::closeEvent";
     if (true /*userReallyWantsToQuit()*/) {
         writeSettings();
         event->accept();
