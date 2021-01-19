@@ -152,8 +152,6 @@ void TextEdit::setupToolbar(QToolBar* toolbar)
 {
     tb = toolbar;
 
-//    tb = globalMainWindow->addToolBar("Font");
-
 //    connect(textEdit, &QTextEdit::currentCharFormatChanged,
 //            this, &TextEdit::currentCharFormatChanged);
 //    connect(textEdit, &QTextEdit::cursorPositionChanged,
@@ -310,11 +308,9 @@ void TextEdit::setupEditActions()
 
 void TextEdit::setupTextActions()
 {
-//    QMenu *menu = menuBar()->addMenu(tr("F&ormat"));
-
     const QIcon boldIcon = QIcon::fromTheme("format-text-bold", QIcon(rsrcPath + "/textbold.png"));
-    actionTextBold = new QAction(boldIcon, tr("&Bold"), this);//, &TextEdit::textBold);
-//    actionTextBold = ((QMainWindow*) QApplication::activeWindow())->menuWidget()->addAction(boldIcon, tr("&Bold"), this, &TextEdit::textBold);
+    actionTextBold = new QAction(boldIcon, tr("&Bold"), this);
+    connect(actionTextBold, &QAction::triggered, this, &TextEdit::textBold);
     actionTextBold->setShortcut(Qt::CTRL + Qt::Key_B);
     actionTextBold->setPriority(QAction::LowPriority);
     QFont bold;
@@ -324,8 +320,8 @@ void TextEdit::setupTextActions()
     actionTextBold->setCheckable(true);
 
     const QIcon italicIcon = QIcon::fromTheme("format-text-italic", QIcon(rsrcPath + "/textitalic.png"));
-    actionTextItalic = new QAction(italicIcon, tr("&Italic"), this); //, &TextEdit::textItalic);
-    //    actionTextItalic = menu->addAction(italicIcon, tr("&Italic"), this, &TextEdit::textItalic);
+    actionTextItalic = new QAction(italicIcon, tr("&Italic"), this);
+    connect(actionTextItalic, &QAction::triggered, this, &TextEdit::textItalic);
     actionTextItalic->setPriority(QAction::LowPriority);
     actionTextItalic->setShortcut(Qt::CTRL + Qt::Key_I);
     QFont italic;
@@ -335,8 +331,8 @@ void TextEdit::setupTextActions()
     actionTextItalic->setCheckable(true);
 
     const QIcon underlineIcon = QIcon::fromTheme("format-text-underline", QIcon(rsrcPath + "/textunder.png"));
-    //    actionTextUnderline = menu->addAction(underlineIcon, tr("&Underline"), this, &TextEdit::textUnderline);
-    actionTextUnderline = new QAction(underlineIcon, tr("&Underline"), this); //, &TextEdit::textUnderline);
+    actionTextUnderline = new QAction(underlineIcon, tr("&Underline"), this);
+    connect(actionTextUnderline, &QAction::triggered, this, &TextEdit::textUnderline);
     actionTextUnderline->setShortcut(Qt::CTRL + Qt::Key_U);
     actionTextUnderline->setPriority(QAction::LowPriority);
     QFont underline;
@@ -344,8 +340,6 @@ void TextEdit::setupTextActions()
     actionTextUnderline->setFont(underline);
     tb->addAction(actionTextUnderline);
     actionTextUnderline->setCheckable(true);
-
-//    menu->addSeparator();
 
     const QIcon leftIcon = QIcon::fromTheme("format-justify-left", QIcon(rsrcPath + "/textleft.png"));
     actionAlignLeft = new QAction(leftIcon, tr("&Left"), this);
