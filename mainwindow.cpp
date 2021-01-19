@@ -217,6 +217,7 @@ void MainWindow::populate()
         MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(child);
         ti->setHtml(txt);
         ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+        connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
 
 //        child->setFocusProxy(ti);
 

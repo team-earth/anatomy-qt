@@ -16,7 +16,7 @@ Node::Node(QString text, Node* parent) :
 {
     setAcceptHoverEvents(true);
     setAcceptTouchEvents(true);
-    setFlag(QGraphicsItem::ItemIsMovable, true);
+    setFlag(QGraphicsItem::ItemIsMovable, false);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     setFlag(QGraphicsItem::ItemClipsToShape, true);

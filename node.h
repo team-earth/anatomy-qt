@@ -10,6 +10,7 @@
 #include <QGraphicsPathItem>
 #include <QGraphicsWidget>
 #include <QGraphicsScene>
+#include "textedit.h"
 
 class Node : public QGraphicsPathItem
 {
@@ -52,8 +53,19 @@ public:
 
 class MyQGraphicsTextItem : public QGraphicsTextItem
 {
+    Q_OBJECT
+
 public:
-    MyQGraphicsTextItem(QGraphicsItem* parent) : QGraphicsTextItem(parent) {}
+
+    MyQGraphicsTextItem(QGraphicsItem* parent) : QGraphicsTextItem(parent)
+    {
+//        connect(QGraphicsTextItem, &QGraphicsTextItem::, this, &TextEdit::setText);
+    }
+
+signals:
+    void selected(QString);
+
+public:
 //    bool sceneEvent(QEvent* e)
 //    {
 //        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
@@ -61,8 +73,9 @@ public:
 //    }
     void focusInEvent(QFocusEvent *event) override
     {
+        emit selected(this->toHtml());
         QList<QGraphicsItem*> items = scene()->selectedItems();
-        for (size_t i = 0; i < items.size(); i++)
+        for (int i = 0; i < items.size(); i++)
         {
             if (items[i] != parentItem())
             {

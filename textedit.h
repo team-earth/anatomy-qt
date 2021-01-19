@@ -57,6 +57,7 @@
 #include <QWidget>
 #include <QMainWindow>
 #include <QTextEdit>
+#include <QDebug>
 
 
 QT_BEGIN_NAMESPACE
@@ -82,6 +83,13 @@ public:
 //public slots:
 //    void fileNew();
 
+public slots:
+    void setText(QString s)
+    {
+//        clear();
+        insertHtml(s);
+        qDebug() << "TextEdit::setText" << s;
+    }
 protected:
 //    void closeEvent(QCloseEvent *e) override;
 
