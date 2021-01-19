@@ -152,11 +152,6 @@ void TextEdit::setupToolbar(QToolBar* toolbar)
 {
     tb = toolbar;
 
-//    connect(textEdit, &QTextEdit::currentCharFormatChanged,
-//            this, &TextEdit::currentCharFormatChanged);
-//    connect(textEdit, &QTextEdit::cursorPositionChanged,
-//            this, &TextEdit::cursorPositionChanged);
-//    setCentralWidget(textEdit);
 
 //    setToolButtonStyle(Qt::ToolButtonFollowStyle);
 //    setupFileActions();
@@ -197,6 +192,12 @@ void TextEdit::setupToolbar(QToolBar* toolbar)
 
 //    textEdit->setFocus();
 //    setCurrentFileName(QString());
+
+    connect(this, &QTextEdit::currentCharFormatChanged,
+            this, &TextEdit::currentCharFormatChanged);
+    connect(this, &QTextEdit::cursorPositionChanged,
+            this, &TextEdit::cursorPositionChanged);
+//    setCentralWidget(textEdit);
 
 #ifdef Q_OS_MACOS
     // Use dark text on light background on macOS, also in dark mode.
