@@ -51,43 +51,5 @@ public:
 
 };
 
-class MyQGraphicsTextItem : public QGraphicsTextItem
-{
-    Q_OBJECT
-
-public:
-
-    MyQGraphicsTextItem(QGraphicsItem* parent) : QGraphicsTextItem(parent)
-    {
-//        connect(QGraphicsTextItem, &QGraphicsTextItem::, this, &TextEdit::setText);
-    }
-
-signals:
-    void selected(QString);
-
-public:
-//    bool sceneEvent(QEvent* e)
-//    {
-//        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
-//        return QGraphicsTextItem::sceneEvent(e);
-//    }
-    void focusInEvent(QFocusEvent *event) override
-    {
-        emit selected(this->toHtml());
-        QList<QGraphicsItem*> items = scene()->selectedItems();
-        for (int i = 0; i < items.size(); i++)
-        {
-            if (items[i] != parentItem())
-            {
-                items[i]->setSelected(false);
-            }
-        }
-        if (parentItem() && !parentItem()->hasFocus())
-        {
-            parentItem()->setSelected(true);
-        }
-        QGraphicsTextItem::focusInEvent(event);
-    }
-};
 
 #endif // NODE_H

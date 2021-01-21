@@ -10,6 +10,7 @@
 #include <QTextDocument>
 #include <QAbstractTextDocumentLayout>
 #include <QStyleOptionGraphicsItem>
+#include "myqgraphicstextitem.h"
 
 Node::Node(QString text, Node* parent) :
     QGraphicsPathItem(), text_(text), parentNode_(parent)

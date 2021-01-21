@@ -58,7 +58,8 @@
 #include <QMainWindow>
 #include <QTextEdit>
 #include <QDebug>
-
+#include <QGraphicsTextItem>
+#include "node.h"
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -70,6 +71,7 @@ class QMenu;
 class QPrinter;
 QT_END_NAMESPACE
 
+class MyQGraphicsTextItem;
 class TextEdit : public QTextEdit
 {
     Q_OBJECT
@@ -86,12 +88,15 @@ public:
 public slots:
     void setText(QString s)
     {
-//        clear();
+        clear();
         insertHtml(s);
         qDebug() << "TextEdit::setText" << s;
     }
+
+    void connectMe(MyQGraphicsTextItem* ti);
 protected:
 //    void closeEvent(QCloseEvent *e) override;
+    MyQGraphicsTextItem* ti_ = nullptr;
 
 private slots:
 //    void fileOpen();

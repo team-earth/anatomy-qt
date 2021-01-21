@@ -2,11 +2,13 @@ QT += widgets uitools
 #requires(qtConfig(filedialog))
 
 HEADERS       = mainwindow.h \
+    myqgraphicstextitem.h \
     node.h \
     paintHelper.h \
     textedit.h \
     view.h
 SOURCES       = main.cpp mainwindow.cpp \
+    myqgraphicstextitem.cpp \
     node.cpp \
     paintHelper.cpp \
     textedit.cpp \

@@ -1,4 +1,5 @@
 #include "textedit.h"
+#include "myqgraphicstextitem.h"
 
 /****************************************************************************
 **
@@ -146,6 +147,17 @@ TextEdit::TextEdit(QWidget *parent)
 //    actionUndo->setEnabled(textEdit->document()->isUndoAvailable());
 //    actionRedo->setEnabled(textEdit->document()->isRedoAvailable());
 
+}
+
+void TextEdit::connectMe(MyQGraphicsTextItem* ti)
+{
+    if (ti_)
+    {
+        disconnect(this, &TextEdit::textChanged, ti_, &MyQGraphicsTextItem::updateText);
+    }
+    ti_ = ti;
+
+    connect(this, &TextEdit::textChanged, ti_, &MyQGraphicsTextItem::updateText);
 }
 
 void TextEdit::setupToolbar(QToolBar* toolbar)

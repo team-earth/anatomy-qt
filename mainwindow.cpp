@@ -61,6 +61,7 @@
 #include <QDebug>
 #include <QSettings>
 #include <QFontDialog>
+#include "myqgraphicstextitem.h"
 
 //class MyQGraphicsScene : public QGraphicsScene
 //{
@@ -217,6 +218,7 @@ void MainWindow::populate()
         MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(child);
         ti->setHtml(txt);
         ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+        ti->setEditor(ui->textEdit_2);
         connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
 
 //        child->setFocusProxy(ti);
