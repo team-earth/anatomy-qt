@@ -61,6 +61,7 @@
 #include <QDebug>
 #include <QSettings>
 #include <QFontDialog>
+#include <QXmlStreamReader>
 #include "myqgraphicstextitem.h"
 
 //class MyQGraphicsScene : public QGraphicsScene
@@ -177,6 +178,34 @@ void MainWindow::readSettings()
     restoreState(settings.value("mainwindow/windowState").toByteArray());
 }
 
+void MainWindow::readFromFile(QString fn)
+{
+    QFile file(fn);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QXmlStreamReader xmlReader;
+        xmlReader.setDevice(&file);
+        xmlReader.readNext();
+        while (!xmlReader.isEndDocument())
+        {
+            if (xmlReader.isStartElement())
+            {
+                qDebug() << "start element" << xmlReader.name().toString();
+                qDebug() << "element" << xmlReader.text();
+                for (int i = 0 ; i < xmlReader.attributes().size(); i++ )
+                {
+                    qDebug() << "  attributes: " << xmlReader.attributes().at(i).name() << " " << xmlReader.attributes().at(i).value();
+                }
+            }
+            xmlReader.readNext();
+        }
+        if (xmlReader.hasError())
+        {
+            qDebug() << "XML error: " << xmlReader.errorString().data();
+        }
+    }
+}
+
 void MainWindow::populate()
 {
 //    QGraphicsItem *item
@@ -229,15 +258,6 @@ void MainWindow::populate()
     }
 }
 
-//! [2]
-void MainWindow::openFile()
-{
-//    QString fileName = QFileDialog::getOpenFileName(this);
-//    if (!fileName.isEmpty())
-//        addressWidget->readFromFile(fileName);
-}
-//! [2]
-
 //! [3]
 void MainWindow::saveFile()
 {
@@ -289,4 +309,11 @@ void MainWindow::on_actionFont_triggered()
             widget->setFont(font);
         }
     }
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if (!fileName.isEmpty())
+        readFromFile(fileName);
 }

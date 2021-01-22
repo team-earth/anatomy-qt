@@ -73,16 +73,18 @@ public:
 
 private slots:
     void updateActions(const QItemSelection &selection);
-    void openFile();
     void saveFile();
 
     void on_actionExit_triggered();
 
     void on_actionFont_triggered();
 
+    void on_actionOpen_triggered();
+
 private:
     void createMenus();
     void populate();
+    void readFromFile(QString);
 
     Ui::CustomMainWindow* ui;
 
