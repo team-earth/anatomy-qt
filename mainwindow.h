@@ -55,6 +55,7 @@
 #include <QItemSelection>
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <xmlnode.h>
 #include "node.h"
 //#include "model.h"
 
@@ -85,6 +86,8 @@ private:
     void createMenus();
     void populate();
     void readFromFile(QString);
+
+    XmlNode* rootNode_;
 
     Ui::CustomMainWindow* ui;
 

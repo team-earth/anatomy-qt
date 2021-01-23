@@ -6,13 +6,15 @@ HEADERS       = mainwindow.h \
     node.h \
     paintHelper.h \
     textedit.h \
-    view.h
+    view.h \
+    xmlnode.h
 SOURCES       = main.cpp mainwindow.cpp \
     myqgraphicstextitem.cpp \
     node.cpp \
     paintHelper.cpp \
     textedit.cpp \
-    view.cpp
+    view.cpp \
+    xmlnode.cpp
 #! [0]
 RESOURCES     = anatomy.qrc
 #! [0]

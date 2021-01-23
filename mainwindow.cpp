@@ -190,11 +190,12 @@ void MainWindow::readFromFile(QString fn)
         {
             if (xmlReader.isStartElement())
             {
-                qDebug() << "start element" << xmlReader.name().toString();
-                qDebug() << "element" << xmlReader.text();
-                for (int i = 0 ; i < xmlReader.attributes().size(); i++ )
+                QString name = xmlReader.name().toString();
+
+                if (name.toLower() == "node")
                 {
-                    qDebug() << "  attributes: " << xmlReader.attributes().at(i).name() << " " << xmlReader.attributes().at(i).value();
+                    rootNode_ = new XmlNode();
+                    rootNode_->readNode(xmlReader);
                 }
             }
             xmlReader.readNext();
@@ -204,6 +205,8 @@ void MainWindow::readFromFile(QString fn)
             qDebug() << "XML error: " << xmlReader.errorString().data();
         }
     }
+
+    XmlNode::printNode(rootNode_);
 }
 
 void MainWindow::populate()
