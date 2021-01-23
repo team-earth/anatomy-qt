@@ -127,7 +127,9 @@ MainWindow::MainWindow(QWidget* parent)
     ui->view->setScene(scene);
 
     ui->textEdit_2->setupToolbar(tb);
-    populate();
+
+    QString file = "K:/Z/Google Drive/Kevin/anatomy/examples/Politics_where_anger,_threats,_and_polarization_fro.mm";
+    readFromFile(file);
 
     readSettings();
 
@@ -207,12 +209,15 @@ void MainWindow::readFromFile(QString fn)
     }
 
     XmlNode::printNode(rootNode_);
+    populate(rootNode_);
 }
 
-void MainWindow::populate()
+void MainWindow::populate(XmlNode* xnode)
 {
 //    QGraphicsItem *item
     QString txt = "<b>MEDIA, NEWS, FACTS.</b> Splintered media landscape reduces common baseline of news facts.";
+
+    txt = xnode->text_;
 
     Node* n = new Node(txt);
 
@@ -235,10 +240,10 @@ void MainWindow::populate()
 //    scene->addItem(ti);
 //    group->addToGroup(ti);
 
-    const int count = 6;
+    const int count = xnode->children_.size();
     for (std::size_t i = 0 ; i < count ; i++)
     {
-        QString txt = n->text_ + QString(" / Sub-") + QString::number(i);
+        QString txt = xnode->children_.at(i)->text_; // n->text_ + QString(" / Sub-") + QString::number(i);
         Node* child = new Node(txt, n);
         child->childIndex = i;
         n->children_.push_back(child);

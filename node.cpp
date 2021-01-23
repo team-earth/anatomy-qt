@@ -257,7 +257,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             if (printed.find(childIndex) == printed.end() )
             {
                 printed.insert(std::pair<int,bool>(childIndex, true));
-                ti->setHtml(QString::number(rotate) + " IN " + QString::number(childIndex));
+//                ti->setHtml(QString::number(rotate) + " IN " + QString::number(childIndex));
+                ti->setHtml(this->text_);
             }
         }
         else
@@ -269,7 +270,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             if (printed.find(childIndex) == printed.end() )
             {
                 printed.insert(std::pair<int,bool>(childIndex, true));
-                ti->setHtml(QString::number(rotate) + " OUT " + QString::number(childIndex));
+//                ti->setHtml(QString::number(rotate) + " OUT " + QString::number(childIndex));
+                ti->setHtml(this->text_);
             }
         }
 
