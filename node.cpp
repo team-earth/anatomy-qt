@@ -36,69 +36,6 @@ Node::Node(QString text, Node* parent) :
 }
 
 #if 0
-void Node::hoverEnterEvent(QGraphicsSceneHoverEvent * e)
-{
-//    qDebug() << "Node::hoverEnterEvent" << e->type() << zValue() << z_ << text_ << bbox_;
-//    z_ = zValue();
-//    setZValue(1);
-//    update();
-//    QGraphicsPathItem::hoverEnterEvent(e);
-}
-
-void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent * e)
-{
-//    qDebug() << "Node::hoverLeaveEvent" << e->type() << zValue() << z_ << text_ << bbox_;
-//    setZValue(z_);
-//    update();
-//    QGraphicsPathItem::hoverLeaveEvent(e);
-}
-
-void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
-{
-//    if (parentNode_ == nullptr)
-//    {
-//    qDebug() << "top node Node::mouseMoveEvent" << e->type();
-//    }
-
-//    if (shape().contains(e->pos()))
-//    {
-//        if (!hovered_)
-//        {
-//            qDebug() << "Mouse is over, but not selected, selecting";
-
-//            hovered_ = true;
-//            z_ = zValue();
-//            setZValue(1);
-//            update();
-//        }
-//    }
-//    else if (hovered_)
-//    {
-//        qDebug() << "Mouse is not over, was selected, unselecting";
-
-//        hovered_ = false;
-//        setZValue(z_);
-//        update();
-//    }
-
-////    qDebug() << "Node::mouseMoveEvent" << e->type();
-
-    QGraphicsPathItem::mouseMoveEvent(e);
-
-}
-
-
-void Node::hoverMoveEvent(QGraphicsSceneHoverEvent * e)
-{
-//    if (parentNode_ == nullptr)
-//    {
-//    qDebug() << "top node Node::hoverMoveEvent" << e->type();
-//    }
-    QGraphicsPathItem::hoverMoveEvent(e);
-}
-#endif
-
-#if 0
 static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)
 {
     //    qDebug() << "init textBox" << textBox;
@@ -210,7 +147,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         bbox_ = path.boundingRect();
 
         painter->drawPath(path);
-#if 1
         QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
 
         qreal offset = 0.707106781186547*(radius - padding);
@@ -221,16 +157,9 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         arcDegrees_=360;
         arcStartDegrees_=0;
-#endif
     }
     else
     {
-        bool isDebug = false;
-//        if (text_ == "Ad Fontes Media's \"Media Bias Chart\"")
-//        {
-//            qDebug() << text_;
-//            isDebug = true;
-//        }
         qreal widthFactor = 1;
         int ringLevel = depth_ - MainWindow::centerNode_->depth_;
         qreal radiusInner = radius * ringLevel;
@@ -248,48 +177,16 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         arcDegrees_ = parentNode_->arcDegrees_ / parentNode_->children_.size();
         qreal qangleStart = parentNode_->arcStartDegrees_;
 
-//        QPainterPath path;
-//        path.moveTo(0.0,0.0);
-//        path.arcTo(bboxOuter, qangleStart, arcDegrees_);
-//        path.closeSubpath();
-
-//        QPainterPath subtr;
-//        subtr.arcTo(bboxInner, qangleStart, arcDegrees_);
-//        subtr.closeSubpath();
-
-#if 0
         QPainterPath path;
-        //        path.arcMoveTo(0.0,0.0);
-        path.arcMoveTo(bboxInner, qangleStart);
-        path.arcMoveTo(bboxOuter, qangleStart);
-        path.arcTo(bboxOuter, qangleStart, arcDegrees_);
-        path.arcMoveTo(bboxInner, qangleStart+arcDegrees_);
-        path.arcTo(bboxInner, qangleStart+arcDegrees_, -arcDegrees_);
-//        path.closeSubpath();
-#endif
-
-        QPainterPath path;
-        //        path.arcMoveTo(0.0,0.0);
-//        path.arcMoveTo(bboxOuter, qangleStart);
-//        path.arcMoveTo(bboxInner, qangleStart);
         path.arcTo(bboxInner, qangleStart, arcDegrees_);
-//        path.arcMoveTo(bboxOuter, qangleStart+arcDegrees_);
         path.arcTo(bboxOuter, qangleStart+arcDegrees_, -arcDegrees_);
         path.closeSubpath();
 
         tr2.rotate(arcDegrees_ * childIndex);
         path_ = tr2.map(path);
-//        path_ = tr2.map(path - subtr); //.subtracted(subtr);
         prepareGeometryChange();
 
-        if (isDebug)
-        {
-            qDebug() << path;
-//            qDebug() << subtr;
-            qDebug() << "ok";
-        }
         painter->drawPath(path_);
-#if 1
 
         static std::map<int,bool> printed;
 
@@ -336,8 +233,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         ti->setTransform(tr);
         arcStartDegrees_ = angle_r_2 * 180.0 / M_PI;
-#endif
-
     }
 
     painter->restore();
