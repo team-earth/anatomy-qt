@@ -27,8 +27,8 @@ Node::Node(QString text, Node* parent) :
 
     qDebug() << depth_ << ": " << text;
 
-    setAcceptHoverEvents(true);
-    setAcceptTouchEvents(true);
+    setAcceptHoverEvents(false);
+    setAcceptTouchEvents(false);
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
@@ -98,6 +98,7 @@ void Node::hoverMoveEvent(QGraphicsSceneHoverEvent * e)
 }
 #endif
 
+#if 0
 static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QString text)
 {
     //    qDebug() << "init textBox" << textBox;
@@ -154,9 +155,12 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
     return draftBox.width();
 
 }
+#endif
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
+    static int counter = 0;
+    qDebug() << "Node::paint counter: " << ++counter;
     qreal radius = 200;
     painter->save();
 
@@ -206,7 +210,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         bbox_ = path.boundingRect();
 
         painter->drawPath(path);
-
+#if 1
         QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
 
         qreal offset = 0.707106781186547*(radius - padding);
@@ -217,15 +221,16 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         arcDegrees_=360;
         arcStartDegrees_=0;
+#endif
     }
     else
     {
         bool isDebug = false;
-        if (text_ == "Ad Fontes Media's \"Media Bias Chart\"")
-        {
-            qDebug() << text_;
-            isDebug = true;
-        }
+//        if (text_ == "Ad Fontes Media's \"Media Bias Chart\"")
+//        {
+//            qDebug() << text_;
+//            isDebug = true;
+//        }
         qreal widthFactor = 1;
         int ringLevel = depth_ - MainWindow::centerNode_->depth_;
         qreal radiusInner = radius * ringLevel;
@@ -284,6 +289,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             qDebug() << "ok";
         }
         painter->drawPath(path_);
+#if 1
 
         static std::map<int,bool> printed;
 
@@ -330,11 +336,11 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         ti->setTransform(tr);
         arcStartDegrees_ = angle_r_2 * 180.0 / M_PI;
+#endif
 
     }
 
     painter->restore();
-
 }
 
 QRectF Node::boundingRect() const
