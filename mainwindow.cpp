@@ -212,6 +212,8 @@ void MainWindow::readFromFile(QString fn)
     populate(rootNode_);
 }
 
+Node* MainWindow::centerNode_ = nullptr;
+
 void MainWindow::populate(XmlNode* xnode)
 {
 //    QGraphicsItem *item
@@ -227,6 +229,8 @@ void MainWindow::populate(XmlNode* xnode)
 
     scene->addItem(n);
 
+    MainWindow::centerNode_ = n;
+
 //    MyQGraphicsItemGroup* group = new MyQGraphicsItemGroup();
 //    scene->addItem(group);
 //    group->addToGroup(n);
@@ -235,10 +239,6 @@ void MainWindow::populate(XmlNode* xnode)
     MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(n);
     ti->setHtml(txt);
     ti->setTextInteractionFlags(Qt::TextEditorInteraction);
-//    n->setFocusProxy(ti);
-
-//    scene->addItem(ti);
-//    group->addToGroup(ti);
 
     const int count = xnode->children_.size();
     for (std::size_t i = 0 ; i < count ; i++)
@@ -257,12 +257,6 @@ void MainWindow::populate(XmlNode* xnode)
         ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         ti->setEditor(ui->textEdit_2);
         connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
-
-//        child->setFocusProxy(ti);
-
-//        scene->addItem(ti);
-//        group->addToGroup(ti);
-
     }
 }
 

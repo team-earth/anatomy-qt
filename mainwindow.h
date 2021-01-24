@@ -72,6 +72,8 @@ public:
     void readSettings();
     void writeSettings();
 
+   static Node* centerNode_;
+
 private slots:
     void updateActions(const QItemSelection &selection);
     void saveFile();

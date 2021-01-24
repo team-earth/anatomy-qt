@@ -10,11 +10,21 @@
 #include <QTextDocument>
 #include <QAbstractTextDocumentLayout>
 #include <QStyleOptionGraphicsItem>
+#include "mainwindow.h"
 #include "myqgraphicstextitem.h"
 
 Node::Node(QString text, Node* parent) :
     QGraphicsPathItem(), text_(text), parentNode_(parent)
 {
+    if (parent == nullptr)
+    {
+        depth_ = 0;
+    }
+    else
+    {
+        depth_ = parent->depth_ + 1;
+    }
+
     setAcceptHoverEvents(true);
     setAcceptTouchEvents(true);
     setFlag(QGraphicsItem::ItemIsMovable, false);
@@ -182,7 +192,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
     QTransform tr2;
 
-    if (parentNode_ == nullptr)
+    if (this == MainWindow::centerNode_)
     {
         QPainterPath path;
         path.moveTo(0.0,0.0);
@@ -257,7 +267,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             if (printed.find(childIndex) == printed.end() )
             {
                 printed.insert(std::pair<int,bool>(childIndex, true));
-//                ti->setHtml(QString::number(rotate) + " IN " + QString::number(childIndex));
                 ti->setHtml(this->text_);
             }
         }
@@ -270,7 +279,6 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             if (printed.find(childIndex) == printed.end() )
             {
                 printed.insert(std::pair<int,bool>(childIndex, true));
-//                ti->setHtml(QString::number(rotate) + " OUT " + QString::number(childIndex));
                 ti->setHtml(this->text_);
             }
         }
