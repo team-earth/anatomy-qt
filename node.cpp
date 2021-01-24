@@ -220,7 +220,13 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     }
     else
     {
-        qreal widthFactor = 1.5;
+        bool isDebug = false;
+        if (text_ == "Ad Fontes Media's \"Media Bias Chart\"")
+        {
+            qDebug() << text_;
+            isDebug = true;
+        }
+        qreal widthFactor = 1;
         int ringLevel = depth_ - MainWindow::centerNode_->depth_;
         qreal radiusInner = radius * ringLevel;
         qreal radiusOuter = radiusInner + widthFactor*radius;
@@ -237,19 +243,46 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         arcDegrees_ = parentNode_->arcDegrees_ / parentNode_->children_.size();
         qreal qangleStart = parentNode_->arcStartDegrees_;
 
+//        QPainterPath path;
+//        path.moveTo(0.0,0.0);
+//        path.arcTo(bboxOuter, qangleStart, arcDegrees_);
+//        path.closeSubpath();
+
+//        QPainterPath subtr;
+//        subtr.arcTo(bboxInner, qangleStart, arcDegrees_);
+//        subtr.closeSubpath();
+
+#if 0
         QPainterPath path;
-        path.moveTo(0.0,0.0);
+        //        path.arcMoveTo(0.0,0.0);
+        path.arcMoveTo(bboxInner, qangleStart);
+        path.arcMoveTo(bboxOuter, qangleStart);
         path.arcTo(bboxOuter, qangleStart, arcDegrees_);
+        path.arcMoveTo(bboxInner, qangleStart+arcDegrees_);
+        path.arcTo(bboxInner, qangleStart+arcDegrees_, -arcDegrees_);
+//        path.closeSubpath();
+#endif
+
+        QPainterPath path;
+        //        path.arcMoveTo(0.0,0.0);
+//        path.arcMoveTo(bboxOuter, qangleStart);
+//        path.arcMoveTo(bboxInner, qangleStart);
+        path.arcTo(bboxInner, qangleStart, arcDegrees_);
+//        path.arcMoveTo(bboxOuter, qangleStart+arcDegrees_);
+        path.arcTo(bboxOuter, qangleStart+arcDegrees_, -arcDegrees_);
         path.closeSubpath();
 
-        QPainterPath subtr;
-        subtr.arcTo(bboxInner, qangleStart, arcDegrees_);
-        subtr.closeSubpath();
-
         tr2.rotate(arcDegrees_ * childIndex);
-        path_ = tr2.map(path - subtr); //.subtracted(subtr);
+        path_ = tr2.map(path);
+//        path_ = tr2.map(path - subtr); //.subtracted(subtr);
         prepareGeometryChange();
 
+        if (isDebug)
+        {
+            qDebug() << path;
+//            qDebug() << subtr;
+            qDebug() << "ok";
+        }
         painter->drawPath(path_);
 
         static std::map<int,bool> printed;
