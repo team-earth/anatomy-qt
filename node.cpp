@@ -155,7 +155,7 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-    qreal radius = 300;
+    qreal radius = 200;
     painter->save();
 
     QBrush circleBrush = QBrush(QColor(153,204,255));

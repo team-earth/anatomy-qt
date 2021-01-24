@@ -239,6 +239,16 @@ void MainWindow::populate(XmlNode* xnode)
     MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(n);
     ti->setHtml(txt);
     ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+    ti->setEditor(ui->textEdit_2);
+
+    connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
+
+    populate(xnode, n);
+}
+
+void MainWindow::populate(XmlNode* xnode, Node* n)
+{
+    QGraphicsScene* scene = ui->view->scene();
 
     const int count = xnode->children_.size();
     for (std::size_t i = 0 ; i < count ; i++)
