@@ -215,8 +215,10 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     }
     else
     {
-        qreal radiusInner = radius;
-        qreal radiusOuter = radiusInner + 2.0*radius;
+        qreal widthFactor = 1.5;
+        int ringLevel = depth_ - MainWindow::centerNode_->depth_;
+        qreal radiusInner = radius * ringLevel;
+        qreal radiusOuter = radiusInner + widthFactor*radius * ringLevel;
 
         QRectF bboxInner(
                     QPointF(-radiusInner, radiusInner),
@@ -286,7 +288,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         tr.rotate(rotate);
         QPoint origin(x, y);
         ti->setPos(origin);
-        ti->setTextWidth(2*radius /* - 2*padding*/);
+        ti->setTextWidth(widthFactor*radius /* - 2*padding*/);
 
         ti->setTransform(tr);
     }
