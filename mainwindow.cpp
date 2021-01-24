@@ -64,58 +64,11 @@
 #include <QXmlStreamReader>
 #include "myqgraphicstextitem.h"
 
-//class MyQGraphicsScene : public QGraphicsScene
-//{
-//public:
-//    MyQGraphicsScene(QWidget* parent) : QGraphicsScene(parent) {}
-
-//    bool event(QEvent* e)
-//    {
-//        //qDebug() << "MyQGraphicsScene::event" << e->type();
-//        return QGraphicsScene::event(e);
-//    }
-//};
-
-//class MyQGraphicsItemGroup : public QGraphicsItemGroup
-//{
-//public:
-//    MyQGraphicsItemGroup(QGraphicsItem *parent = nullptr) :
-//        QGraphicsItemGroup(parent)
-//    {
-//        setAcceptHoverEvents(true);
-//        setAcceptTouchEvents(true);
-//        setFlag(QGraphicsItem::ItemIsMovable, true);
-//        setFlag(QGraphicsItem::ItemIsSelectable, true);
-//        setFlag(QGraphicsItem::ItemIsFocusable, true);
-//        setFlag(QGraphicsItem::ItemClipsToShape, true);
-//    }
-//};
-
-//static void test(MyQGraphicsScene* scene)
-//{
-
-//    MyQGraphicsItemGroup* group = new MyQGraphicsItemGroup();
-//    scene->addItem(group);
-
-//    QGraphicsTextItem* ti = new QGraphicsTextItem();
-//    ti->setHtml("<b>This</b> is a text");
-//    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
-//    //ui->view->scene()->addItem(ti);
-////    scene->addItem(ti);
-//    group->addToGroup(ti);
-
-//}
-
-//! [0]
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::CustomMainWindow())
 {
-
-
-
     ui->setupUi(this);
-
 
     auto tb = new QToolBar("ToolBar");
     tb->addAction("Action1");
@@ -208,13 +161,13 @@ void MainWindow::readFromFile(QString fn)
         }
     }
 
-    XmlNode::printNode(rootNode_);
-    populate(rootNode_);
+//    XmlNode::printNode(rootNode_);
+    populateChildren(rootNode_);
 }
 
 Node* MainWindow::centerNode_ = nullptr;
 
-void MainWindow::populate(XmlNode* xnode)
+void MainWindow::populateChildren(XmlNode* xnode)
 {
 //    QGraphicsItem *item
     QString txt = "<b>MEDIA, NEWS, FACTS.</b> Splintered media landscape reduces common baseline of news facts.";
@@ -243,10 +196,10 @@ void MainWindow::populate(XmlNode* xnode)
 
     connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
 
-    populate(xnode, n);
+    populateChildren(xnode, n);
 }
 
-void MainWindow::populate(XmlNode* xnode, Node* n)
+void MainWindow::populateChildren(XmlNode* xnode, Node* n)
 {
     QGraphicsScene* scene = ui->view->scene();
 
@@ -267,6 +220,8 @@ void MainWindow::populate(XmlNode* xnode, Node* n)
         ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         ti->setEditor(ui->textEdit_2);
         connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
+
+        populateChildren(xnode->children_[i], child);
     }
 }
 

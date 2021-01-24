@@ -86,8 +86,8 @@ private slots:
 
 private:
     void createMenus();
-    void populate(XmlNode*);
-    void populate(XmlNode* xnode, Node* n);
+    void populateChildren(XmlNode*);
+    void populateChildren(XmlNode* xnode, Node* n);
 
     void readFromFile(QString);
 

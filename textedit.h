@@ -90,7 +90,7 @@ public slots:
     {
         clear();
         insertHtml(s);
-        qDebug() << "TextEdit::setText" << s;
+//        qDebug() << "TextEdit::setText" << s;
     }
 
     void connectMe(MyQGraphicsTextItem* ti);

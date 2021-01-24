@@ -25,9 +25,11 @@ Node::Node(QString text, Node* parent) :
         depth_ = parent->depth_ + 1;
     }
 
+    qDebug() << depth_ << ": " << text;
+
     setAcceptHoverEvents(true);
     setAcceptTouchEvents(true);
-    setFlag(QGraphicsItem::ItemIsMovable, false);
+    setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     setFlag(QGraphicsItem::ItemClipsToShape, true);
@@ -212,13 +214,16 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         QPoint origin(-offset, -offset);
         ti->setPos(origin);
         ti->setTextWidth(2*offset);
+
+        arcDegrees_=360;
+        arcStartDegrees_=0;
     }
     else
     {
         qreal widthFactor = 1.5;
         int ringLevel = depth_ - MainWindow::centerNode_->depth_;
         qreal radiusInner = radius * ringLevel;
-        qreal radiusOuter = radiusInner + widthFactor*radius * ringLevel;
+        qreal radiusOuter = radiusInner + widthFactor*radius;
 
         QRectF bboxInner(
                     QPointF(-radiusInner, radiusInner),
@@ -229,19 +234,19 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
                     QPointF(radiusOuter, -radiusOuter)
                     );
 
-        qreal qarc = 360.0 / parentNode_->children_.size();
-        qreal qangleStart = 0.0;
+        arcDegrees_ = parentNode_->arcDegrees_ / parentNode_->children_.size();
+        qreal qangleStart = parentNode_->arcStartDegrees_;
 
         QPainterPath path;
         path.moveTo(0.0,0.0);
-        path.arcTo(bboxOuter, qangleStart, qarc);
+        path.arcTo(bboxOuter, qangleStart, arcDegrees_);
         path.closeSubpath();
 
         QPainterPath subtr;
-        subtr.arcTo(bboxInner, qangleStart, qarc);
+        subtr.arcTo(bboxInner, qangleStart, arcDegrees_);
         subtr.closeSubpath();
 
-        tr2.rotate(qarc * childIndex);
+        tr2.rotate(arcDegrees_ * childIndex);
         path_ = tr2.map(path - subtr); //.subtracted(subtr);
         prepareGeometryChange();
 
@@ -253,8 +258,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
-        qreal arc_r = 2 * M_PI / parentNode_->children_.size();
-        qreal angle_r_2 = arc_r * (childIndex + 0.5);
+        qreal arc_r = M_PI * parentNode_->arcDegrees_  / (180.0 * parentNode_->children_.size());
+        qreal angle_r_2 = parentNode_->arcStartDegrees_ * M_PI / 180.0 + arc_r * (childIndex + 0.5);
 
         qreal x;
         qreal y;
@@ -291,6 +296,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         ti->setTextWidth(widthFactor*radius /* - 2*padding*/);
 
         ti->setTransform(tr);
+        arcStartDegrees_ = angle_r_2 * 180.0 / M_PI;
+
     }
 
     painter->restore();

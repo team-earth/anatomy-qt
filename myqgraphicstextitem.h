@@ -37,7 +37,7 @@ public:
 //    }
     void focusInEvent(QFocusEvent *event) override
     {
-        qDebug() << "focusInEvent";
+//        qDebug() << "focusInEvent";
         te_->connectMe(this);
 
         emit selected(this->toHtml());

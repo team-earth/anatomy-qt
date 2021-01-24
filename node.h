@@ -48,6 +48,9 @@ public:
     QPainterPath path_;
     qreal z_;
     int depth_;
+
+    qreal arcDegrees_;
+    qreal arcStartDegrees_;
 //    QGraphicsTextItem textItem_;
 
 };

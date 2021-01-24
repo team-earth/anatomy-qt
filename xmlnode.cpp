@@ -24,14 +24,15 @@ bool XmlNode::readFile(QString fn)
             {
                 QString name = xmlReader.name().toString();
 
+                // TODO: We're skipping non-"node" elements
                 if (name == "node")
                 {
                     readNode(xmlReader);
                 }
-                else
-                {
-                    qDebug() << "node is not node, it is: " << name;
-                }
+//                else
+//                {
+//                    qDebug() << "node is not node, it is: " << name;
+//                }
             }
             xmlReader.readNext();
         }
@@ -61,9 +62,9 @@ bool XmlNode::readNode(QXmlStreamReader& xmlReader)
         }
     }
 
-    qDebug() << "text is" << xmlReader.text().toString();
+//    qDebug() << "text is" << xmlReader.text().toString();
     xmlReader.readNext();
-    qDebug() << "next text is" << xmlReader.text().toString();
+//    qDebug() << "next text is" << xmlReader.text().toString();
 
     while(!xmlReader.isEndElement())
     {
@@ -82,12 +83,13 @@ bool XmlNode::readNode(QXmlStreamReader& xmlReader)
                 readOther(xmlReader);
             }
         }
-        else
-        {
-            qDebug()
-                    << "Hmm, XmlNode::readNode is neither start nor stop element: "
-            << xmlReader.text().toString();
-        }
+        // TODO: "\n" is considered a node
+//        else
+//        {
+//            qDebug()
+//                    << "Hmm, XmlNode::readNode is neither start nor stop element: "
+//            << xmlReader.text().toString();
+//        }
         xmlReader.readNext();
     }
 
@@ -102,7 +104,7 @@ bool XmlNode::readOther(QXmlStreamReader& xmlReader)
         QString name = xmlReader.attributes().at(i).name().toString();
         QString value = xmlReader.attributes().at(i).value().toString();
 
-        qDebug() << "Other node attribute " << name << " = " << value;
+//        qDebug() << "Other node attribute " << name << " = " << value;
     }
 
     while(!xmlReader.isEndElement())
