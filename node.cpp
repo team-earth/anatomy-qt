@@ -96,8 +96,8 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-    static int counter = 0;
-    qDebug() << "Node::paint counter: " << ++counter;
+//    static int counter = 0;
+//    qDebug() << "Node::paint counter: " << ++counter;
     qreal radius = 200;
     painter->save();
 
@@ -142,9 +142,9 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         path.addEllipse(QPoint(0.0,0.0), radius, radius);
 
         path_ = path;
-
-        prepareGeometryChange();
         bbox_ = path.boundingRect();
+
+//        prepareGeometryChange();
 
         painter->drawPath(path);
         QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
@@ -153,7 +153,10 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         QPoint origin(-offset, -offset);
         ti->setPos(origin);
-        ti->setTextWidth(2*offset);
+        if (ti->textWidth() != 2*offset)
+        {
+            ti->setTextWidth(2*offset);
+        }
 
         arcDegrees_=360;
         arcStartDegrees_=0;
@@ -184,7 +187,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         tr2.rotate(arcDegrees_ * childIndex);
         path_ = tr2.map(path);
-        prepareGeometryChange();
+//        prepareGeometryChange();
 
         painter->drawPath(path_);
 
@@ -229,7 +232,10 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         tr.rotate(rotate);
         QPoint origin(x, y);
         ti->setPos(origin);
-        ti->setTextWidth(widthFactor*radius /* - 2*padding*/);
+        if (ti->textWidth() != widthFactor*radius)
+        {
+            ti->setTextWidth(widthFactor*radius /* - 2*padding*/);
+        }
 
         ti->setTransform(tr);
         arcStartDegrees_ = angle_r_2 * 180.0 / M_PI;
