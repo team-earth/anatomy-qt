@@ -25,7 +25,7 @@ Node::Node(QString text, Node* parent) :
         depth_ = parent->depth_ + 1;
     }
 
-    qDebug() << depth_ << ": " << text;
+//    qDebug() << depth_ << ": " << text;
 
     setAcceptHoverEvents(false);
     setAcceptTouchEvents(false);

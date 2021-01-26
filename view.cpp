@@ -13,6 +13,8 @@ View::View(QWidget* parent) :
     //scene_(new QGraphicsScene(parent)),
     QGraphicsView(parent), /*, model_(nullptr),*/ elapsed_(0), scale_(50)
 {
+    setDragMode(QGraphicsView::ScrollHandDrag);
+    setInteractive(true);
 }
 
 //void View::setModel(Model* model)
