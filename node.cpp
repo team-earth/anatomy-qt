@@ -204,38 +204,46 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         qreal y;
         QTransform tr;
         qreal rotate;
+        ti->setHtml(this->text_);
+        QRectF textBB = ti->boundingRect();
+
         if (angle_r_2 < M_PI / 2.0 || angle_r_2 > 3 * M_PI / 2.0 )
         {
             // start inside
-            x = cos(angle_r_2) * radiusInner;
-            y = sin(angle_r_2) * radiusInner;
+            qreal theta = atan2(textBB.height()/2.0, radiusInner);
+            qreal r = sqrt(radiusInner*radiusInner + textBB.height()*textBB.height()/4.0);
+            x = cos(angle_r_2-theta) * r;
+            y = sin(angle_r_2-theta) * r;
             rotate = 180 * angle_r_2 / M_PI;
             if (printed.find(childIndex) == printed.end() )
             {
                 printed.insert(std::pair<int,bool>(childIndex, true));
-                ti->setHtml(this->text_);
             }
         }
         else
         {
             // start outside
-            x = cos(angle_r_2) * radiusOuter;
-            y = sin(angle_r_2) * radiusOuter;
+            qreal theta = atan2(textBB.height()/2.0, radiusOuter);
+            qreal r = sqrt(radiusOuter*radiusOuter + textBB.height()*textBB.height()/4.0);
+
+            x = cos(angle_r_2 + theta) * r;
+            y = sin(angle_r_2 + theta) * r;
             rotate = 180 * angle_r_2 / M_PI - 180;
             if (printed.find(childIndex) == printed.end() )
             {
                 printed.insert(std::pair<int,bool>(childIndex, true));
-                ti->setHtml(this->text_);
             }
         }
 
-        tr.rotate(rotate);
-        QPoint origin(x, y);
-        ti->setPos(origin);
         if (ti->textWidth() != widthFactor*radius)
         {
             ti->setTextWidth(widthFactor*radius /* - 2*padding*/);
         }
+
+//        QPoint origin(0,-textBB.height()/2.0`);
+//        ti->setPos(origin);
+        tr.translate(x,y);
+        tr.rotate(rotate);
 
         ti->setTransform(tr);
         arcStartDegrees_ = angle_r_2 * 180.0 / M_PI;
