@@ -131,7 +131,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
     painter->setBrush(circleBrush);
 
-    int padding=20;
+    int padding=10;
 
     QTransform tr2;
 
@@ -210,8 +210,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         if (angle_r_2 < M_PI / 2.0 || angle_r_2 > 3 * M_PI / 2.0 )
         {
             // start inside
-            qreal theta = atan2(textBB.height()/2.0, radiusInner);
-            qreal r = sqrt(radiusInner*radiusInner + textBB.height()*textBB.height()/4.0);
+            qreal theta = atan2(textBB.height()/2.0, radiusInner+padding);
+            qreal r = sqrt((radiusInner+padding)*(radiusInner+padding) + textBB.height()*textBB.height()/4.0);
             x = cos(angle_r_2-theta) * r;
             y = sin(angle_r_2-theta) * r;
             rotate = 180 * angle_r_2 / M_PI;
@@ -223,8 +223,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         else
         {
             // start outside
-            qreal theta = atan2(textBB.height()/2.0, radiusOuter);
-            qreal r = sqrt(radiusOuter*radiusOuter + textBB.height()*textBB.height()/4.0);
+            qreal theta = atan2(textBB.height()/2.0, radiusOuter-padding);
+            qreal r = sqrt((radiusOuter-padding)*(radiusOuter-padding) + textBB.height()*textBB.height()/4.0);
 
             x = cos(angle_r_2 + theta) * r;
             y = sin(angle_r_2 + theta) * r;
@@ -235,9 +235,9 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             }
         }
 
-        if (ti->textWidth() != widthFactor*radius)
+        if (ti->textWidth() != widthFactor*radius - 2*padding)
         {
-            ti->setTextWidth(widthFactor*radius /* - 2*padding*/);
+            ti->setTextWidth(widthFactor*radius - 2*padding);
         }
 
 //        QPoint origin(0,-textBB.height()/2.0`);
