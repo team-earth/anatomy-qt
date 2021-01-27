@@ -27,8 +27,8 @@ Node::Node(QString text, Node* parent) :
 
 //    qDebug() << depth_ << ": " << text;
 
-    setAcceptHoverEvents(false);
-    setAcceptTouchEvents(false);
+    setAcceptHoverEvents(true);
+    setAcceptTouchEvents(true);
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
@@ -96,8 +96,9 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-//    static int counter = 0;
-//    qDebug() << "Node::paint counter: " << ++counter;
+    static int counter = 0;
+    qDebug() << "Node::paint counter: " << ++counter;
+
     qreal radius = 200;
     painter->save();
 
@@ -204,7 +205,14 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         qreal y;
         QTransform tr;
         qreal rotate;
-        ti->setHtml(this->text_);
+
+        bool updateText = false;
+        if (this->text_ != ti->toPlainText())
+        {
+            qDebug() << "update text:" << this->text_ << ti->toPlainText();
+            ti->setHtml(this->text_);
+            updateText = true;
+        }
         QRectF textBB = ti->boundingRect();
 
         if (angle_r_2 < M_PI / 2.0 || angle_r_2 > 3 * M_PI / 2.0 )
