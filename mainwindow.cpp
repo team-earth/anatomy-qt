@@ -63,12 +63,16 @@
 #include <QFontDialog>
 #include <QXmlStreamReader>
 #include "myqgraphicstextitem.h"
+#include "sample_data.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::CustomMainWindow())
 {
     ui->setupUi(this);
+
+    // TODO
+    ;
 
     auto tb = new QToolBar("ToolBar");
     tb->addAction("Action1");
@@ -78,11 +82,11 @@ MainWindow::MainWindow(QWidget* parent)
 
     QGraphicsScene* scene = new QGraphicsScene(parent);
     ui->view->setScene(scene);
-
     ui->textEdit_2->setupToolbar(tb);
 
-    QString file = "K:/Z/Google Drive/Kevin/anatomy/examples/Politics_where_anger,_threats,_and_polarization_fro.mm";
-    readFromFile(file);
+//    QString file = "K:/Z/Google Drive/Kevin/anatomy/examples/Politics_where_anger,_threats,_and_polarization_fro.mm";
+    //    readFromFile(file);
+    readFromString(sample1);
 
     readSettings();
 
@@ -132,6 +136,35 @@ void MainWindow::readSettings()
     restoreGeometry(settings.value("mainwindow/geometry").toByteArray());
     restoreState(settings.value("mainwindow/windowState").toByteArray());
 }
+
+void MainWindow::readFromString(QString s)
+{
+        QXmlStreamReader xmlReader(s);
+        xmlReader.readNext();
+        while (!xmlReader.isEndDocument())
+        {
+            if (xmlReader.isStartElement())
+            {
+                QString name = xmlReader.name().toString();
+
+                if (name.toLower() == "node")
+                {
+                    rootNode_ = new XmlNode();
+                    rootNode_->readNode(xmlReader);
+                }
+            }
+            xmlReader.readNext();
+        }
+        if (xmlReader.hasError())
+        {
+            qDebug() << "XML error: " << xmlReader.errorString().data();
+        }
+
+//    XmlNode::printNode(rootNode_);
+    populateChildren(rootNode_);
+
+}
+
 
 void MainWindow::readFromFile(QString fn)
 {

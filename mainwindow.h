@@ -90,6 +90,7 @@ private:
     void populateChildren(XmlNode* xnode, Node* n);
 
     void readFromFile(QString);
+    void readFromString(QString);
 
     XmlNode* rootNode_;
 
