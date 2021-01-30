@@ -2,6 +2,8 @@
 #define MYQGRAPHICSTEXTITEM_H
 
 #include <QGraphicsTextItem>
+#include <QStyle>
+#include <QStyleOptionGraphicsItem>
 #include "textedit.h"
 
 class TextEdit;
@@ -15,6 +17,11 @@ public:
     MyQGraphicsTextItem(QGraphicsItem* parent) : QGraphicsTextItem(parent)
     {
 //        connect(QGraphicsTextItem, &QGraphicsTextItem::, this, &TextEdit::setText);
+//        setFlag(QGraphicsItem::ItemIsFocusable, false);
+//        setFlag(QGraphicsItem::ItemIsSelectable, false);
+//        setCursor(Qt::BlankCursor);
+        setTextInteractionFlags(Qt::TextEditorInteraction);
+
     }
 
     void updateText();
@@ -29,6 +36,13 @@ signals:
 protected:
     TextEdit* te_;
 
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override
+    {
+        QStyleOptionGraphicsItem myOption(*option);
+        myOption.state &= !QStyle::State_Selected;
+        QGraphicsTextItem::paint(painter, &myOption, widget);
+    }
+
 public:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent * e) override;
 //    bool sceneEvent(QEvent *) override;
@@ -37,27 +51,8 @@ public:
 //        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();
 //        return QGraphicsTextItem::sceneEvent(e);
 //    }
-    void focusInEvent(QFocusEvent *event) override
-    {
-//        qDebug() << "focusInEvent";
-        te_->connectMe(this);
-
-        emit selected(this->toHtml());
-        QList<QGraphicsItem*> items = scene()->selectedItems();
-        for (int i = 0; i < items.size(); i++)
-        {
-            if (items[i] != parentItem())
-            {
-                items[i]->setSelected(false);
-            }
-        }
-        if (parentItem() && !parentItem()->hasFocus())
-        {
-            parentItem()->setSelected(true);
-        }
-
-        QGraphicsTextItem::focusInEvent(event);
-    }
+    void focusInEvent(QFocusEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // MYQGRAPHICSTEXTITEM_H

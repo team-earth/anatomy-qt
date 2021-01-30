@@ -224,7 +224,7 @@ void MainWindow::populateChildren(XmlNode* xnode)
 
     MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(n);
     ti->setHtml(txt);
-    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+//    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
     ti->setEditor(ui->textEdit_2);
 
     connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
@@ -250,7 +250,7 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* n)
 
         MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(child);
         ti->setHtml(txt);
-        ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+//        ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         ti->setEditor(ui->textEdit_2);
         connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
 
