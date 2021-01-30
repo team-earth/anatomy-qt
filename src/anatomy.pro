@@ -1,7 +1,7 @@
 QT += widgets uitools
 #requires(qtConfig(filedialog))
-QMAKE_CXXFLAGS += -std=c++11 -s TOTAL_STACK=512MB -s TOTAL_MEMORY=1024MB
-QMAKE_LFLAGS += -s TOTAL_STACK=512MB -s TOTAL_MEMORY=1024MB
+#QMAKE_CXXFLAGS += -std=c++11 -s TOTAL_STACK=512MB -s TOTAL_MEMORY=1024MB
+#QMAKE_LFLAGS += -s TOTAL_STACK=512MB -s TOTAL_MEMORY=1024MB
 HEADERS       = mainwindow.h \
     myqgraphicstextitem.h \
     node.h \
