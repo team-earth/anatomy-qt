@@ -30,6 +30,8 @@ protected:
     TextEdit* te_;
 
 public:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent * e) override;
+//    bool sceneEvent(QEvent *) override;
 //    bool sceneEvent(QEvent* e)
 //    {
 //        qDebug() << "MyQGraphicsTextItem::sceneEvent" << e->type();

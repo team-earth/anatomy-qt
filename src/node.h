@@ -14,6 +14,7 @@
 
 class Node : public QGraphicsPathItem
 {
+    friend class MyQGraphicsTextItem;
 public:
     Node(QString text, Node* parent = nullptr);
     QRectF boundingRect() const override;
@@ -22,6 +23,9 @@ public:
 
 
 protected:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent* e) override;
+//    void contextMenuEvent(QContextMenuEvent *event) override;
+
 //    bool sceneEvent(QEvent*);
 //    void mousePressEvent(QGraphicsSceneMouseEvent *event) override
 //    {

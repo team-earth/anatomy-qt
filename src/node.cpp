@@ -10,6 +10,7 @@
 #include <QTextDocument>
 #include <QAbstractTextDocumentLayout>
 #include <QStyleOptionGraphicsItem>
+#include <QMenu>
 #include "mainwindow.h"
 #include "myqgraphicstextitem.h"
 
@@ -33,6 +34,20 @@ Node::Node(QString text, Node* parent) :
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     setFlag(QGraphicsItem::ItemClipsToShape, true);
+}
+
+static void wow()
+{
+    qDebug() << "wow";
+
+}
+void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
+{
+    qDebug() << "Node::contextMenuEvent:";
+    qDebug() << e;
+    QMenu menu;
+    QAction* act = menu.addAction("Rotate to 3 o'clock");
+    menu.exec(e->screenPos(), act);
 }
 
 #if 0
@@ -96,8 +111,8 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-    static int counter = 0;
-    qDebug() << "Node::paint counter: " << ++counter;
+//    static int counter = 0;
+//    qDebug() << "Node::paint counter: " << ++counter;
 
     qreal radius = 200;
     painter->save();
