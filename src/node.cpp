@@ -264,7 +264,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         tr.rotate(rotate);
 
         ti->setTransform(tr);
-        arcStartDegrees_ = angle_r_2 * 180.0 / M_PI;
+        arcStartDegrees_ = parentNode_->arcStartDegrees_ + childIndex * parentNode_->arcDegrees_  / parentNode_->children_.size();
     }
 
     painter->restore();
