@@ -36,17 +36,12 @@ Node::Node(QString text, Node* parent) :
     setFlag(QGraphicsItem::ItemClipsToShape, true);
 }
 
-static void wow()
-{
-    qDebug() << "wow";
-
-}
 void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
 {
     qDebug() << "Node::contextMenuEvent:";
     qDebug() << e;
     QMenu menu;
-    QAction* act = menu.addAction("Rotate to 3 o'clock");
+    QAction* act = menu.addAction("Focus on element");
     menu.exec(e->screenPos(), act);
 }
 
