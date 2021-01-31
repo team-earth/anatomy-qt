@@ -242,15 +242,16 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         qreal rotate;
 
 //        bool updateText = false;
-        if (this->text_ != ti->toPlainText())
+        QString text = /*QString::number(180 * angle_r_2/ M_PI) +*/ this->text_;
+        if (text != ti->toPlainText())
         {
-            qDebug() << "update text:" << this->text_ << ti->toPlainText();
-            ti->setHtml(this->text_);
+//            qDebug() << "update text:" << this->text_ << ti->toPlainText();
+            ti->setHtml(text);
 //            updateText = true;
         }
         QRectF textBB = ti->boundingRect();
 
-        if (angle_r_2 < M_PI / 2.0 || angle_r_2 > 3 * M_PI / 2.0 )
+        if ( fabs(angle_r_2) < M_PI / 2.0 || fabs(angle_r_2) > 3 * M_PI / 2.0 )
         {
             // start inside
             qreal theta = atan2(textBB.height()/2.0, radiusInner+padding);
