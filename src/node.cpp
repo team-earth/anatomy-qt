@@ -50,7 +50,7 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
     qDebug() << MainWindow::globalDegrees_;
     qDebug() << arcStartDegrees_;
 
-    MainWindow::globalDegrees_ = arcStartDegrees_;
+    MainWindow::globalDegrees_ = arcStartDegrees_ + arcDegrees_/2.0;
 
     emit ti->focusThisItem(this);
 

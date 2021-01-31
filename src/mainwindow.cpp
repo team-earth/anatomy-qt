@@ -241,6 +241,12 @@ void MainWindow::refresh(const QGraphicsItem* item)
     ui->view->scene()->update(ui->view->sceneRect());
     ui->view->repaint();
 //    ui->view->centerOn(item);
+    QList<QWidget *> widgets = ui->view->findChildren<QWidget *>();
+    foreach (QWidget* w, widgets)
+    {
+        qDebug() << rect();
+         w->repaint(rect());
+    }
 
 }
 
