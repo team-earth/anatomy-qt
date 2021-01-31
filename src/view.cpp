@@ -1,5 +1,6 @@
 #include "view.h"
 #include "paintHelper.h"
+#include "mainwindow.h"
 
 #include <iostream>
 #include <QEvent>
@@ -8,6 +9,7 @@
 #include <QTimer>
 #include <QOpenGLFunctions>
 #include <QGraphicsScene>
+#include <QPropertyAnimation>
 
 View::View(QWidget* parent) :
     //scene_(new QGraphicsScene(parent)),
@@ -131,3 +133,22 @@ void View::setZoomValue(int scale)
 
     setTransform(t);
 }
+
+//void View::setRotationDegrees(int degrees)
+//{
+//    qDebug() << "View::setRotationDegrees start" << degrees;
+
+//    QPropertyAnimation * animation = new QPropertyAnimation(this, "rotation");
+
+//    animation->setDuration(1000);
+
+//    animation->setStartValue(20);
+//    animation->setEndValue(40);
+//    animation->start();
+
+//    qDebug() << "View::setRotationDegrees end" << degrees;
+
+////    QTransform t = transform();
+////    t.rotate(degrees);
+////    setTransform(t);
+//}

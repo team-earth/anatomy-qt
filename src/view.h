@@ -11,9 +11,13 @@
 class View : public QGraphicsView
 {
     Q_OBJECT
+//    Q_PROPERTY(qreal my_rotation READ my_rotation WRITE setMyRotation)
+
 public:
     View(QWidget* parent);
     virtual ~View();
+
+
 
 //    void setModel(Model* node);
 
@@ -25,10 +29,22 @@ public:
 //    bool event(QEvent *e) override;
 //    void resizeGL(int w, int h) override;
 
-    void animate();
+//    void animate();
+
+//    int my_rotation() const { qDebug() << "my_rotation()"; return rotation_; }
+//    void setMyRotation(int r)
+//    {
+//        qDebug() << "setRotation" << r;
+//        rotation_ = r; /*prepareGeometryChange();*/
+//        QTransform t = transform();
+//        t.rotate(r);
+//        setTransform(t);
+//    }
+//    int rotation_;
 
 public slots:
     void setZoomValue(int value);
+//    void setRotationDegrees(int degrees);
 
 protected:
     std::unique_ptr<QGraphicsScene> scene_;

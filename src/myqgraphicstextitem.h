@@ -30,18 +30,21 @@ public:
     {
         te_ = te;
     }
+
 signals:
     void selected(QString);
+    void focusThisItem(const QGraphicsItem*);
+
 
 protected:
     TextEdit* te_;
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override
-    {
-        QStyleOptionGraphicsItem myOption(*option);
-        myOption.state &= !QStyle::State_Selected;
-        QGraphicsTextItem::paint(painter, &myOption, widget);
-    }
+//    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override
+//    {
+//        QStyleOptionGraphicsItem myOption(*option);
+//        myOption.state &= !QStyle::State_Selected;
+//        QGraphicsTextItem::paint(painter, &myOption, widget);
+//    }
 
 public:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent * e) override;
@@ -52,7 +55,7 @@ public:
 //        return QGraphicsTextItem::sceneEvent(e);
 //    }
     void focusInEvent(QFocusEvent *event) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+//    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // MYQGRAPHICSTEXTITEM_H

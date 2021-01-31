@@ -21,7 +21,6 @@ public:
     QPainterPath shape() const override { return path_; }
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
 
-
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* e) override;
 //    void contextMenuEvent(QContextMenuEvent *event) override;

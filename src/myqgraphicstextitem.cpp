@@ -23,7 +23,6 @@ void MyQGraphicsTextItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * e)
 
 void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
 {
-        qDebug() << "focusInEvent" << event;
     te_->connectMe(this);
 
     emit selected(this->toHtml());
@@ -43,7 +42,10 @@ void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
     QGraphicsTextItem::focusInEvent(event);
 }
 
-void MyQGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    qDebug() << "MyQGraphicsTextItem::mousePressEvent" << event;
-}
+//void MyQGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+//{
+//    qDebug() << "MyQGraphicsTextItem::mousePressEvent" << event;
+//}
+
+
+

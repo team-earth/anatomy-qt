@@ -65,6 +65,8 @@
 #include "myqgraphicstextitem.h"
 #include "sample_data.h"
 
+int MainWindow::globalDegrees_ = 0;
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::CustomMainWindow())
@@ -232,6 +234,16 @@ void MainWindow::populateChildren(XmlNode* xnode)
     populateChildren(xnode, n);
 }
 
+void MainWindow::refresh(const QGraphicsItem* item)
+{
+    qDebug() << "MainWindow::refresh";
+    ui->view->resetCachedContent();
+    ui->view->scene()->update(ui->view->sceneRect());
+    ui->view->repaint();
+//    ui->view->centerOn(item);
+
+}
+
 void MainWindow::populateChildren(XmlNode* xnode, Node* n)
 {
     QGraphicsScene* scene = ui->view->scene();
@@ -253,6 +265,7 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* n)
 //        ti->setTextInteractionFlags(Qt::TextEditorInteraction);
         ti->setEditor(ui->textEdit_2);
         connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
+        connect(ti, &MyQGraphicsTextItem::focusThisItem, this, &MainWindow::refresh);
 
         populateChildren(xnode->children_[i], child);
     }

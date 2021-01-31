@@ -43,6 +43,31 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
     QMenu menu;
     QAction* act = menu.addAction("Focus on element");
     menu.exec(e->screenPos(), act);
+
+    MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
+
+    qDebug() << "contextMenuEvent";
+    qDebug() << MainWindow::globalDegrees_;
+    qDebug() << arcStartDegrees_;
+
+    MainWindow::globalDegrees_ = arcStartDegrees_;
+
+    emit ti->focusThisItem(this);
+
+//    int incr = 1;
+//    if (MainWindow::globalDegrees_ > arcStartDegrees_)
+//    {
+//        incr = -1;
+//    }
+
+//    for (int i = MainWindow::globalDegrees_;
+//         abs(arcStartDegrees_ - i) > 0;
+//         i += incr )
+//    {
+//        qDebug() << i;
+//        MainWindow::globalDegrees_ = i;
+//        update();
+//    }
 }
 
 #if 0
@@ -189,7 +214,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
                     );
 
         arcDegrees_ = parentNode_->arcDegrees_ / parentNode_->children_.size();
-        qreal qangleStart = parentNode_->arcStartDegrees_;
+        qreal qangleStart = parentNode_->arcStartDegrees_ - MainWindow::globalDegrees_;
 
         QPainterPath path;
         path.arcTo(bboxInner, qangleStart, arcDegrees_);
@@ -209,19 +234,19 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
         MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
         qreal arc_r = M_PI * parentNode_->arcDegrees_  / (180.0 * parentNode_->children_.size());
-        qreal angle_r_2 = parentNode_->arcStartDegrees_ * M_PI / 180.0 + arc_r * (childIndex + 0.5);
+        qreal angle_r_2 = qangleStart * M_PI / 180.0 + arc_r * (childIndex + 0.5);
 
         qreal x;
         qreal y;
         QTransform tr;
         qreal rotate;
 
-        bool updateText = false;
+//        bool updateText = false;
         if (this->text_ != ti->toPlainText())
         {
             qDebug() << "update text:" << this->text_ << ti->toPlainText();
             ti->setHtml(this->text_);
-            updateText = true;
+//            updateText = true;
         }
         QRectF textBB = ti->boundingRect();
 
@@ -272,7 +297,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
 QRectF Node::boundingRect() const
 {
-    static int count = 0;
+//    static int count = 0;
 //        qDebug() << "Node::boundintRect()" << bbox_ << count++;
     return bbox_;
 }

@@ -74,6 +74,8 @@ public:
 
    static Node* centerNode_;
 
+   static int globalDegrees_;
+
 private slots:
     void updateActions(const QItemSelection &selection);
     void saveFile();
@@ -83,6 +85,7 @@ private slots:
     void on_actionFont_triggered();
 
     void on_actionOpen_triggered();
+    void refresh(const QGraphicsItem*);
 
 private:
     void createMenus();
