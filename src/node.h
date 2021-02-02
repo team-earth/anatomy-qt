@@ -11,6 +11,9 @@
 #include <QGraphicsWidget>
 #include <QGraphicsScene>
 #include "textedit.h"
+#include <unordered_map>
+
+class Node;
 
 class Node : public QGraphicsPathItem
 {
@@ -23,6 +26,16 @@ public:
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* e) override;
+
+    void cacheLineage();
+
+    std::unordered_map<Node*, int> lineage_;
+//    void initContextMenu();
+    void cmFocus();
+    void cmLevelIn();
+    void cmLevelOut();
+
+    QMenu* contextMenu_;
 //    void contextMenuEvent(QContextMenuEvent *event) override;
 
 //    bool sceneEvent(QEvent*);

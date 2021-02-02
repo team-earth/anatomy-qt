@@ -3,8 +3,10 @@
 
 #include <QGraphicsTextItem>
 #include <QStyle>
+#include <QMenu>
 #include <QStyleOptionGraphicsItem>
 #include "textedit.h"
+#include "mainwindow.h"
 
 class TextEdit;
 
@@ -22,6 +24,32 @@ public:
 //        setCursor(Qt::BlankCursor);
         setTextInteractionFlags(Qt::TextEditorInteraction);
 
+        QAction *focusAction = new QAction("Focus");
+        QAction *levelInAction = new QAction("Level In");
+        QAction *levelUpAction = new QAction("Level Up");
+
+        contextMenu_ = new QMenu();
+        contextMenu_->addAction(focusAction);
+        contextMenu_->addAction(levelInAction);
+        contextMenu_->addAction(levelUpAction);
+
+        connect(focusAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmFocus);
+        connect(levelInAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelIn);
+        connect(levelUpAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelUp);
+
+    }
+
+    void cmLevelIn();
+    void cmLevelUp();
+
+    void cmFocus()
+    {
+        qDebug() << "cmFocus";
+        Node* p = dynamic_cast<Node*>(parentItem());
+
+        MainWindow::globalDegrees_ = p->arcStartDegrees_ + p->arcDegrees_/2.0;
+
+        emit focusThisItem(this);
     }
 
     void updateText();
@@ -31,6 +59,7 @@ public:
         te_ = te;
     }
 
+    QMenu* contextMenu_;
 signals:
     void selected(QString);
     void focusThisItem(const QGraphicsItem*);

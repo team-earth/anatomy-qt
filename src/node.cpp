@@ -26,6 +26,8 @@ Node::Node(QString text, Node* parent) :
         depth_ = parent->depth_ + 1;
     }
 
+    cacheLineage();
+
 //    qDebug() << depth_ << ": " << text;
 
     setAcceptHoverEvents(true);
@@ -34,15 +36,51 @@ Node::Node(QString text, Node* parent) :
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     setFlag(QGraphicsItem::ItemClipsToShape, true);
+
+//    initContextMenu();
+
+//    contextMenu_ = new QMenu();
+//    const QIcon pasteIcon = QIcon::fromTheme("edit-paste", QIcon(":/images/paste.png"));
+//    QAction *levelInAction = new QAction("Level In");
+//    levelInAction->setShortcuts(QKeySequence::Paste);
+//    levelInAction->setStatusTip(tr("Paste the clipboard's contents into the current "
+//                                      "selection"));
+}
+
+void Node::cacheLineage()
+{
+    Node* p = parentNode_;
+
+    while (p)
+    {
+        lineage_[p] = p->depth_;
+        p = p->parentNode_;
+    }
 }
 
 void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
-{
-    qDebug() << "Node::contextMenuEvent:";
-    qDebug() << e;
-    QMenu menu;
-    QAction* act = menu.addAction("Focus on element");
-    menu.exec(e->screenPos(), act);
+{    
+    MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
+    ti->contextMenu_->exec(e->screenPos());
+//    QAction* focus = new QAction("Focus on element");
+//    QAction* levelIn = new QAction("Level in");
+//    QAction* levelOut = new QAction("Level out");
+
+//    QMenu menu;
+//    QAction* group = menu.addSection("Node");
+//    menu.addSeparator();
+
+//    group->addAction("Focus on element");
+//    menu.addAction(levelIn);
+//    menu.addAction(levelOut);
+//    editToolBar->addAction(levelInAction);
+
+//    menu.exec(e->screenPos());
+
+#if 0
+    menu.exec(e->screenPos(), focus);
+    menu.exec(e->screenPos(), levelIn);
+    menu.exec(e->screenPos(), levelOut);
 
     MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
@@ -53,6 +91,7 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
     MainWindow::globalDegrees_ = arcStartDegrees_ + arcDegrees_/2.0;
 
     emit ti->focusThisItem(this);
+#endif
 
 //    int incr = 1;
 //    if (MainWindow::globalDegrees_ > arcStartDegrees_)
@@ -171,7 +210,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
     QTransform tr2;
 
-    if (this == MainWindow::centerNode_)
+    if (this == MainWindow::centerNode_ )
     {
         QPainterPath path;
         path.moveTo(0.0,0.0);
@@ -189,15 +228,16 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         QPoint origin(-offset, -offset);
         ti->setPos(origin);
+        ti->resetTransform();
         if (ti->textWidth() != 2*offset)
         {
             ti->setTextWidth(2*offset);
         }
 
         arcDegrees_=360;
-        arcStartDegrees_=0;
+        arcStartDegrees_=90;
     }
-    else
+    else if ( lineage_.find(MainWindow::centerNode_) != lineage_.end() )
     {
         qreal widthFactor = 1;
         int ringLevel = depth_ - MainWindow::centerNode_->depth_;
@@ -284,6 +324,10 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
             ti->setTextWidth(widthFactor*radius - 2*padding);
         }
 
+        if (!ti->isVisible())
+        {
+            ti->setVisible(true);
+        }
 //        QPoint origin(0,-textBB.height()/2.0`);
 //        ti->setPos(origin);
         tr.translate(x,y);
@@ -291,6 +335,11 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
 
         ti->setTransform(tr);
         arcStartDegrees_ = parentNode_->arcStartDegrees_ + childIndex * parentNode_->arcDegrees_  / parentNode_->children_.size();
+    }
+    else
+    {
+        MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
+        ti->hide();
     }
 
     painter->restore();

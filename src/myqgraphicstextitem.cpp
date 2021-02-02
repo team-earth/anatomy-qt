@@ -42,6 +42,34 @@ void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
     QGraphicsTextItem::focusInEvent(event);
 }
 
+void MyQGraphicsTextItem::cmLevelIn()
+{
+    qDebug() << "cmLevelIn";
+    Node* p = dynamic_cast<Node*>(parentItem());
+
+    qDebug() << "MainWindow::centerNode_:" << MainWindow::centerNode_;
+    qDebug() << "p->parentNode_" << p->parentNode_;
+    qDebug() << "p" << p;
+    MainWindow::centerNode_ = p;
+    MainWindow::centerNode_->arcDegrees_ = 360;
+    MainWindow::centerNode_->arcStartDegrees_ = 90;
+
+    emit focusThisItem(this);
+}
+
+void MyQGraphicsTextItem::cmLevelUp()
+{
+    Node* p = dynamic_cast<Node*>(parentItem());
+    qDebug() << "cmLevelUp p->parentNode_" << p->parentNode_;
+    qDebug() << "cmLevelUp p" << p;
+
+    MainWindow::centerNode_ = p->parentNode_;
+    MainWindow::centerNode_->arcDegrees_ = 360;
+    MainWindow::centerNode_->arcStartDegrees_ = 90;
+
+    emit focusThisItem(this);
+}
+
 //void MyQGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 //{
 //    qDebug() << "MyQGraphicsTextItem::mousePressEvent" << event;
