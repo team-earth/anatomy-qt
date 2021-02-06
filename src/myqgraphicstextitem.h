@@ -26,7 +26,7 @@ public:
 
         QAction *focusAction = new QAction("Focus");
         QAction *levelInAction = new QAction("Level In");
-        QAction *levelUpAction = new QAction("Level Up");
+        QAction *levelUpAction = new QAction("Level Out");
 
         contextMenu_ = new QMenu();
         contextMenu_->addAction(focusAction);
@@ -35,12 +35,12 @@ public:
 
         connect(focusAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmFocus);
         connect(levelInAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelIn);
-        connect(levelUpAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelUp);
+        connect(levelUpAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelOut);
 
     }
 
     void cmLevelIn();
-    void cmLevelUp();
+    void cmLevelOut();
 
     void cmFocus()
     {
