@@ -5,10 +5,10 @@
 #include <QStyle>
 #include <QMenu>
 #include <QStyleOptionGraphicsItem>
-#include "textedit.h"
+#include "myqtextedit.h"
 #include "mainwindow.h"
 
-class TextEdit;
+class MyQTextEdit;
 
 class MyQGraphicsTextItem : public QGraphicsTextItem
 {
@@ -54,7 +54,7 @@ public:
 
     void updateText();
 
-    void setEditor(TextEdit* te)
+    void setEditor(MyQTextEdit* te)
     {
         te_ = te;
     }
@@ -66,7 +66,7 @@ signals:
 
 
 protected:
-    TextEdit* te_;
+    MyQTextEdit* te_;
 
 //    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override
 //    {

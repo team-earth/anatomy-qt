@@ -1,4 +1,4 @@
-#include "view.h"
+#include "myqgraphicsview.h"
 #include "paintHelper.h"
 #include "mainwindow.h"
 
@@ -11,7 +11,7 @@
 #include <QGraphicsScene>
 #include <QPropertyAnimation>
 
-View::View(QWidget* parent) :
+MyQGraphicsView::MyQGraphicsView(QWidget* parent) :
     //scene_(new QGraphicsScene(parent)),
     QGraphicsView(parent), /*, model_(nullptr),*/ elapsed_(0), scale_(50)
 {
@@ -26,7 +26,7 @@ View::View(QWidget* parent) :
 ////    this->
 //}
 
-View::~View()
+MyQGraphicsView::~MyQGraphicsView()
 {
 //    // Make sure the context is current and then explicitly
 //    // destroy all underlying OpenGL resources.
@@ -123,7 +123,7 @@ bool View::event(QEvent *e){
     return QOpenGLWidget::event(e);
 }
 #endif
-void View::setZoomValue(int scale)
+void MyQGraphicsView::setZoomValue(int scale)
 {
 //    painter->translate(v.width()/2, v.height()/2);
 

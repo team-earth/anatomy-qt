@@ -47,9 +47,6 @@
       </property>
      </spacer>
     </item>
-    <item row="1" column="1">
-     <widget class="View" name="view"/>
-    </item>
     <item row="0" column="1">
      <spacer name="horizontalSpacer">
       <property name="orientation">
@@ -62,6 +59,9 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item row="1" column="1">
+     <widget class="MyQGraphicsView" name="myQGraphicsView"/>
     </item>
    </layout>
   </widget>
@@ -106,7 +106,7 @@
    <widget class="QWidget" name="dockWidgetContents_2">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="TextEdit" name="textEdit_2"/>
+      <widget class="MyQTextEdit" name="myQTextEdit"/>
      </item>
     </layout>
    </widget>
@@ -148,36 +148,16 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>View</class>
-   <extends>QOpenGLWidget</extends>
-   <header>view.h</header>
-   <slots>
-    <slot>setZoomValue(int)</slot>
-   </slots>
+   <class>MyQGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>myqgraphicsview.h</header>
   </customwidget>
   <customwidget>
-   <class>TextEdit</class>
+   <class>MyQTextEdit</class>
    <extends>QTextEdit</extends>
-   <header>textedit.h</header>
+   <header>myqtextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>horizontalSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>view</receiver>
-   <slot>setZoomValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>415</x>
-     <y>720</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>423</x>
-     <y>673</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

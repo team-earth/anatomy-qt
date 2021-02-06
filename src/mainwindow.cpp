@@ -51,7 +51,7 @@
 #include "mainwindow.h"
 #include "ui_custommainwindow.h"
 #include "myqgraphicspathitem.h"
-#include "view.h"
+#include "myqgraphicsview.h"
 
 #include <QAction>
 #include <QFileDialog>
@@ -83,8 +83,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
 
     QGraphicsScene* scene = new QGraphicsScene(parent);
-    ui->view->setScene(scene);
-    ui->textEdit_2->setupToolbar(tb);
+    ui->myQGraphicsView->setScene(scene);
+    ui->myQTextEdit->setupToolbar(tb);
 
 //    QString file = "K:/Z/Google Drive/Kevin/anatomy/examples/Politics_where_anger,_threats,_and_polarization_fro.mm";
     //    readFromFile(file);
@@ -98,12 +98,12 @@ MainWindow::MainWindow(QWidget* parent)
 //        qDebug() <<obj->objectName(); // << obj;
 //    }
 
-//    ui->view->setModel(&model_);
+//    ui->myQGraphicsView->setModel(&model_);
 
 //    setWindowTitle(tr("Address Book"));
 
 //    QTimer *timer = new QTimer(this);
-//    connect(timer, &QTimer::timeout, ui->view, &View::animate);
+//    connect(timer, &QTimer::timeout, ui->myQGraphicsView, &View::animate);
 //    timer->start(50);
 
 }
@@ -213,7 +213,7 @@ void MainWindow::populateChildren(XmlNode* xnode)
 
     n->setPos(QPointF(0, 0));
 
-    QGraphicsScene* scene = ui->view->scene();
+    QGraphicsScene* scene = ui->myQGraphicsView->scene();
 
     scene->addItem(n);
 
@@ -227,21 +227,21 @@ void MainWindow::populateChildren(XmlNode* xnode)
     MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(n);
     ti->setHtml(txt);
 //    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
-    ti->setEditor(ui->textEdit_2);
+    ti->setEditor(ui->myQTextEdit);
 
-    connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
+    connect(ti, &MyQGraphicsTextItem::selected, ui->myQTextEdit, &MyQTextEdit::setText);
 
     populateChildren(xnode, n);
 }
 
-void MainWindow::refresh(const QGraphicsItem* item)
+void MainWindow::refresh(const QGraphicsItem*)
 {
     qDebug() << "MainWindow::refresh";
-    ui->view->resetCachedContent();
-    ui->view->scene()->update(ui->view->sceneRect());
-    ui->view->repaint();
-//    ui->view->centerOn(item);
-    QList<QWidget *> widgets = ui->view->findChildren<QWidget *>();
+    ui->myQGraphicsView->resetCachedContent();
+    ui->myQGraphicsView->scene()->update(ui->myQGraphicsView->sceneRect());
+    ui->myQGraphicsView->repaint();
+//    ui->myQGraphicsView->centerOn(item);
+    QList<QWidget *> widgets = ui->myQGraphicsView->findChildren<QWidget *>();
     foreach (QWidget* w, widgets)
     {
         qDebug() << rect();
@@ -252,10 +252,10 @@ void MainWindow::refresh(const QGraphicsItem* item)
 
 void MainWindow::populateChildren(XmlNode* xnode, MyQGraphicsPathItem* n)
 {
-    QGraphicsScene* scene = ui->view->scene();
+    QGraphicsScene* scene = ui->myQGraphicsView->scene();
 
     const int count = xnode->children_.size();
-    for (std::size_t i = 0 ; i < count ; i++)
+    for (int i = 0 ; i < count ; i++)
     {
         QString txt = xnode->children_.at(i)->text_; // n->text_ + QString(" / Sub-") + QString::number(i);
         MyQGraphicsPathItem* child = new MyQGraphicsPathItem(txt, n);
@@ -263,14 +263,14 @@ void MainWindow::populateChildren(XmlNode* xnode, MyQGraphicsPathItem* n)
         n->children_.push_back(child);
         scene->addItem(child);
 //        group = new MyQGraphicsItemGroup();
-//        ui->view->scene()->addItem(group);
+//        ui->myQGraphicsView->scene()->addItem(group);
 //        group->addToGroup(child);
 
         MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(child);
         ti->setHtml(txt);
 //        ti->setTextInteractionFlags(Qt::TextEditorInteraction);
-        ti->setEditor(ui->textEdit_2);
-        connect(ti, &MyQGraphicsTextItem::selected, ui->textEdit_2, &TextEdit::setText);
+        ti->setEditor(ui->myQTextEdit);
+        connect(ti, &MyQGraphicsTextItem::selected, ui->myQTextEdit, &MyQTextEdit::setText);
         connect(ti, &MyQGraphicsTextItem::focusThisItem, this, &MainWindow::refresh);
 
         populateChildren(xnode->children_[i], child);
@@ -287,8 +287,8 @@ void MainWindow::saveFile()
 //! [3]
 
 //! [4]
-void MainWindow::updateActions(const QItemSelection &selection)
-{
+//void MainWindow::updateActions(const QItemSelection &selection)
+//{
 //    QModelIndexList indexes = selection.indexes();
 
 //    if (!indexes.isEmpty()) {
@@ -298,7 +298,7 @@ void MainWindow::updateActions(const QItemSelection &selection)
 //        removeAct->setEnabled(false);
 //        editAct->setEnabled(false);
 //    }
-}
+//}
 //! [4]
 
 void MainWindow::on_actionExit_triggered()
@@ -313,7 +313,7 @@ void MainWindow::on_actionFont_triggered()
     QWidget* widget = QApplication::focusWidget();
     qDebug() << widget;
 
-    QList<QGraphicsItem *> items = ui->view->scene()->selectedItems();
+    QList<QGraphicsItem *> items = ui->myQGraphicsView->scene()->selectedItems();
 
     qDebug() << items;
 

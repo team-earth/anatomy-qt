@@ -5,17 +5,17 @@ QT += widgets uitools
 HEADERS       = mainwindow.h \
     myqgraphicspathitem.h \
     myqgraphicstextitem.h \
+    myqgraphicsview.h \
+    myqtextedit.h \
     paintHelper.h \
     sample_data.h \
-    textedit.h \
-    view.h \
     xmlnode.h
 SOURCES       = main.cpp mainwindow.cpp \
     myqgraphicspathitem.cpp \
     myqgraphicstextitem.cpp \
+    myqgraphicsview.cpp \
+    myqtextedit.cpp \
     paintHelper.cpp \
-    textedit.cpp \
-    view.cpp \
     xmlnode.cpp
 #! [0]
 RESOURCES     = anatomy.qrc

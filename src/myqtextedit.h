@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#ifndef TEXTEDIT_H
-#define TEXTEDIT_H
+#ifndef MYQTEXTEDIT_H
+#define MYQTEXTEDIT_H
 
 #include <QMainWindow>
 #include <QMap>
@@ -72,12 +72,12 @@ class QPrinter;
 QT_END_NAMESPACE
 
 class MyQGraphicsTextItem;
-class TextEdit : public QTextEdit
+class MyQTextEdit : public QTextEdit
 {
     Q_OBJECT
 
 public:
-    TextEdit(QWidget *parent = 0);
+    MyQTextEdit(QWidget *parent = 0);
 
     bool load(const QString &f);
     void setupToolbar(QToolBar*);
@@ -166,4 +166,4 @@ private:
     QString fileName;
 };
 
-#endif // TEXTEDIT_H
+#endif // MYQTEXTEDIT_H

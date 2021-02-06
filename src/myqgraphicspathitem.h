@@ -10,7 +10,6 @@
 #include <QGraphicsPathItem>
 #include <QGraphicsWidget>
 #include <QGraphicsScene>
-#include "textedit.h"
 #include <unordered_map>
 
 class MyQGraphicsPathItem;

@@ -77,7 +77,7 @@ public:
    static int globalDegrees_;
 
 private slots:
-    void updateActions(const QItemSelection &selection);
+//    void updateActions(const QItemSelection &selection);
     void saveFile();
 
     void on_actionExit_triggered();

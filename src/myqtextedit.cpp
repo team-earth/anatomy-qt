@@ -1,4 +1,4 @@
-#include "textedit.h"
+#include "myqtextedit.h"
 #include "myqgraphicstextitem.h"
 
 /****************************************************************************
@@ -88,7 +88,7 @@
 #endif
 #endif
 
-#include "textedit.h"
+#include "myqtextedit.h"
 
 #ifdef Q_OS_MAC
 const QString rsrcPath = ":/images/mac";
@@ -98,7 +98,7 @@ const QString rsrcPath = ":/images/win";
 
 //extern QMainWindow* globalMainWindow;
 
-TextEdit::TextEdit(QWidget *parent)
+MyQTextEdit::MyQTextEdit(QWidget *parent)
     : QTextEdit(parent)
 {
 #ifdef Q_OS_MACOS
@@ -149,18 +149,18 @@ TextEdit::TextEdit(QWidget *parent)
 
 }
 
-void TextEdit::connectMe(MyQGraphicsTextItem* ti)
+void MyQTextEdit::connectMe(MyQGraphicsTextItem* ti)
 {
     if (ti_)
     {
-        disconnect(this, &TextEdit::textChanged, ti_, &MyQGraphicsTextItem::updateText);
+        disconnect(this, &MyQTextEdit::textChanged, ti_, &MyQGraphicsTextItem::updateText);
     }
     ti_ = ti;
 
-    connect(this, &TextEdit::textChanged, ti_, &MyQGraphicsTextItem::updateText);
+    connect(this, &MyQTextEdit::textChanged, ti_, &MyQGraphicsTextItem::updateText);
 }
 
-void TextEdit::setupToolbar(QToolBar* toolbar)
+void MyQTextEdit::setupToolbar(QToolBar* toolbar)
 {
     tb = toolbar;
 
@@ -199,16 +199,16 @@ void TextEdit::setupToolbar(QToolBar* toolbar)
     actionCopy->setEnabled(false);
 //    connect(textEdit, &QTextEdit::copyAvailable, actionCopy, &QAction::setEnabled);
 
-    connect(QApplication::clipboard(), &QClipboard::dataChanged, this, &TextEdit::clipboardDataChanged);
+    connect(QApplication::clipboard(), &QClipboard::dataChanged, this, &MyQTextEdit::clipboardDataChanged);
 #endif
 
 //    textEdit->setFocus();
 //    setCurrentFileName(QString());
 
     connect(this, &QTextEdit::currentCharFormatChanged,
-            this, &TextEdit::currentCharFormatChanged);
+            this, &MyQTextEdit::currentCharFormatChanged);
     connect(this, &QTextEdit::cursorPositionChanged,
-            this, &TextEdit::cursorPositionChanged);
+            this, &MyQTextEdit::cursorPositionChanged);
 //    setCentralWidget(textEdit);
 
 #ifdef Q_OS_MACOS
@@ -280,7 +280,7 @@ void TextEdit::setupToolbar(QToolBar* toolbar)
 //    a->setShortcut(Qt::CTRL + Qt::Key_Q);
 //}
 
-void TextEdit::setupEditActions()
+void MyQTextEdit::setupEditActions()
 {
 //    QMenu *menu = menuBar()->addMenu(tr("&Edit"));
 
@@ -319,11 +319,11 @@ void TextEdit::setupEditActions()
 #endif
 }
 
-void TextEdit::setupTextActions()
+void MyQTextEdit::setupTextActions()
 {
     const QIcon boldIcon = QIcon::fromTheme("format-text-bold", QIcon(rsrcPath + "/textbold.png"));
     actionTextBold = new QAction(boldIcon, tr("&Bold"), this);
-    connect(actionTextBold, &QAction::triggered, this, &TextEdit::textBold);
+    connect(actionTextBold, &QAction::triggered, this, &MyQTextEdit::textBold);
     actionTextBold->setShortcut(Qt::CTRL + Qt::Key_B);
     actionTextBold->setPriority(QAction::LowPriority);
     QFont bold;
@@ -334,7 +334,7 @@ void TextEdit::setupTextActions()
 
     const QIcon italicIcon = QIcon::fromTheme("format-text-italic", QIcon(rsrcPath + "/textitalic.png"));
     actionTextItalic = new QAction(italicIcon, tr("&Italic"), this);
-    connect(actionTextItalic, &QAction::triggered, this, &TextEdit::textItalic);
+    connect(actionTextItalic, &QAction::triggered, this, &MyQTextEdit::textItalic);
     actionTextItalic->setPriority(QAction::LowPriority);
     actionTextItalic->setShortcut(Qt::CTRL + Qt::Key_I);
     QFont italic;
@@ -345,7 +345,7 @@ void TextEdit::setupTextActions()
 
     const QIcon underlineIcon = QIcon::fromTheme("format-text-underline", QIcon(rsrcPath + "/textunder.png"));
     actionTextUnderline = new QAction(underlineIcon, tr("&Underline"), this);
-    connect(actionTextUnderline, &QAction::triggered, this, &TextEdit::textUnderline);
+    connect(actionTextUnderline, &QAction::triggered, this, &MyQTextEdit::textUnderline);
     actionTextUnderline->setShortcut(Qt::CTRL + Qt::Key_U);
     actionTextUnderline->setPriority(QAction::LowPriority);
     QFont underline;
@@ -385,7 +385,7 @@ void TextEdit::setupTextActions()
 
     // Make sure the alignLeft  is always left of the alignRight
     QActionGroup *alignGroup = new QActionGroup(this);
-    connect(alignGroup, &QActionGroup::triggered, this, &TextEdit::textAlign);
+    connect(alignGroup, &QActionGroup::triggered, this, &MyQTextEdit::textAlign);
 
     if (QApplication::isLeftToRight()) {
         alignGroup->addAction(actionAlignLeft);
@@ -411,7 +411,7 @@ void TextEdit::setupTextActions()
     pix.fill(Qt::black);
     //    actionTextColor = menu->addAction(pix, tr("&Color..."), this, &TextEdit::textColor);
     actionTextColor = new QAction(pix, tr("&Color..."), this); //, &TextEdit::textColorChooser);
-    connect(actionTextColor, &QAction::triggered, this, &TextEdit::textColorChooser);
+    connect(actionTextColor, &QAction::triggered, this, &MyQTextEdit::textColorChooser);
 
     tb->addAction(actionTextColor);
 
@@ -449,11 +449,11 @@ void TextEdit::setupTextActions()
     comboStyle->addItem("Heading 5");
     comboStyle->addItem("Heading 6");
 
-    connect(comboStyle, QOverload<int>::of(&QComboBox::activated), this, &TextEdit::textStyle);
+    connect(comboStyle, QOverload<int>::of(&QComboBox::activated), this, &MyQTextEdit::textStyle);
 
     comboFont = new QFontComboBox(tb);
     tb->addWidget(comboFont);
-    connect(comboFont, &QComboBox::textActivated, this, &TextEdit::textFamily);
+    connect(comboFont, &QComboBox::textActivated, this, &MyQTextEdit::textFamily);
 
     comboSize = new QComboBox(tb);
     comboSize->setObjectName("comboSize");
@@ -465,7 +465,7 @@ void TextEdit::setupTextActions()
         comboSize->addItem(QString::number(size));
     comboSize->setCurrentIndex(standardSizes.indexOf(QApplication::font().pointSize()));
 
-    connect(comboSize, &QComboBox::textActivated, this, &TextEdit::textSize);
+    connect(comboSize, &QComboBox::textActivated, this, &MyQTextEdit::textSize);
 }
 
 //bool TextEdit::load(const QString &f)
@@ -658,35 +658,35 @@ void TextEdit::setupTextActions()
 //#endif
 //}
 
-void TextEdit::textBold()
+void MyQTextEdit::textBold()
 {
     QTextCharFormat fmt;
     fmt.setFontWeight(actionTextBold->isChecked() ? QFont::Bold : QFont::Normal);
     mergeFormatOnWordOrSelection(fmt);
 }
 
-void TextEdit::textUnderline()
+void MyQTextEdit::textUnderline()
 {
     QTextCharFormat fmt;
     fmt.setFontUnderline(actionTextUnderline->isChecked());
     mergeFormatOnWordOrSelection(fmt);
 }
 
-void TextEdit::textItalic()
+void MyQTextEdit::textItalic()
 {
     QTextCharFormat fmt;
     fmt.setFontItalic(actionTextItalic->isChecked());
     mergeFormatOnWordOrSelection(fmt);
 }
 
-void TextEdit::textFamily(const QString &f)
+void MyQTextEdit::textFamily(const QString &f)
 {
     QTextCharFormat fmt;
     fmt.setFontFamily(f);
     mergeFormatOnWordOrSelection(fmt);
 }
 
-void TextEdit::textSize(const QString &p)
+void MyQTextEdit::textSize(const QString &p)
 {
     qreal pointSize = p.toFloat();
     if (p.toFloat() > 0) {
@@ -696,7 +696,7 @@ void TextEdit::textSize(const QString &p)
     }
 }
 
-void TextEdit::textStyle(int styleIndex)
+void MyQTextEdit::textStyle(int styleIndex)
 {
     QTextCursor cursor = textCursor();
     QTextListFormat::Style style = QTextListFormat::ListStyleUndefined;
@@ -780,7 +780,7 @@ void TextEdit::textStyle(int styleIndex)
     cursor.endEditBlock();
 }
 
-void TextEdit::textColorChooser()
+void MyQTextEdit::textColorChooser()
 {
     QColor col = QColorDialog::getColor();
     if (!col.isValid())
@@ -791,7 +791,7 @@ void TextEdit::textColorChooser()
     colorChanged(col);
 }
 
-void TextEdit::textAlign(QAction *a)
+void MyQTextEdit::textAlign(QAction *a)
 {
     if (a == actionAlignLeft)
         setAlignment(Qt::AlignLeft | Qt::AlignAbsolute);
@@ -803,22 +803,22 @@ void TextEdit::textAlign(QAction *a)
         setAlignment(Qt::AlignJustify);
 }
 
-void TextEdit::setChecked(bool checked)
+void MyQTextEdit::setChecked(bool checked)
 {
     textStyle(checked ? 5 : 4);
 }
 
-void TextEdit::indent()
+void MyQTextEdit::indent()
 {
     modifyIndentation(1);
 }
 
-void TextEdit::unindent()
+void MyQTextEdit::unindent()
 {
     modifyIndentation(-1);
 }
 
-void TextEdit::modifyIndentation(int amount)
+void MyQTextEdit::modifyIndentation(int amount)
 {
     QTextCursor cursor = textCursor();
     cursor.beginEditBlock();
@@ -842,13 +842,13 @@ void TextEdit::modifyIndentation(int amount)
     cursor.endEditBlock();
 }
 
-void TextEdit::currentCharFormatChanged(const QTextCharFormat &format)
+void MyQTextEdit::currentCharFormatChanged(const QTextCharFormat &format)
 {
     fontChanged(format.font());
     colorChanged(format.foreground().color());
 }
 
-void TextEdit::cursorPositionChanged()
+void MyQTextEdit::cursorPositionChanged()
 {
     alignmentChanged(alignment());
     QTextList *list = textCursor().currentList();
@@ -901,7 +901,7 @@ void TextEdit::cursorPositionChanged()
     }
 }
 
-void TextEdit::clipboardDataChanged()
+void MyQTextEdit::clipboardDataChanged()
 {
 #ifndef QT_NO_CLIPBOARD
     if (const QMimeData *md = QApplication::clipboard()->mimeData())
@@ -909,14 +909,14 @@ void TextEdit::clipboardDataChanged()
 #endif
 }
 
-void TextEdit::about()
+void MyQTextEdit::about()
 {
     QMessageBox::about(this, tr("About"), tr("This example demonstrates Qt's "
         "rich text editing facilities in action, providing an example "
         "document for you to experiment with."));
 }
 
-void TextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+void MyQTextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     QTextCursor cursor = textCursor();
     if (!cursor.hasSelection())
@@ -925,7 +925,7 @@ void TextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
     mergeCurrentCharFormat(format);
 }
 
-void TextEdit::fontChanged(const QFont &f)
+void MyQTextEdit::fontChanged(const QFont &f)
 {
     comboFont->setCurrentIndex(comboFont->findText(QFontInfo(f).family()));
     comboSize->setCurrentIndex(comboSize->findText(QString::number(f.pointSize())));
@@ -934,14 +934,14 @@ void TextEdit::fontChanged(const QFont &f)
     actionTextUnderline->setChecked(f.underline());
 }
 
-void TextEdit::colorChanged(const QColor &c)
+void MyQTextEdit::colorChanged(const QColor &c)
 {
     QPixmap pix(16, 16);
     pix.fill(c);
     actionTextColor->setIcon(pix);
 }
 
-void TextEdit::alignmentChanged(Qt::Alignment a)
+void MyQTextEdit::alignmentChanged(Qt::Alignment a)
 {
     if (a & Qt::AlignLeft)
         actionAlignLeft->setChecked(true);

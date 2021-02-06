@@ -1,5 +1,5 @@
-#ifndef VIEW_H
-#define VIEW_H
+#ifndef MYQGRAPHICSVIEW_H
+#define MYQGRAPHICSVIEW_H
 
 
 #include <QOpenGLWidget>
@@ -8,14 +8,14 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-class View : public QGraphicsView
+class MyQGraphicsView : public QGraphicsView
 {
     Q_OBJECT
 //    Q_PROPERTY(qreal my_rotation READ my_rotation WRITE setMyRotation)
 
 public:
-    View(QWidget* parent);
-    virtual ~View();
+    MyQGraphicsView(QWidget* parent);
+    virtual ~MyQGraphicsView();
 
 
 
@@ -55,4 +55,4 @@ protected:
     int scale_;
 };
 
-#endif // VIEW_H
+#endif // MYQGRAPHICSVIEW_H
