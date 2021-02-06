@@ -56,7 +56,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <xmlnode.h>
-#include "node.h"
+#include "myqgraphicspathitem.h"
 //#include "model.h"
 
 namespace Ui { class CustomMainWindow; }
@@ -72,7 +72,7 @@ public:
     void readSettings();
     void writeSettings();
 
-   static Node* centerNode_;
+   static MyQGraphicsPathItem* centerNode_;
 
    static int globalDegrees_;
 
@@ -90,7 +90,7 @@ private slots:
 private:
     void createMenus();
     void populateChildren(XmlNode*);
-    void populateChildren(XmlNode* xnode, Node* n);
+    void populateChildren(XmlNode* xnode, MyQGraphicsPathItem* n);
 
     void readFromFile(QString);
     void readFromString(QString);

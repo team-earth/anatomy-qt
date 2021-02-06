@@ -56,7 +56,7 @@
 #include <QFont>
 #include <QPen>
 #include <QWidget>
-#include "node.h"
+#include "myqgraphicspathitem.h"
 
 //! [0]
 class PaintHelper
@@ -65,8 +65,8 @@ public:
     PaintHelper();
 
 public:
-    void paint(QPainter *painter, QPaintEvent *event, Node* node, int scale);
-    void paintOld(QPainter *painter, QPaintEvent *event, Node& node);
+    void paint(QPainter *painter, QPaintEvent *event, MyQGraphicsPathItem* node, int scale);
+    void paintOld(QPainter *painter, QPaintEvent *event, MyQGraphicsPathItem& node);
 
 protected:
     void optimizeTextBox(QFont&, QRect&, int pixelWidth, QString text);

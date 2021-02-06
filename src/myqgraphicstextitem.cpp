@@ -1,5 +1,5 @@
 #include "myqgraphicstextitem.h"
-#include "node.h"
+#include "myqgraphicspathitem.h"
 
 void MyQGraphicsTextItem::updateText()
 {
@@ -11,7 +11,7 @@ void MyQGraphicsTextItem::updateText()
 
 void MyQGraphicsTextItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * e)
 {
-    Node* p = dynamic_cast<Node*>(parentItem());
+    MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
     p->contextMenuEvent(e);
 }
 
@@ -45,7 +45,7 @@ void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
 void MyQGraphicsTextItem::cmLevelIn()
 {
     qDebug() << "cmLevelIn";
-    Node* p = dynamic_cast<Node*>(parentItem());
+    MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
 
     qDebug() << "MainWindow::centerNode_:" << MainWindow::centerNode_;
     qDebug() << "p->parentNode_" << p->parentNode_;
@@ -59,7 +59,7 @@ void MyQGraphicsTextItem::cmLevelIn()
 
 void MyQGraphicsTextItem::cmLevelUp()
 {
-    Node* p = dynamic_cast<Node*>(parentItem());
+    MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
     qDebug() << "cmLevelUp p->parentNode_" << p->parentNode_;
     qDebug() << "cmLevelUp p" << p;
 

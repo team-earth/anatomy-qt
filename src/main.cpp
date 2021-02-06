@@ -56,7 +56,7 @@
 #include <QAction>
 
 #include "mainwindow.h"
-#include "node.h"
+#include "myqgraphicspathitem.h"
 
 //QMainWindow* globalMainWindow;
 

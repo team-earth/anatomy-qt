@@ -74,7 +74,7 @@ PaintHelper::PaintHelper()
 }
 //! [0]
 
-void PaintHelper::paint(QPainter *painter, QPaintEvent *event, Node* node, int scale)
+void PaintHelper::paint(QPainter *painter, QPaintEvent *event, MyQGraphicsPathItem* node, int scale)
 {
     painter->fillRect(event->rect(), background);
 
@@ -172,7 +172,7 @@ void PaintHelper::optimizeTextBox(QFont& textFont, QRect& textBox, int radius, Q
 
 
 //! [1]
-void PaintHelper::paintOld(QPainter *painter, QPaintEvent *event, Node& node)
+void PaintHelper::paintOld(QPainter *painter, QPaintEvent *event, MyQGraphicsPathItem& node)
 {
     int elapsed=0;
     painter->fillRect(event->rect(), background);

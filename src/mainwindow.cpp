@@ -50,7 +50,7 @@
 
 #include "mainwindow.h"
 #include "ui_custommainwindow.h"
-#include "node.h"
+#include "myqgraphicspathitem.h"
 #include "view.h"
 
 #include <QAction>
@@ -200,7 +200,7 @@ void MainWindow::readFromFile(QString fn)
     populateChildren(rootNode_);
 }
 
-Node* MainWindow::centerNode_ = nullptr;
+MyQGraphicsPathItem* MainWindow::centerNode_ = nullptr;
 
 void MainWindow::populateChildren(XmlNode* xnode)
 {
@@ -209,7 +209,7 @@ void MainWindow::populateChildren(XmlNode* xnode)
 
     txt = xnode->text_;
 
-    Node* n = new Node(txt);
+    MyQGraphicsPathItem* n = new MyQGraphicsPathItem(txt);
 
     n->setPos(QPointF(0, 0));
 
@@ -250,7 +250,7 @@ void MainWindow::refresh(const QGraphicsItem* item)
 
 }
 
-void MainWindow::populateChildren(XmlNode* xnode, Node* n)
+void MainWindow::populateChildren(XmlNode* xnode, MyQGraphicsPathItem* n)
 {
     QGraphicsScene* scene = ui->view->scene();
 
@@ -258,7 +258,7 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* n)
     for (std::size_t i = 0 ; i < count ; i++)
     {
         QString txt = xnode->children_.at(i)->text_; // n->text_ + QString(" / Sub-") + QString::number(i);
-        Node* child = new Node(txt, n);
+        MyQGraphicsPathItem* child = new MyQGraphicsPathItem(txt, n);
         child->childIndex = i;
         n->children_.push_back(child);
         scene->addItem(child);

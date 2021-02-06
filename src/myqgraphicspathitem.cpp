@@ -1,4 +1,4 @@
-#include "node.h"
+#include "myqgraphicspathitem.h"
 
 #include <memory>
 #include <sstream>
@@ -14,7 +14,7 @@
 #include "mainwindow.h"
 #include "myqgraphicstextitem.h"
 
-Node::Node(QString text, Node* parent) :
+MyQGraphicsPathItem::MyQGraphicsPathItem(QString text, MyQGraphicsPathItem* parent) :
     QGraphicsPathItem(), text_(text), parentNode_(parent)
 {
     if (parent == nullptr)
@@ -47,9 +47,9 @@ Node::Node(QString text, Node* parent) :
 //                                      "selection"));
 }
 
-void Node::cacheLineage()
+void MyQGraphicsPathItem::cacheLineage()
 {
-    Node* p = parentNode_;
+    MyQGraphicsPathItem* p = parentNode_;
 
     while (p)
     {
@@ -58,7 +58,7 @@ void Node::cacheLineage()
     }
 }
 
-void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
+void MyQGraphicsPathItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
 {    
     MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
     ti->contextMenu_->exec(e->screenPos());
@@ -168,7 +168,7 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 }
 #endif
 
-void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
+void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
 //    static int counter = 0;
 //    qDebug() << "Node::paint counter: " << ++counter;
@@ -345,7 +345,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidge
     painter->restore();
 }
 
-QRectF Node::boundingRect() const
+QRectF MyQGraphicsPathItem::boundingRect() const
 {
 //    static int count = 0;
 //        qDebug() << "Node::boundintRect()" << bbox_ << count++;

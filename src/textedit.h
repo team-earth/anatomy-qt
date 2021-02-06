@@ -59,7 +59,7 @@
 #include <QTextEdit>
 #include <QDebug>
 #include <QGraphicsTextItem>
-#include "node.h"
+#include "myqgraphicspathitem.h"
 
 QT_BEGIN_NAMESPACE
 class QAction;

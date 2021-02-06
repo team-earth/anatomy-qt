@@ -1,5 +1,5 @@
-#ifndef NODE_H
-#define NODE_H
+#ifndef MYQGRAPHICSPATHITEM_H
+#define MYQGRAPHICSPATHITEM_H
 
 #include <string>
 #include <vector>
@@ -13,13 +13,13 @@
 #include "textedit.h"
 #include <unordered_map>
 
-class Node;
+class MyQGraphicsPathItem;
 
-class Node : public QGraphicsPathItem
+class MyQGraphicsPathItem : public QGraphicsPathItem
 {
     friend class MyQGraphicsTextItem;
 public:
-    Node(QString text, Node* parent = nullptr);
+    MyQGraphicsPathItem(QString text, MyQGraphicsPathItem* parent = nullptr);
     QRectF boundingRect() const override;
     QPainterPath shape() const override { return path_; }
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
@@ -29,7 +29,7 @@ protected:
 
     void cacheLineage();
 
-    std::unordered_map<Node*, int> lineage_;
+    std::unordered_map<MyQGraphicsPathItem*, int> lineage_;
 //    void initContextMenu();
     void cmFocus();
     void cmLevelIn();
@@ -57,8 +57,8 @@ protected:
 
 public:
     QString text_;
-    std::vector<Node*> children_;
-    Node* parentNode_;
+    std::vector<MyQGraphicsPathItem*> children_;
+    MyQGraphicsPathItem* parentNode_;
     size_t childIndex;
     QRectF bbox_;
     QPainterPath path_;
@@ -72,4 +72,4 @@ public:
 };
 
 
-#endif // NODE_H
+#endif // MYQGRAPHICSPATHITEM_H

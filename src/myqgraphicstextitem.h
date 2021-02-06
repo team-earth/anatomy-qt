@@ -45,7 +45,7 @@ public:
     void cmFocus()
     {
         qDebug() << "cmFocus";
-        Node* p = dynamic_cast<Node*>(parentItem());
+        MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
 
         MainWindow::globalDegrees_ = p->arcStartDegrees_ + p->arcDegrees_/2.0;
 
