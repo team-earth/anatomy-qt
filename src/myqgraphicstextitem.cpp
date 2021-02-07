@@ -44,13 +44,13 @@ void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
 
 void MyQGraphicsTextItem::cmLevelIn()
 {
-    MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
-
-    MainWindow::centerMyQGraphicsPathItem_ = p;
+#if 0
+    MainWindow::centerNode_ = this->node_;
     MainWindow::centerMyQGraphicsPathItem_->arcDegrees_ = 360;
     MainWindow::centerMyQGraphicsPathItem_->arcStartDegrees_ = 90;
 
     emit focusThisItem(this);
+#endif
 }
 
 void MyQGraphicsTextItem::cmLevelOut()

@@ -10,7 +10,6 @@
 #include <QGraphicsPathItem>
 #include <QGraphicsWidget>
 #include <QGraphicsScene>
-#include <unordered_map>
 
 class MyQGraphicsPathItem;
 class Node;
@@ -29,7 +28,6 @@ protected:
 
     void cacheLineage();
 
-    std::unordered_map<MyQGraphicsPathItem*, int> lineage_;
 //    void initContextMenu();
     void cmFocus();
     void cmLevelIn();
@@ -58,13 +56,10 @@ protected:
 public:
     Node* node_;
     QString text_;
-    std::vector<MyQGraphicsPathItem*> children_;
     MyQGraphicsPathItem* parentMyQGraphicsPathItem_;
-    size_t childIndex;
     QRectF bbox_;
     QPainterPath path_;
     qreal z_;
-    int depth_;
 
     qreal arcDegrees_;
     qreal arcStartDegrees_;

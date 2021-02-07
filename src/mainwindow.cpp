@@ -201,7 +201,7 @@ void MainWindow::readFromFile(QString fn)
     populateChildren(rootNode_);
 }
 
-MyQGraphicsPathItem* MainWindow::centerMyQGraphicsPathItem_ = nullptr;
+Node* MainWindow::centerNode_ = nullptr;
 
 void MainWindow::populateChildren(XmlNode* xnode)
 {
@@ -217,7 +217,7 @@ void MainWindow::populateChildren(XmlNode* xnode)
 
     scene->addItem(node->getMyQGraphicsPathItem());
 
-    MainWindow::centerMyQGraphicsPathItem_ = node->getMyQGraphicsPathItem();
+    MainWindow::centerNode_ = node;
 
     MyQGraphicsTextItem* ti = node->getMyQGraphicsTextItem();
     ti->setHtml(txt);
@@ -255,8 +255,8 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* node)
         QString txt = xnode->children_.at(i)->text_; // n->text_ + QString(" / Sub-") + QString::number(i);
         Node* child = new Node(txt, node);
 
-        child->getMyQGraphicsPathItem()->childIndex = i;
-        node->getMyQGraphicsPathItem()->children_.push_back(child->getMyQGraphicsPathItem());
+        child->childIndex = i;
+        node->children_.push_back(child);
         scene->addItem(child->getMyQGraphicsPathItem());
 
         MyQGraphicsTextItem* ti = node->getMyQGraphicsTextItem();

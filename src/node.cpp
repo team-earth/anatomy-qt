@@ -11,6 +11,17 @@ Node::Node(QString text, Node* parentNode)
   myQGraphicsPathItem_->setPos(QPointF(0, 0));
 
   myQGraphicsTextItem_ = new MyQGraphicsTextItem(myQGraphicsPathItem_);
+
+  if (parentNode_ == nullptr)
+  {
+      depth_ = 0;
+  }
+  else
+  {
+      depth_ = parentNode_->depth_ + 1;
+  }
+
+  cacheLineage();
 }
 
 MyQGraphicsPathItem* Node::getMyQGraphicsPathItem() const
@@ -21,4 +32,18 @@ MyQGraphicsPathItem* Node::getMyQGraphicsPathItem() const
 MyQGraphicsTextItem* Node::getMyQGraphicsTextItem() const
 {
     return myQGraphicsTextItem_;
+}
+
+void Node::cacheLineage()
+{
+    if (parentNode_)
+    {
+        Node* p = parentNode_;
+
+        while (p)
+        {
+            lineage_[p] = p->depth_;
+            p = p->parentNode_;
+        }
+    }
 }

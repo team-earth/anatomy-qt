@@ -18,16 +18,7 @@
 MyQGraphicsPathItem::MyQGraphicsPathItem(Node* node, QString text) :
     QGraphicsPathItem(), node_(node), text_(text)
 {
-    if (node_->parentNode_ == nullptr)
-    {
-        depth_ = 0;
-    }
-    else
-    {
-        depth_ = node_->parentNode_->getMyQGraphicsPathItem()->depth_ + 1;
-    }
 
-    cacheLineage();
 
 //    qDebug() << depth_ << ": " << text;
 
@@ -48,26 +39,6 @@ MyQGraphicsPathItem::MyQGraphicsPathItem(Node* node, QString text) :
 //                                      "selection"));
 }
 
-void MyQGraphicsPathItem::cacheLineage()
-{
-    if (node_->parentNode_)
-    {
-        MyQGraphicsPathItem* p = node_->parentNode_->getMyQGraphicsPathItem();
-
-        while (p)
-        {
-            lineage_[p] = p->depth_;
-            if (p->node_->parentNode_)
-            {
-                p = p->node_->parentNode_->getMyQGraphicsPathItem();
-            }
-            else
-            {
-                p = nullptr;
-            }
-        }
-    }
-}
 
 void MyQGraphicsPathItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
 {    
@@ -221,7 +192,7 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
     QTransform tr2;
 
-    if (this == MainWindow::centerMyQGraphicsPathItem_ )
+    if (node_ == MainWindow::centerNode_ )
     {
         QPainterPath path;
         path.moveTo(0.0,0.0);
@@ -249,10 +220,10 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         arcDegrees_=360;
         arcStartDegrees_=90;
     }
-    else if ( lineage_.find(MainWindow::centerMyQGraphicsPathItem_) != lineage_.end() )
+    else if ( node_->lineage_.find(MainWindow::centerNode_) != node_->lineage_.end() )
     {
         qreal widthFactor = 1;
-        int ringLevel = depth_ - MainWindow::centerMyQGraphicsPathItem_->depth_;
+        int ringLevel = node_->depth_ - MainWindow::centerNode_->depth_;
         qreal radiusInner = radius * ringLevel;
         qreal radiusOuter = radiusInner + widthFactor*radius;
 
@@ -266,7 +237,7 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
                     );
 
         arcDegrees_ = node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
-                / node_->parentNode_->getMyQGraphicsPathItem()->children_.size();
+                / node_->parentNode_->children_.size();
         qreal qangleStart = node_->parentNode_->getMyQGraphicsPathItem()->arcStartDegrees_ - MainWindow::globalDegrees_;
 
         QPainterPath path;
@@ -274,7 +245,7 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         path.arcTo(bboxOuter, qangleStart+arcDegrees_, -arcDegrees_);
         path.closeSubpath();
 
-        tr2.rotate(arcDegrees_ * childIndex);
+        tr2.rotate(arcDegrees_ * node_->childIndex);
         path_ = tr2.map(path);
 //        prepareGeometryChange();
 
@@ -287,8 +258,8 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
         qreal arc_r = M_PI * node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
-                / (180.0 * node_->parentNode_->getMyQGraphicsPathItem()->children_.size());
-        qreal angle_r_2 = qangleStart * M_PI / 180.0 + arc_r * (childIndex + 0.5);
+                / (180.0 * node_->parentNode_->children_.size());
+        qreal angle_r_2 = qangleStart * M_PI / 180.0 + arc_r * (node_->childIndex + 0.5);
 
         qreal x;
         qreal y;
@@ -313,9 +284,9 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
             x = cos(angle_r_2-theta) * r;
             y = sin(angle_r_2-theta) * r;
             rotate = 180 * angle_r_2 / M_PI;
-            if (printed.find(childIndex) == printed.end() )
+            if (printed.find(node_->childIndex) == printed.end() )
             {
-                printed.insert(std::pair<int,bool>(childIndex, true));
+                printed.insert(std::pair<int,bool>(node_->childIndex, true));
             }
         }
         else
@@ -327,9 +298,9 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
             x = cos(angle_r_2 + theta) * r;
             y = sin(angle_r_2 + theta) * r;
             rotate = 180 * angle_r_2 / M_PI - 180;
-            if (printed.find(childIndex) == printed.end() )
+            if (printed.find(node_->childIndex) == printed.end() )
             {
-                printed.insert(std::pair<int,bool>(childIndex, true));
+                printed.insert(std::pair<int,bool>(node_->childIndex, true));
             }
         }
 
@@ -349,8 +320,8 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
         ti->setTransform(tr);
         arcStartDegrees_ = node_->parentNode_->getMyQGraphicsPathItem()->arcStartDegrees_
-                + childIndex * node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
-                / node_->parentNode_->getMyQGraphicsPathItem()->children_.size();
+                + node_->childIndex * node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
+                / node_->parentNode_->children_.size();
     }
     else
     {

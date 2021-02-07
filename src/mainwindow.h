@@ -74,7 +74,7 @@ public:
     void readSettings();
     void writeSettings();
 
-   static MyQGraphicsPathItem* centerMyQGraphicsPathItem_;
+   static Node* centerNode_;
 
    static int globalDegrees_;
 
