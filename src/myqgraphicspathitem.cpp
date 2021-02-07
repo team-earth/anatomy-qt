@@ -214,7 +214,7 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     QTransform tr2;
 
     static int i = 0;
-    qDebug() << i++ <<  "MyQGraphicsPathItem::paint";
+    qDebug() << "XYZ" << i++;
 
     if (node_ == MainWindow::centerNode_ )
     {
@@ -289,7 +289,7 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
         painter->drawPath(path_);
 
-        static std::map<int,bool> printed;
+//        static std::map<int,bool> printed;
 
         bbox_ = path_.boundingRect();
 
@@ -316,10 +316,10 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
             x = cos(angle_r_2-theta) * r;
             y = sin(angle_r_2-theta) * r;
             rotate = 180 * angle_r_2 / M_PI;
-            if (printed.find(node_->childIndex) == printed.end() )
-            {
-                printed.insert(std::pair<int,bool>(node_->childIndex, true));
-            }
+//            if (printed.find(node_->childIndex) == printed.end() )
+//            {
+//                printed.insert(std::pair<int,bool>(node_->childIndex, true));
+//            }
         }
         else
         {
@@ -330,10 +330,10 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
             x = cos(angle_r_2 + theta) * r;
             y = sin(angle_r_2 + theta) * r;
             rotate = 180 * angle_r_2 / M_PI - 180;
-            if (printed.find(node_->childIndex) == printed.end() )
-            {
-                printed.insert(std::pair<int,bool>(node_->childIndex, true));
-            }
+//            if (printed.find(node_->childIndex) == printed.end() )
+//            {
+//                printed.insert(std::pair<int,bool>(node_->childIndex, true));
+//            }
         }
 
         if (ti->textWidth() != widthFactor*radius - 2*padding)
