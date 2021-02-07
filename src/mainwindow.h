@@ -78,6 +78,7 @@ public:
 
    static int globalDegrees_;
 
+   void centered();
 private slots:
 //    void updateActions(const QItemSelection &selection);
     void saveFile();

@@ -89,8 +89,8 @@ MainWindow::MainWindow(QWidget* parent)
 
 //    QString file = "K:/Z/Google Drive/Kevin/anatomy/examples/Politics_where_anger,_threats,_and_polarization_fro.mm";
     //    readFromFile(file);
-    readFromString(sample1);
 
+    readFromString(sample1);
     readSettings();
 
 //    QList<QObject*> list = this->findChildren<QObject*>();
@@ -107,6 +107,13 @@ MainWindow::MainWindow(QWidget* parent)
 //    connect(timer, &QTimer::timeout, ui->myQGraphicsView, &View::animate);
 //    timer->start(50);
 
+}
+
+void MainWindow::centered()
+{
+    ui->myQGraphicsView->sceneRect();
+//    qDebug() << MainWindow::centerNode_->myQGraphicsPathItem_->boundingRect();
+    ui->myQGraphicsView->centerOn(MainWindow::centerNode_->myQGraphicsPathItem_);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
