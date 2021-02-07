@@ -34,11 +34,11 @@ void MyQGraphicsTextItem::cmFocus()
 
 void MyQGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    static int count = 0;
-    if (toPlainText().left(3) == "Cyn" || toPlainText().left(3) == "Rap")
-    {
-        qDebug() << "pa:" << transform() << this->toPlainText();
-    }
+//    static int count = 0;
+//    if (toPlainText().left(3) == "Cyn" || toPlainText().left(3) == "Rap")
+//    {
+//        qDebug() << "pa:" << transform() << this->toPlainText();
+//    }
     QGraphicsTextItem::paint(painter, option, widget);
 }
 
