@@ -15,8 +15,8 @@
 #include "myqgraphicstextitem.h"
 #include "node.h"
 
-MyQGraphicsPathItem::MyQGraphicsPathItem(Node* node, QString text) :
-    QGraphicsPathItem(), node_(node), text_(text)
+MyQGraphicsPathItem::MyQGraphicsPathItem(Node* node) :
+    QGraphicsPathItem(), node_(node)
 {
 
 
@@ -227,12 +227,12 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         painter->drawPath(path);
 //        QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
         QGraphicsTextItem* ti = node_->getMyQGraphicsTextItem();
+        ti->resetTransform();
 
         qreal offset = 0.707106781186547*(radius - padding);
 
         QPoint origin(-offset, -offset);
         ti->setPos(origin);
-        ti->resetTransform();
         if (ti->textWidth() != 2*offset)
         {
             ti->setTextWidth(2*offset);
@@ -243,6 +243,8 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     }
     else if ( node_->lineage_.find(MainWindow::centerNode_) != node_->lineage_.end() )
     {
+        static int i = 0;
+        qDebug() << i++ <<  "MyQGraphicsPathItem::paint";
         qreal widthFactor = 1;
         int ringLevel = node_->depth_ - MainWindow::centerNode_->depth_;
         qreal radiusInner = radius * ringLevel;
@@ -276,7 +278,6 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
         bbox_ = path_.boundingRect();
 
-        MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
         qreal arc_r = M_PI * node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
                 / (180.0 * node_->parentNode_->children_.size());
@@ -284,17 +285,12 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
         qreal x;
         qreal y;
-        QTransform tr;
         qreal rotate;
 
 //        bool updateText = false;
-        QString text = /*QString::number(180 * angle_r_2/ M_PI) +*/ this->text_;
-        if (text != ti->toPlainText())
-        {
-//            qDebug() << "update text:" << this->text_ << ti->toPlainText();
-            ti->setHtml(text);
-//            updateText = true;
-        }
+
+        MyQGraphicsTextItem* ti = node_->myQGraphicsTextItem_;
+
         QRectF textBB = ti->boundingRect();
 
         if ( fabs(angle_r_2) < M_PI / 2.0 || fabs(angle_r_2) > 3 * M_PI / 2.0 )
@@ -336,18 +332,33 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         }
 //        QPoint origin(0,-textBB.height()/2.0`);
 //        ti->setPos(origin);
+
+#if 0
+        QString text = /*QString::number(180 * angle_r_2/ M_PI) +*/ this->text_;
+        if (text != ti->toPlainText())
+        {
+//            qDebug() << "update text:" << this->text_ << ti->toPlainText();
+            ti->setHtml(text);
+//            updateText = true;
+        }
+#endif
+
+        QTransform tr0 = ti->transform();
+        QTransform tr;
         tr.translate(x,y);
         tr.rotate(rotate);
 
-        ti->setTransform(tr);
+        if (tr != tr0)
+        {
+            ti->setTransform(tr);
+        }
         arcStartDegrees_ = node_->parentNode_->getMyQGraphicsPathItem()->arcStartDegrees_
                 + node_->childIndex * node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
                 / node_->parentNode_->children_.size();
     }
     else
     {
-        MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
-        ti->hide();
+        node_->myQGraphicsTextItem_->hide();
     }
 
     painter->restore();

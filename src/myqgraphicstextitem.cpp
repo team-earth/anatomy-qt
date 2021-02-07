@@ -31,6 +31,13 @@ void MyQGraphicsTextItem::cmFocus()
     emit focusThisItem(this);
 }
 
+void MyQGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    qDebug() << "MyQGraphicsTextItem::paint" << transform() << this->toPlainText();
+    QGraphicsTextItem::paint(painter, option, widget);
+}
+
+
 void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
 {
     te_->connectMe(this);

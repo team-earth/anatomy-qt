@@ -39,6 +39,8 @@ public:
         connect(levelUpAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelOut);
     }
 
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
     void cmLevelIn();
     void cmLevelOut();
 

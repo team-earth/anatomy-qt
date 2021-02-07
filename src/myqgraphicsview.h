@@ -50,7 +50,7 @@ protected:
     std::unique_ptr<QGraphicsScene> scene_;
 
 //    Model* model_;
-    PaintHelper paintHelper_;
+//    PaintHelper paintHelper_;
     int elapsed_;
     int scale_;
 };

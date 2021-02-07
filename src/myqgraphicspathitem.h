@@ -19,7 +19,7 @@ class MyQGraphicsPathItem : public QGraphicsPathItem
 //    Q_OBJECT
     friend class MyQGraphicsTextItem;
 public:
-    MyQGraphicsPathItem(Node* node, QString text);
+    MyQGraphicsPathItem(Node* node);
     virtual ~MyQGraphicsPathItem() {}
     QRectF boundingRect() const override;
     QPainterPath shape() const override { return path_; }
@@ -59,7 +59,6 @@ protected:
 
 public:
     Node* node_;
-    QString text_;
     MyQGraphicsPathItem* parentMyQGraphicsPathItem_;
     QRectF bbox_;
     QPainterPath path_;

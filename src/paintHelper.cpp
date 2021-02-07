@@ -47,7 +47,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
+#if 0
 #include "paintHelper.h"
 
 #include <QPainter>
@@ -206,3 +206,4 @@ void PaintHelper::paintOld(QPainter *painter, QPaintEvent *event, MyQGraphicsPat
 
 }
 //! [3]
+#endif

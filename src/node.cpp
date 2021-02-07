@@ -7,10 +7,11 @@
 Node::Node(QString text, Node* parentNode)
     : parentNode_(parentNode)
 {
-  myQGraphicsPathItem_ = new MyQGraphicsPathItem(this, text);
+  myQGraphicsPathItem_ = new MyQGraphicsPathItem(this);
   myQGraphicsPathItem_->setPos(QPointF(0, 0));
 
   myQGraphicsTextItem_ = new MyQGraphicsTextItem(this);
+  myQGraphicsTextItem_->setHtml(text);
 
   if (parentNode_ == nullptr)
   {
