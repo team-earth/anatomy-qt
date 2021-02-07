@@ -86,7 +86,10 @@ MainWindow::MainWindow(QWidget* parent)
     QGraphicsScene* scene = new QGraphicsScene(parent);
     ui->myQGraphicsView->setScene(scene);
     ui->myQTextEdit->setupToolbar(tb);
+}
 
+void MainWindow::init()
+{
 //    QString file = "K:/Z/Google Drive/Kevin/anatomy/examples/Politics_where_anger,_threats,_and_polarization_fro.mm";
     //    readFromFile(file);
 
@@ -335,4 +338,16 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this);
     if (!fileName.isEmpty())
         readFromFile(fileName);
+}
+
+MainWindow* MainWindow::globalMainWindow = nullptr;
+
+MainWindow* MainWindow::instance()
+{
+    if (MainWindow::globalMainWindow == nullptr)
+    {
+        MainWindow::globalMainWindow = new MainWindow(nullptr);
+    }
+
+    return MainWindow::globalMainWindow;
 }

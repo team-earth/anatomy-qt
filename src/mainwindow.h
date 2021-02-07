@@ -79,6 +79,12 @@ public:
    static int globalDegrees_;
 
    void centered(const QGraphicsItem* item);
+
+   void refresh(const QGraphicsItem*);
+
+   static MainWindow* instance();
+
+   void init();
 private slots:
 //    void updateActions(const QItemSelection &selection);
     void saveFile();
@@ -88,7 +94,6 @@ private slots:
     void on_actionFont_triggered();
 
     void on_actionOpen_triggered();
-    void refresh(const QGraphicsItem*);
 
 private:
     void createMenus();
@@ -101,6 +106,8 @@ private:
     XmlNode* rootNode_;
 
     Ui::CustomMainWindow* ui;
+
+    static MainWindow* globalMainWindow;
 
 //    Model model_;
 

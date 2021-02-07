@@ -15,48 +15,26 @@ class MyQGraphicsTextItem : public QGraphicsTextItem
 {
     Q_OBJECT
 
+    friend class Node;
 public:
 
-    MyQGraphicsTextItem(Node* node) : QGraphicsTextItem(node->myQGraphicsPathItem_), node_(node), te_(nullptr)
-    {
-//        connect(QGraphicsTextItem, &QGraphicsTextItem::, this, &TextEdit::setText);
-//        setFlag(QGraphicsItem::ItemIsFocusable, false);
-//        setFlag(QGraphicsItem::ItemIsSelectable, false);
-//        setCursor(Qt::BlankCursor);
-        static int i=0;
-
-        id_ = i++;
-
-        setTextInteractionFlags(Qt::TextEditorInteraction);
-
-        QAction *focusAction = new QAction("Focus");
-        QAction *levelInAction = new QAction("Level In");
-        QAction *levelUpAction = new QAction("Level Out");
-
-        contextMenu_ = new QMenu();
-        contextMenu_->addAction(focusAction);
-        contextMenu_->addAction(levelInAction);
-        contextMenu_->addAction(levelUpAction);
-
-        connect(focusAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmFocus);
-        connect(levelInAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelIn);
-        connect(levelUpAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelOut);
-    }
-
+    MyQGraphicsTextItem(Node* node);
     int id_;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     void cmLevelIn();
     void cmLevelOut();
-
     void cmFocus();
+    void addPeer();
+    void addChild();
 
     void updateText();
 
     void setEditor(MyQTextEdit* te)
     {
         te_ = te;
+        connect(this, &MyQGraphicsTextItem::selected, te_, &MyQTextEdit::setText);
     }
 
     QMenu* contextMenu_;

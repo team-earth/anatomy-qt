@@ -87,15 +87,16 @@ int main(int argc, char *argv[])
 //    QSurfaceFormat::setDefaultFormat(format);
 
 
-    MainWindow mainWin(nullptr);
+    MainWindow* mainWin = MainWindow::instance();
 
 //    globalMainWindow = &mainWin;
 
 //    if (!parser.positionalArguments().isEmpty())
 //        mainWin.loadFile(parser.positionalArguments().first());
 
-    mainWin.show();
-    mainWin.centered(MainWindow::centerNode_->getMyQGraphicsPathItem());
+    mainWin->init();
+    mainWin->show();
+    mainWin->centered(MainWindow::centerNode_->getMyQGraphicsPathItem());
 
     return app.exec();
 

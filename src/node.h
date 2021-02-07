@@ -17,6 +17,9 @@ public:
 
     MyQGraphicsPathItem* getMyQGraphicsPathItem() const;
     MyQGraphicsTextItem* getMyQGraphicsTextItem() const;
+    void addPeer();
+    void addChild();
+
 protected:
     void cacheLineage();
 

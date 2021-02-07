@@ -48,3 +48,26 @@ void Node::cacheLineage()
         }
     }
 }
+
+void Node::addPeer()
+{
+    if (parentNode_)
+    {
+        parentNode_->addChild();
+    }
+}
+
+void Node::addChild()
+{
+    QGraphicsScene* scene = this->myQGraphicsPathItem_->scene();
+
+    Node* child = new Node("NEW", this);
+
+    child->childIndex = children_.size();
+    this->children_.push_back(child);
+    scene->addItem(child->getMyQGraphicsPathItem());
+
+    MyQGraphicsTextItem* ti = child->getMyQGraphicsTextItem();
+    ti->setEditor(this->myQGraphicsTextItem_->te_);
+}
+
