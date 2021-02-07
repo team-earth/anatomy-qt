@@ -213,8 +213,8 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
     QTransform tr2;
 
-    static int i = 0;
-    qDebug() << "XYZ" << i++;
+//    static int i = 0;
+//    qDebug() << "XYZ" << i++;
 
     if (node_ == MainWindow::centerNode_ )
     {
@@ -228,14 +228,10 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 //        prepareGeometryChange();
 
         painter->drawPath(path);
-//        QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
         QGraphicsTextItem* ti = node_->getMyQGraphicsTextItem();
-        ti->resetTransform();
+//        ti->resetTransform();
 
         qreal offset = 0.707106781186547*(radius - padding);
-
-//        QPoint origin(-offset, -offset);
-//        ti->setPos(origin);
 
         QTransform tr;
         tr.translate(-offset, -offset);
@@ -289,8 +285,6 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
         painter->drawPath(path_);
 
-//        static std::map<int,bool> printed;
-
         bbox_ = path_.boundingRect();
 
 
@@ -301,8 +295,6 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         qreal x;
         qreal y;
         qreal rotate;
-
-//        bool updateText = false;
 
         MyQGraphicsTextItem* ti = node_->myQGraphicsTextItem_;
 
@@ -316,10 +308,6 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
             x = cos(angle_r_2-theta) * r;
             y = sin(angle_r_2-theta) * r;
             rotate = 180 * angle_r_2 / M_PI;
-//            if (printed.find(node_->childIndex) == printed.end() )
-//            {
-//                printed.insert(std::pair<int,bool>(node_->childIndex, true));
-//            }
         }
         else
         {
@@ -330,10 +318,6 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
             x = cos(angle_r_2 + theta) * r;
             y = sin(angle_r_2 + theta) * r;
             rotate = 180 * angle_r_2 / M_PI - 180;
-//            if (printed.find(node_->childIndex) == printed.end() )
-//            {
-//                printed.insert(std::pair<int,bool>(node_->childIndex, true));
-//            }
         }
 
         if (ti->textWidth() != widthFactor*radius - 2*padding)
@@ -345,18 +329,10 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         {
             ti->setVisible(true);
         }
-//        QPoint origin(0,-textBB.height()/2.0`);
-//        ti->setPos(origin);
 
-//        QTransform tr0 = ti->transform();
         QTransform tr;
         tr.translate(x,y);
         tr.rotate(rotate);
-
-//        if (ti->toPlainText().left(6) == "Politic")
-//        {
-//        qDebug() <<ti->pos();
-//        }
 
         if (tr != ti->transform())
         {
