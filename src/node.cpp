@@ -9,9 +9,16 @@ Node::Node(QString text, Node* parentNode)
 {
   myQGraphicsPathItem_ = new MyQGraphicsPathItem(this, text);
   myQGraphicsPathItem_->setPos(QPointF(0, 0));
+
+  myQGraphicsTextItem_ = new MyQGraphicsTextItem(myQGraphicsPathItem_);
 }
 
 MyQGraphicsPathItem* Node::getMyQGraphicsPathItem() const
 {
     return myQGraphicsPathItem_;
+}
+
+MyQGraphicsTextItem* Node::getMyQGraphicsTextItem() const
+{
+    return myQGraphicsTextItem_;
 }

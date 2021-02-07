@@ -219,7 +219,7 @@ void MainWindow::populateChildren(XmlNode* xnode)
 
     MainWindow::centerMyQGraphicsPathItem_ = node->getMyQGraphicsPathItem();
 
-    MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(node->getMyQGraphicsPathItem());
+    MyQGraphicsTextItem* ti = node->getMyQGraphicsTextItem();
     ti->setHtml(txt);
 
     ti->setEditor(ui->myQTextEdit);
@@ -259,7 +259,7 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* node)
         node->getMyQGraphicsPathItem()->children_.push_back(child->getMyQGraphicsPathItem());
         scene->addItem(child->getMyQGraphicsPathItem());
 
-        MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(child->getMyQGraphicsPathItem());
+        MyQGraphicsTextItem* ti = node->getMyQGraphicsTextItem();
         ti->setHtml(txt);
 
         ti->setEditor(ui->myQTextEdit);

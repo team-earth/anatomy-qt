@@ -233,7 +233,8 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 //        prepareGeometryChange();
 
         painter->drawPath(path);
-        QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
+//        QGraphicsTextItem* ti = dynamic_cast<QGraphicsTextItem*>( childItems().at(0));
+        QGraphicsTextItem* ti = node_->getMyQGraphicsTextItem();
 
         qreal offset = 0.707106781186547*(radius - padding);
 

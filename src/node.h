@@ -4,7 +4,7 @@
 #include <QString>
 
 class MyQGraphicsPathItem;
-class MyQTextItem;
+class MyQGraphicsTextItem;
 class Node
 {
 public:
@@ -12,12 +12,12 @@ public:
     Node(QString text, Node* parentNode = nullptr);
 
     MyQGraphicsPathItem* getMyQGraphicsPathItem() const;
+    MyQGraphicsTextItem* getMyQGraphicsTextItem() const;
 protected:
     Node* parentNode_;
 
     MyQGraphicsPathItem* myQGraphicsPathItem_;
-    MyQTextItem* myQGraphicsTextItem_;
-
+    MyQGraphicsTextItem* myQGraphicsTextItem_;
 };
 
 #endif // NODE_H
