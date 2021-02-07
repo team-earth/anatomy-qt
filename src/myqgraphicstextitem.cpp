@@ -54,32 +54,21 @@ void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
 
 void MyQGraphicsTextItem::cmLevelIn()
 {
-#if 0
-    MainWindow::centerNode_ = this->node_;
-    MainWindow::centerMyQGraphicsPathItem_->arcDegrees_ = 360;
-    MainWindow::centerMyQGraphicsPathItem_->arcStartDegrees_ = 90;
+    MainWindow::centerNode_ = node_;
+    MainWindow::centerNode_->myQGraphicsPathItem_->arcDegrees_ = 360;
+    MainWindow::centerNode_->myQGraphicsPathItem_->arcStartDegrees_ = 90;
 
     emit focusThisItem(this);
-#endif
 }
 
 void MyQGraphicsTextItem::cmLevelOut()
 {
-#if 0
-    MyQGraphicsPathItem* this_p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
-
-    if (this_p)
+    if (MainWindow::centerNode_->parentNode_)
     {
-        MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(this_p->parentNode_);
-
-        if (p)
-        {
-            MainWindow::centerMyQGraphicsPathItem_ = p;
-            MainWindow::centerMyQGraphicsPathItem_->arcDegrees_ = 360;
-            MainWindow::centerMyQGraphicsPathItem_->arcStartDegrees_ = 90;
-        }
+        MainWindow::centerNode_ = MainWindow::centerNode_->parentNode_;
+        MainWindow::centerNode_->myQGraphicsPathItem_->arcDegrees_ = 360;
+        MainWindow::centerNode_->myQGraphicsPathItem_->arcStartDegrees_ = 90;
 
         emit focusThisItem(this);
     }
-#endif
 }
