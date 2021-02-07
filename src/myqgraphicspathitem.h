@@ -16,12 +16,16 @@ class Node;
 
 class MyQGraphicsPathItem : public QGraphicsPathItem
 {
+//    Q_OBJECT
     friend class MyQGraphicsTextItem;
 public:
     MyQGraphicsPathItem(Node* node, QString text);
+    virtual ~MyQGraphicsPathItem() {}
     QRectF boundingRect() const override;
     QPainterPath shape() const override { return path_; }
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
+
+
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* e) override;
@@ -64,6 +68,7 @@ public:
     qreal arcDegrees_;
     qreal arcStartDegrees_;
 //    QGraphicsTextItem textItem_;
+
 
 };
 

@@ -7,6 +7,7 @@
 #include <QStyleOptionGraphicsItem>
 #include "myqtextedit.h"
 #include "mainwindow.h"
+#include "node.h"
 
 class MyQTextEdit;
 
@@ -16,7 +17,7 @@ class MyQGraphicsTextItem : public QGraphicsTextItem
 
 public:
 
-    MyQGraphicsTextItem(QGraphicsItem* parent) : QGraphicsTextItem(parent)
+    MyQGraphicsTextItem(Node* node) : QGraphicsTextItem(node->myQGraphicsPathItem_), node_(node)
     {
 //        connect(QGraphicsTextItem, &QGraphicsTextItem::, this, &TextEdit::setText);
 //        setFlag(QGraphicsItem::ItemIsFocusable, false);
@@ -36,21 +37,12 @@ public:
         connect(focusAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmFocus);
         connect(levelInAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelIn);
         connect(levelUpAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelOut);
-
     }
 
     void cmLevelIn();
     void cmLevelOut();
 
-    void cmFocus()
-    {
-        qDebug() << "cmFocus";
-        MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
-
-        MainWindow::globalDegrees_ = p->arcStartDegrees_ + p->arcDegrees_/2.0;
-
-        emit focusThisItem(this);
-    }
+    void cmFocus();
 
     void updateText();
 
@@ -62,10 +54,11 @@ public:
     QMenu* contextMenu_;
 signals:
     void selected(QString);
-    void focusThisItem(const QGraphicsItem*);
+    void focusThisItem(const MyQGraphicsTextItem*);
 
 
 protected:
+    Node* node_;
     MyQTextEdit* te_;
 
 //    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override

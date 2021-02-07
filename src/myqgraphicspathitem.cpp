@@ -29,6 +29,8 @@ MyQGraphicsPathItem::MyQGraphicsPathItem(Node* node, QString text) :
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     setFlag(QGraphicsItem::ItemClipsToShape, true);
 
+//    connect(focusAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmFocus);
+
 //    initContextMenu();
 
 //    contextMenu_ = new QMenu();
@@ -39,6 +41,25 @@ MyQGraphicsPathItem::MyQGraphicsPathItem(Node* node, QString text) :
 //                                      "selection"));
 }
 
+void MyQGraphicsPathItem::cmLevelIn()
+{
+    MainWindow::centerNode_ = node_;
+    arcDegrees_ = 360;
+    arcStartDegrees_ = 90;
+
+//    emit focusThisItem(this);
+}
+
+void MyQGraphicsPathItem::cmFocus()
+{
+    node_->myQGraphicsTextItem_->cmFocus();
+//    qDebug() << "cmFocus";
+//    MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
+
+//    MainWindow::globalDegrees_ = p->arcStartDegrees_ + p->arcDegrees_/2.0;
+
+//    emit node_->myQGraphicsTextItem_->focusThisItem(node_->myQGraphicsTextItem_);
+}
 
 void MyQGraphicsPathItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* e)
 {    

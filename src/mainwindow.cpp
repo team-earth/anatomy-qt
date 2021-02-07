@@ -231,7 +231,7 @@ void MainWindow::populateChildren(XmlNode* xnode)
 
 void MainWindow::refresh(const QGraphicsItem*)
 {
-    qDebug() << "MainWindow::refresh";
+//    qDebug() << "MainWindow::refresh";
     ui->myQGraphicsView->resetCachedContent();
     ui->myQGraphicsView->scene()->update(ui->myQGraphicsView->sceneRect());
     ui->myQGraphicsView->repaint();
@@ -239,7 +239,7 @@ void MainWindow::refresh(const QGraphicsItem*)
     QList<QWidget *> widgets = ui->myQGraphicsView->findChildren<QWidget *>();
     foreach (QWidget* w, widgets)
     {
-        qDebug() << rect();
+//        qDebug() << rect();
          w->repaint(rect());
     }
 
@@ -265,6 +265,7 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* node)
         ti->setEditor(ui->myQTextEdit);
         connect(ti, &MyQGraphicsTextItem::selected, ui->myQTextEdit, &MyQTextEdit::setText);
         connect(ti, &MyQGraphicsTextItem::focusThisItem, this, &MainWindow::refresh);
+//        connect(child->getMyQGraphicsTextItem(), &MyQGraphicsTextItem::focusThisItem, this, &MainWindow::refresh);
 
         populateChildren(xnode->children_[i], child);
     }

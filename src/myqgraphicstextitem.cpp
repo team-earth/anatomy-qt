@@ -21,6 +21,16 @@ void MyQGraphicsTextItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * e)
 //    return QGraphicsTextItem::sceneEvent(e);
 //}
 
+void MyQGraphicsTextItem::cmFocus()
+{
+    qDebug() << "MyQGraphicsTextItem::cmFocus";
+    MainWindow::globalDegrees_ =
+            node_->myQGraphicsPathItem_->arcStartDegrees_ +
+            node_->myQGraphicsPathItem_->arcDegrees_/2;
+
+    emit focusThisItem(this);
+}
+
 void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
 {
     te_->connectMe(this);

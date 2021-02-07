@@ -11,6 +11,7 @@ class Node
 {
 public:
     friend class MyQGraphicsPathItem;
+    friend class MyQGraphicsTextItem;
     friend class MainWindow;
     Node(QString text, Node* parentNode = nullptr);
 
