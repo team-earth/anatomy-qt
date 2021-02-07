@@ -18,27 +18,12 @@
 MyQGraphicsPathItem::MyQGraphicsPathItem(Node* node) :
     QGraphicsPathItem(), node_(node)
 {
-
-
-//    qDebug() << depth_ << ": " << text;
-
     setAcceptHoverEvents(true);
     setAcceptTouchEvents(true);
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     setFlag(QGraphicsItem::ItemClipsToShape, true);
-
-//    connect(focusAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmFocus);
-
-//    initContextMenu();
-
-//    contextMenu_ = new QMenu();
-//    const QIcon pasteIcon = QIcon::fromTheme("edit-paste", QIcon(":/images/paste.png"));
-//    QAction *levelInAction = new QAction("Level In");
-//    levelInAction->setShortcuts(QKeySequence::Paste);
-//    levelInAction->setStatusTip(tr("Paste the clipboard's contents into the current "
-//                                      "selection"));
 }
 
 void MyQGraphicsPathItem::cmLevelIn()
@@ -46,6 +31,8 @@ void MyQGraphicsPathItem::cmLevelIn()
     MainWindow::centerNode_ = node_;
     arcDegrees_ = 360;
     arcStartDegrees_ = 90;
+
+
 
 //    emit focusThisItem(this);
 }

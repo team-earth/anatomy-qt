@@ -109,11 +109,11 @@ MainWindow::MainWindow(QWidget* parent)
 
 }
 
-void MainWindow::centered()
+void MainWindow::centered(const QGraphicsItem* item)
 {
     ui->myQGraphicsView->sceneRect();
 //    qDebug() << MainWindow::centerNode_->myQGraphicsPathItem_->boundingRect();
-    ui->myQGraphicsView->centerOn(MainWindow::centerNode_->myQGraphicsPathItem_);
+    ui->myQGraphicsView->centerOn(item);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -236,10 +236,10 @@ void MainWindow::populateChildren(XmlNode* xnode)
     populateChildren(xnode, node);
 }
 
-void MainWindow::refresh(const QGraphicsItem*)
+void MainWindow::refresh(const QGraphicsItem* item)
 {
 //    qDebug() << "MainWindow::refresh";
-    ui->myQGraphicsView->resetCachedContent();
+//    ui->myQGraphicsView->resetCachedContent();
     ui->myQGraphicsView->scene()->update(ui->myQGraphicsView->sceneRect());
     ui->myQGraphicsView->repaint();
 //    ui->myQGraphicsView->centerOn(item);
@@ -250,6 +250,7 @@ void MainWindow::refresh(const QGraphicsItem*)
          w->repaint(rect());
     }
 
+    centered(item);
 }
 
 void MainWindow::populateChildren(XmlNode* xnode, Node* node)

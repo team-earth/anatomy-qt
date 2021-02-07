@@ -56,6 +56,7 @@
 #include <QAction>
 
 #include "mainwindow.h"
+#include "node.h"
 #include "myqgraphicspathitem.h"
 
 //QMainWindow* globalMainWindow;
@@ -94,7 +95,7 @@ int main(int argc, char *argv[])
 //        mainWin.loadFile(parser.positionalArguments().first());
 
     mainWin.show();
-    mainWin.centered();
+    mainWin.centered(MainWindow::centerNode_->getMyQGraphicsPathItem());
 
     return app.exec();
 

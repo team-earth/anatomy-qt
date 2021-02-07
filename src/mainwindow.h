@@ -78,7 +78,7 @@ public:
 
    static int globalDegrees_;
 
-   void centered();
+   void centered(const QGraphicsItem* item);
 private slots:
 //    void updateActions(const QItemSelection &selection);
     void saveFile();
