@@ -11,8 +11,9 @@ void MyQGraphicsTextItem::updateText()
 
 void MyQGraphicsTextItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * e)
 {
-    MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
-    p->contextMenuEvent(e);
+    node_->myQGraphicsPathItem_->contextMenuEvent(e);
+//    MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
+//    p->contextMenuEvent(e);
 }
 
 //bool MyQGraphicsTextItem::sceneEvent(QEvent *e)
@@ -33,7 +34,11 @@ void MyQGraphicsTextItem::cmFocus()
 
 void MyQGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    qDebug() << "MyQGraphicsTextItem::paint" << transform() << this->toPlainText();
+    static int count = 0;
+    if (toPlainText().left(3) == "Cyn" || toPlainText().left(3) == "Rap")
+    {
+        qDebug() << "pa:" << transform() << this->toPlainText();
+    }
     QGraphicsTextItem::paint(painter, option, widget);
 }
 

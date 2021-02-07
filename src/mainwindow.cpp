@@ -259,9 +259,7 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* node)
         node->children_.push_back(child);
         scene->addItem(child->getMyQGraphicsPathItem());
 
-        MyQGraphicsTextItem* ti = node->getMyQGraphicsTextItem();
-        ti->setHtml(txt);
-
+        MyQGraphicsTextItem* ti = child->getMyQGraphicsTextItem();
         ti->setEditor(ui->myQTextEdit);
         connect(ti, &MyQGraphicsTextItem::selected, ui->myQTextEdit, &MyQTextEdit::setText);
         connect(ti, &MyQGraphicsTextItem::focusThisItem, this, &MainWindow::refresh);

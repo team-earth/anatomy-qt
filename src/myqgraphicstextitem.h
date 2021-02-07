@@ -17,12 +17,16 @@ class MyQGraphicsTextItem : public QGraphicsTextItem
 
 public:
 
-    MyQGraphicsTextItem(Node* node) : QGraphicsTextItem(node->myQGraphicsPathItem_), node_(node)
+    MyQGraphicsTextItem(Node* node) : QGraphicsTextItem(node->myQGraphicsPathItem_), node_(node), te_(nullptr)
     {
 //        connect(QGraphicsTextItem, &QGraphicsTextItem::, this, &TextEdit::setText);
 //        setFlag(QGraphicsItem::ItemIsFocusable, false);
 //        setFlag(QGraphicsItem::ItemIsSelectable, false);
 //        setCursor(Qt::BlankCursor);
+        static int i=0;
+
+        id_ = i++;
+
         setTextInteractionFlags(Qt::TextEditorInteraction);
 
         QAction *focusAction = new QAction("Focus");
@@ -38,6 +42,8 @@ public:
         connect(levelInAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelIn);
         connect(levelUpAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelOut);
     }
+
+    int id_;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 

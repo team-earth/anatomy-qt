@@ -243,8 +243,8 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     }
     else if ( node_->lineage_.find(MainWindow::centerNode_) != node_->lineage_.end() )
     {
-        static int i = 0;
-        qDebug() << i++ <<  "MyQGraphicsPathItem::paint";
+//        static int i = 0;
+//        qDebug() << i++ <<  "MyQGraphicsPathItem::paint";
         qreal widthFactor = 1;
         int ringLevel = node_->depth_ - MainWindow::centerNode_->depth_;
         qreal radiusInner = radius * ringLevel;
@@ -333,20 +333,15 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 //        QPoint origin(0,-textBB.height()/2.0`);
 //        ti->setPos(origin);
 
-#if 0
-        QString text = /*QString::number(180 * angle_r_2/ M_PI) +*/ this->text_;
-        if (text != ti->toPlainText())
-        {
-//            qDebug() << "update text:" << this->text_ << ti->toPlainText();
-            ti->setHtml(text);
-//            updateText = true;
-        }
-#endif
-
         QTransform tr0 = ti->transform();
         QTransform tr;
         tr.translate(x,y);
         tr.rotate(rotate);
+
+        if (ti->toPlainText().left(3) == "Cyn" || ti->toPlainText().left(3) == "Rap")
+        {
+        qDebug() << "tr:" << tr;
+        }
 
         if (tr != tr0)
         {
