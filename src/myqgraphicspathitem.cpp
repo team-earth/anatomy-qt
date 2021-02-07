@@ -13,17 +13,18 @@
 #include <QMenu>
 #include "mainwindow.h"
 #include "myqgraphicstextitem.h"
+#include "node.h"
 
-MyQGraphicsPathItem::MyQGraphicsPathItem(QString text, MyQGraphicsPathItem* parent) :
-    QGraphicsPathItem(), text_(text), parentNode_(parent)
+MyQGraphicsPathItem::MyQGraphicsPathItem(Node* node, QString text) :
+    QGraphicsPathItem(), node_(node), text_(text)
 {
-    if (parent == nullptr)
+    if (node_->parentNode_ == nullptr)
     {
         depth_ = 0;
     }
     else
     {
-        depth_ = parent->depth_ + 1;
+        depth_ = node_->parentNode_->getMyQGraphicsPathItem()->depth_ + 1;
     }
 
     cacheLineage();
@@ -49,12 +50,22 @@ MyQGraphicsPathItem::MyQGraphicsPathItem(QString text, MyQGraphicsPathItem* pare
 
 void MyQGraphicsPathItem::cacheLineage()
 {
-    MyQGraphicsPathItem* p = parentNode_;
-
-    while (p)
+    if (node_->parentNode_)
     {
-        lineage_[p] = p->depth_;
-        p = p->parentNode_;
+        MyQGraphicsPathItem* p = node_->parentNode_->getMyQGraphicsPathItem();
+
+        while (p)
+        {
+            lineage_[p] = p->depth_;
+            if (p->node_->parentNode_)
+            {
+                p = p->node_->parentNode_->getMyQGraphicsPathItem();
+            }
+            else
+            {
+                p = nullptr;
+            }
+        }
     }
 }
 
@@ -210,7 +221,7 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
     QTransform tr2;
 
-    if (this == MainWindow::centerNode_ )
+    if (this == MainWindow::centerMyQGraphicsPathItem_ )
     {
         QPainterPath path;
         path.moveTo(0.0,0.0);
@@ -237,10 +248,10 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         arcDegrees_=360;
         arcStartDegrees_=90;
     }
-    else if ( lineage_.find(MainWindow::centerNode_) != lineage_.end() )
+    else if ( lineage_.find(MainWindow::centerMyQGraphicsPathItem_) != lineage_.end() )
     {
         qreal widthFactor = 1;
-        int ringLevel = depth_ - MainWindow::centerNode_->depth_;
+        int ringLevel = depth_ - MainWindow::centerMyQGraphicsPathItem_->depth_;
         qreal radiusInner = radius * ringLevel;
         qreal radiusOuter = radiusInner + widthFactor*radius;
 
@@ -253,8 +264,9 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
                     QPointF(radiusOuter, -radiusOuter)
                     );
 
-        arcDegrees_ = parentNode_->arcDegrees_ / parentNode_->children_.size();
-        qreal qangleStart = parentNode_->arcStartDegrees_ - MainWindow::globalDegrees_;
+        arcDegrees_ = node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
+                / node_->parentNode_->getMyQGraphicsPathItem()->children_.size();
+        qreal qangleStart = node_->parentNode_->getMyQGraphicsPathItem()->arcStartDegrees_ - MainWindow::globalDegrees_;
 
         QPainterPath path;
         path.arcTo(bboxInner, qangleStart, arcDegrees_);
@@ -273,7 +285,8 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
         MyQGraphicsTextItem* ti = dynamic_cast<MyQGraphicsTextItem*>( childItems().at(0));
 
-        qreal arc_r = M_PI * parentNode_->arcDegrees_  / (180.0 * parentNode_->children_.size());
+        qreal arc_r = M_PI * node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
+                / (180.0 * node_->parentNode_->getMyQGraphicsPathItem()->children_.size());
         qreal angle_r_2 = qangleStart * M_PI / 180.0 + arc_r * (childIndex + 0.5);
 
         qreal x;
@@ -334,7 +347,9 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         tr.rotate(rotate);
 
         ti->setTransform(tr);
-        arcStartDegrees_ = parentNode_->arcStartDegrees_ + childIndex * parentNode_->arcDegrees_  / parentNode_->children_.size();
+        arcStartDegrees_ = node_->parentNode_->getMyQGraphicsPathItem()->arcStartDegrees_
+                + childIndex * node_->parentNode_->getMyQGraphicsPathItem()->arcDegrees_
+                / node_->parentNode_->getMyQGraphicsPathItem()->children_.size();
     }
     else
     {

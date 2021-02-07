@@ -7,6 +7,7 @@ HEADERS       = mainwindow.h \
     myqgraphicstextitem.h \
     myqgraphicsview.h \
     myqtextedit.h \
+    node.h \
     paintHelper.h \
     sample_data.h \
     xmlnode.h
@@ -15,6 +16,7 @@ SOURCES       = main.cpp mainwindow.cpp \
     myqgraphicstextitem.cpp \
     myqgraphicsview.cpp \
     myqtextedit.cpp \
+    node.cpp \
     paintHelper.cpp \
     xmlnode.cpp
 #! [0]

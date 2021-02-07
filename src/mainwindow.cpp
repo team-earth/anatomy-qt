@@ -64,6 +64,7 @@
 #include <QXmlStreamReader>
 #include "myqgraphicstextitem.h"
 #include "sample_data.h"
+#include "node.h"
 
 int MainWindow::globalDegrees_ = 0;
 
@@ -200,38 +201,32 @@ void MainWindow::readFromFile(QString fn)
     populateChildren(rootNode_);
 }
 
-MyQGraphicsPathItem* MainWindow::centerNode_ = nullptr;
+MyQGraphicsPathItem* MainWindow::centerMyQGraphicsPathItem_ = nullptr;
 
 void MainWindow::populateChildren(XmlNode* xnode)
 {
-//    QGraphicsItem *item
     QString txt = "<b>MEDIA, NEWS, FACTS.</b> Splintered media landscape reduces common baseline of news facts.";
 
     txt = xnode->text_;
 
-    MyQGraphicsPathItem* n = new MyQGraphicsPathItem(txt);
+    Node* node = new Node(txt);
 
-    n->setPos(QPointF(0, 0));
+//    MyQGraphicsPathItem* n = new MyQGraphicsPathItem(txt);
 
     QGraphicsScene* scene = ui->myQGraphicsView->scene();
 
-    scene->addItem(n);
+    scene->addItem(node->getMyQGraphicsPathItem());
 
-    MainWindow::centerNode_ = n;
+    MainWindow::centerMyQGraphicsPathItem_ = node->getMyQGraphicsPathItem();
 
-//    MyQGraphicsItemGroup* group = new MyQGraphicsItemGroup();
-//    scene->addItem(group);
-//    group->addToGroup(n);
-//    n->setZValue(100);
-
-    MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(n);
+    MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(node->getMyQGraphicsPathItem());
     ti->setHtml(txt);
-//    ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+
     ti->setEditor(ui->myQTextEdit);
 
     connect(ti, &MyQGraphicsTextItem::selected, ui->myQTextEdit, &MyQTextEdit::setText);
 
-    populateChildren(xnode, n);
+    populateChildren(xnode, node);
 }
 
 void MainWindow::refresh(const QGraphicsItem*)
@@ -250,7 +245,7 @@ void MainWindow::refresh(const QGraphicsItem*)
 
 }
 
-void MainWindow::populateChildren(XmlNode* xnode, MyQGraphicsPathItem* n)
+void MainWindow::populateChildren(XmlNode* xnode, Node* node)
 {
     QGraphicsScene* scene = ui->myQGraphicsView->scene();
 
@@ -258,17 +253,15 @@ void MainWindow::populateChildren(XmlNode* xnode, MyQGraphicsPathItem* n)
     for (int i = 0 ; i < count ; i++)
     {
         QString txt = xnode->children_.at(i)->text_; // n->text_ + QString(" / Sub-") + QString::number(i);
-        MyQGraphicsPathItem* child = new MyQGraphicsPathItem(txt, n);
-        child->childIndex = i;
-        n->children_.push_back(child);
-        scene->addItem(child);
-//        group = new MyQGraphicsItemGroup();
-//        ui->myQGraphicsView->scene()->addItem(group);
-//        group->addToGroup(child);
+        Node* child = new Node(txt, node);
 
-        MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(child);
+        child->getMyQGraphicsPathItem()->childIndex = i;
+        node->getMyQGraphicsPathItem()->children_.push_back(child->getMyQGraphicsPathItem());
+        scene->addItem(child->getMyQGraphicsPathItem());
+
+        MyQGraphicsTextItem* ti = new MyQGraphicsTextItem(child->getMyQGraphicsPathItem());
         ti->setHtml(txt);
-//        ti->setTextInteractionFlags(Qt::TextEditorInteraction);
+
         ti->setEditor(ui->myQTextEdit);
         connect(ti, &MyQGraphicsTextItem::selected, ui->myQTextEdit, &MyQTextEdit::setText);
         connect(ti, &MyQGraphicsTextItem::focusThisItem, this, &MainWindow::refresh);

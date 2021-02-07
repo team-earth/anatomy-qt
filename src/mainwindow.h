@@ -61,6 +61,8 @@
 
 namespace Ui { class CustomMainWindow; }
 
+class Node;
+
 //! [0]
 class MainWindow : public QMainWindow
 {
@@ -72,7 +74,7 @@ public:
     void readSettings();
     void writeSettings();
 
-   static MyQGraphicsPathItem* centerNode_;
+   static MyQGraphicsPathItem* centerMyQGraphicsPathItem_;
 
    static int globalDegrees_;
 
@@ -90,7 +92,7 @@ private slots:
 private:
     void createMenus();
     void populateChildren(XmlNode*);
-    void populateChildren(XmlNode* xnode, MyQGraphicsPathItem* n);
+    void populateChildren(XmlNode* xnode, Node* n);
 
     void readFromFile(QString);
     void readFromString(QString);

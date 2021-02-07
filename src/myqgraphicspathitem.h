@@ -13,12 +13,13 @@
 #include <unordered_map>
 
 class MyQGraphicsPathItem;
+class Node;
 
 class MyQGraphicsPathItem : public QGraphicsPathItem
 {
     friend class MyQGraphicsTextItem;
 public:
-    MyQGraphicsPathItem(QString text, MyQGraphicsPathItem* parent = nullptr);
+    MyQGraphicsPathItem(Node* node, QString text);
     QRectF boundingRect() const override;
     QPainterPath shape() const override { return path_; }
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
@@ -55,9 +56,10 @@ protected:
 //      }
 
 public:
+    Node* node_;
     QString text_;
     std::vector<MyQGraphicsPathItem*> children_;
-    MyQGraphicsPathItem* parentNode_;
+    MyQGraphicsPathItem* parentMyQGraphicsPathItem_;
     size_t childIndex;
     QRectF bbox_;
     QPainterPath path_;
