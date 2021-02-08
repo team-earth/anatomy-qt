@@ -158,13 +158,13 @@ static qreal optimizeTextBox(QFont& textFont, QRect& textBox, int radius, QStrin
 }
 #endif
 
-void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
+void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *styleitem, QWidget *widget)
 {
-//    static int counter = 0;
-//    qDebug() << "Node::paint counter: " << ++counter;
+//    static int i = 0;
+//    qDebug() << i++ << "MyQGraphicsPathItem::paint" <<widget <<  node_->getMyQGraphicsTextItem()->toPlainText();
 
     qreal radius = 200;
-    painter->save();
+//    painter->save();
 
     QBrush circleBrush = QBrush(QColor(153,204,255));
     QFont textFont;
@@ -199,9 +199,6 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     int padding=10;
 
     QTransform tr2;
-
-//    static int i = 0;
-//    qDebug() << "XYZ" << i++;
 
     if (node_ == MainWindow::centerNode_ )
     {
@@ -334,7 +331,7 @@ void MyQGraphicsPathItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         node_->myQGraphicsTextItem_->hide();
     }
 
-    painter->restore();
+//    painter->restore();
 }
 
 QRectF MyQGraphicsPathItem::boundingRect() const
