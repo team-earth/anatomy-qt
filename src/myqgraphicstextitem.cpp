@@ -4,7 +4,7 @@
 MyQGraphicsTextItem::MyQGraphicsTextItem(Node* node)
     : QGraphicsTextItem(node->myQGraphicsPathItem_),
       node_(node),
-      te_(nullptr)
+      myQTextEdit_(nullptr)
 {
 //        connect(QGraphicsTextItem, &QGraphicsTextItem::, this, &TextEdit::setText);
 //        setFlag(QGraphicsItem::ItemIsFocusable, false);
@@ -40,9 +40,9 @@ MyQGraphicsTextItem::MyQGraphicsTextItem(Node* node)
 
 void MyQGraphicsTextItem::updateText()
 {
-    if (te_)
+    if (myQTextEdit_)
     {
-        this->setHtml(te_->toHtml());
+        this->setHtml(myQTextEdit_->toHtml());
     }
 }
 
@@ -97,7 +97,7 @@ void MyQGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
 void MyQGraphicsTextItem::focusInEvent(QFocusEvent *event)
 {
-    te_->connectMe(this);
+    myQTextEdit_->connectMe(this);
 
     emit selected(this->toHtml());
     QList<QGraphicsItem*> items = scene()->selectedItems();

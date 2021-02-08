@@ -33,8 +33,8 @@ public:
 
     void setEditor(MyQTextEdit* te)
     {
-        te_ = te;
-        connect(this, &MyQGraphicsTextItem::selected, te_, &MyQTextEdit::setText);
+        myQTextEdit_ = te;
+        connect(this, &MyQGraphicsTextItem::selected, myQTextEdit_, &MyQTextEdit::setText);
     }
 
     QMenu* contextMenu_;
@@ -45,7 +45,7 @@ signals:
 
 protected:
     Node* node_;
-    MyQTextEdit* te_;
+    MyQTextEdit* myQTextEdit_;
 
 //    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override
 //    {

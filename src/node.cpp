@@ -70,7 +70,7 @@ Node* Node::addChild()
     scene->addItem(child->getMyQGraphicsPathItem());
 
     MyQGraphicsTextItem* ti = child->getMyQGraphicsTextItem();
-    ti->setEditor(this->myQGraphicsTextItem_->te_);
+    ti->setEditor(this->myQGraphicsTextItem_->myQTextEdit_);
     child->myQGraphicsPathItem_->arcDegrees_ = myQGraphicsPathItem_->arcDegrees_ / children_.size();
     child->myQGraphicsPathItem_->arcStartDegrees_ = myQGraphicsPathItem_->arcStartDegrees_
             + (myQGraphicsPathItem_->arcDegrees_ * child->childIndex) / children_.size();
