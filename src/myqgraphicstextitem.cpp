@@ -16,20 +16,20 @@ MyQGraphicsTextItem::MyQGraphicsTextItem(Node* node)
 
     setTextInteractionFlags(Qt::TextEditorInteraction);
 
-    QAction *focusAction = new QAction("Focus");
+    QAction *spotlightAction = new QAction("Spotlight");
     QAction *levelInAction = new QAction("Level In");
     QAction *levelUpAction = new QAction("Level Out");
     QAction *addPeer = new QAction("Add Peer");
     QAction *addChild = new QAction("Add Child");
 
     contextMenu_ = new QMenu();
-    contextMenu_->addAction(focusAction);
+    contextMenu_->addAction(spotlightAction);
     contextMenu_->addAction(levelInAction);
     contextMenu_->addAction(levelUpAction);
     contextMenu_->addAction(addPeer);
     contextMenu_->addAction(addChild);
 
-    connect(focusAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmFocus);
+    connect(spotlightAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmSpotlight);
     connect(levelInAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelIn);
     connect(levelUpAction, &QAction::triggered, this, &MyQGraphicsTextItem::cmLevelOut);
     connect(addPeer, &QAction::triggered, this, &MyQGraphicsTextItem::addPeer);
@@ -61,15 +61,21 @@ void MyQGraphicsTextItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * e)
 
 void MyQGraphicsTextItem::addPeer()
 {
-    node_->addPeer();
+    Node* peer = node_->addPeer();
+
+    if (peer)
+        peer->getMyQGraphicsTextItem()->cmSpotlight();
 }
 
 void MyQGraphicsTextItem::addChild()
 {
-    node_->addChild();
+    Node* child = node_->addChild();
+
+    if (child)
+        child->getMyQGraphicsTextItem()->cmSpotlight();
 }
 
-void MyQGraphicsTextItem::cmFocus()
+void MyQGraphicsTextItem::cmSpotlight()
 {
     qDebug() << "MyQGraphicsTextItem::cmFocus";
     MainWindow::globalDegrees_ =

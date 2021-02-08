@@ -49,15 +49,17 @@ void Node::cacheLineage()
     }
 }
 
-void Node::addPeer()
+Node*  Node::addPeer()
 {
     if (parentNode_)
     {
-        parentNode_->addChild();
+        return parentNode_->addChild();
     }
+
+    return nullptr;
 }
 
-void Node::addChild()
+Node* Node::addChild()
 {
     QGraphicsScene* scene = this->myQGraphicsPathItem_->scene();
 
@@ -69,5 +71,7 @@ void Node::addChild()
 
     MyQGraphicsTextItem* ti = child->getMyQGraphicsTextItem();
     ti->setEditor(this->myQGraphicsTextItem_->te_);
+
+    return child;
 }
 

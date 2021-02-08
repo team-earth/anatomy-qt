@@ -39,7 +39,7 @@ void MyQGraphicsPathItem::cmLevelIn()
 
 void MyQGraphicsPathItem::cmFocus()
 {
-    node_->myQGraphicsTextItem_->cmFocus();
+    node_->myQGraphicsTextItem_->cmSpotlight();
 //    qDebug() << "cmFocus";
 //    MyQGraphicsPathItem* p = dynamic_cast<MyQGraphicsPathItem*>(parentItem());
 

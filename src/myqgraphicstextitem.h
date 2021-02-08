@@ -25,7 +25,7 @@ public:
 
     void cmLevelIn();
     void cmLevelOut();
-    void cmFocus();
+    void cmSpotlight();
     void addPeer();
     void addChild();
 
