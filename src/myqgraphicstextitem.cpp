@@ -77,7 +77,6 @@ void MyQGraphicsTextItem::addChild()
 
 void MyQGraphicsTextItem::cmSpotlight()
 {
-    qDebug() << "MyQGraphicsTextItem::cmFocus";
     MainWindow::globalDegrees_ =
             node_->myQGraphicsPathItem_->arcStartDegrees_ +
             node_->myQGraphicsPathItem_->arcDegrees_/2;
