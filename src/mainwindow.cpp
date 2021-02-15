@@ -59,6 +59,7 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QDebug>
+#include <QTextStream>
 #include <QSettings>
 #include <QFontDialog>
 #include <QXmlStreamReader>
@@ -274,14 +275,21 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* node)
     }
 }
 
-//! [3]
-void MainWindow::saveFile()
+void MainWindow::writeToFile(QString fileName)
 {
-//    QString fileName = QFileDialog::getSaveFileName(this);
-//    if (!fileName.isEmpty())
-//        addressWidget->writeToFile(fileName);
+    if (MainWindow::centerNode_)
+    {
+        QFile file(fileName);
+        if (file.open(QIODevice::WriteOnly))
+        {
+            QXmlStreamWriter stream(&file);
+            stream.writeStartElement("map");
+            stream.writeAttribute("version", MainWindow::MAP_FILE_VERSION);
+            Node::getRootNode(MainWindow::centerNode_)->write(stream);
+            stream.writeEndElement();
+        }
+    }
 }
-//! [3]
 
 //! [4]
 //void MainWindow::updateActions(const QItemSelection &selection)
@@ -344,4 +352,13 @@ MainWindow* MainWindow::instance()
     }
 
     return MainWindow::globalMainWindow;
+}
+
+const QString MainWindow::MAP_FILE_VERSION = "1.0.1";
+
+void MainWindow::on_actionSave_As_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this);
+    if (!fileName.isEmpty())
+        writeToFile(fileName);
 }

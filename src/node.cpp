@@ -35,6 +35,27 @@ MyQGraphicsTextItem* Node::getMyQGraphicsTextItem() const
     return myQGraphicsTextItem_;
 }
 
+Node* Node::getRootNode(Node* n)
+{
+    while (n->parentNode_ != nullptr)
+    {
+        n = n->parentNode_;
+    }
+
+    return n;
+}
+
+void Node::write(QXmlStreamWriter& xmlWriter)
+{
+    xmlWriter.writeStartElement("node");
+    xmlWriter.writeAttribute("TEXT", getMyQGraphicsTextItem()->toHtml());
+    for (int i=0; i < this->children_.size() ; i++)
+    {
+        children_[i]->write(xmlWriter);
+    }
+    xmlWriter.writeEndElement();
+}
+
 void Node::cacheLineage()
 {
     if (parentNode_)

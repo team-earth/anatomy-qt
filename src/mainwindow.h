@@ -87,7 +87,6 @@ public:
    void init();
 private slots:
 //    void updateActions(const QItemSelection &selection);
-    void saveFile();
 
     void on_actionExit_triggered();
 
@@ -95,12 +94,16 @@ private slots:
 
     void on_actionOpen_triggered();
 
+    void on_actionSave_As_triggered();
+
 private:
     void createMenus();
     void populateChildren(XmlNode*);
     void populateChildren(XmlNode* xnode, Node* n);
 
     void readFromFile(QString);
+    void writeToFile(QString);
+
     void readFromString(QString);
 
     XmlNode* rootNode_;
@@ -108,6 +111,8 @@ private:
     Ui::CustomMainWindow* ui;
 
     static MainWindow* globalMainWindow;
+
+    static const QString MAP_FILE_VERSION;
 
 //    Model model_;
 

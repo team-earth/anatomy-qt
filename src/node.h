@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QVector>
+#include <QXmlStreamWriter>
 #include <unordered_map>
 
 class MyQGraphicsPathItem;
@@ -19,6 +20,9 @@ public:
     MyQGraphicsTextItem* getMyQGraphicsTextItem() const;
     Node* addPeer();
     Node* addChild();
+
+    static Node* getRootNode(Node*);
+    void write(QXmlStreamWriter&);
 
 protected:
     void cacheLineage();
