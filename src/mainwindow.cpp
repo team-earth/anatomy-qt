@@ -93,7 +93,7 @@ void MainWindow::init()
 //    QString file = "K:/Z/Google Drive/Kevin/anatomy/examples/Politics_where_anger,_threats,_and_polarization_fro.mm";
     //    readFromFile(file);
 
-    readFromString(sample1);
+//    readFromString(sample1);
     readSettings();
 
 //    QList<QObject*> list = this->findChildren<QObject*>();
@@ -116,7 +116,10 @@ void MainWindow::centered(const QGraphicsItem* item)
 {
     ui->myQGraphicsView->sceneRect();
 //    qDebug() << MainWindow::centerNode_->myQGraphicsPathItem_->boundingRect();
-    ui->myQGraphicsView->centerOn(item);
+    if (item)
+    {
+        ui->myQGraphicsView->centerOn(item);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -173,9 +176,7 @@ void MainWindow::readFromString(QString s)
             qDebug() << "XML error: " << xmlReader.errorString().data();
         }
 
-//    XmlNode::printNode(rootNode_);
     populateChildren(rootNode_);
-
 }
 
 
@@ -207,7 +208,6 @@ void MainWindow::readFromFile(QString fn)
         }
     }
 
-//    XmlNode::printNode(rootNode_);
     populateChildren(rootNode_);
 }
 
@@ -215,13 +215,9 @@ Node* MainWindow::centerNode_ = nullptr;
 
 void MainWindow::populateChildren(XmlNode* xnode)
 {
-    QString txt = "<b>MEDIA, NEWS, FACTS.</b> Splintered media landscape reduces common baseline of news facts.";
-
-    txt = xnode->text_;
+    QString txt = xnode->text_;
 
     Node* node = new Node(txt);
-
-//    MyQGraphicsPathItem* n = new MyQGraphicsPathItem(txt);
 
     QGraphicsScene* scene = ui->myQGraphicsView->scene();
 
@@ -237,19 +233,18 @@ void MainWindow::populateChildren(XmlNode* xnode)
     connect(ti, &MyQGraphicsTextItem::selected, ui->myQTextEdit, &MyQTextEdit::setText);
 
     populateChildren(xnode, node);
+
+    refresh(MainWindow::centerNode_->getMyQGraphicsPathItem());
 }
 
 void MainWindow::refresh(const QGraphicsItem* item)
 {
-//    qDebug() << "MainWindow::refresh";
-//    ui->myQGraphicsView->resetCachedContent();
     ui->myQGraphicsView->scene()->update(ui->myQGraphicsView->sceneRect());
     ui->myQGraphicsView->repaint();
-//    ui->myQGraphicsView->centerOn(item);
+
     QList<QWidget *> widgets = ui->myQGraphicsView->findChildren<QWidget *>();
     foreach (QWidget* w, widgets)
     {
-//        qDebug() << rect();
          w->repaint(rect());
     }
 
@@ -263,7 +258,7 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* node)
     const int count = xnode->children_.size();
     for (int i = 0 ; i < count ; i++)
     {
-        QString txt = xnode->children_.at(i)->text_; // n->text_ + QString(" / Sub-") + QString::number(i);
+        QString txt = xnode->children_.at(i)->text_;
         Node* child = new Node(txt, node);
 
         child->childIndex = i;
@@ -274,7 +269,6 @@ void MainWindow::populateChildren(XmlNode* xnode, Node* node)
         ti->setEditor(ui->myQTextEdit);
         connect(ti, &MyQGraphicsTextItem::selected, ui->myQTextEdit, &MyQTextEdit::setText);
         connect(ti, &MyQGraphicsTextItem::focusThisItem, this, &MainWindow::refresh);
-//        connect(child->getMyQGraphicsTextItem(), &MyQGraphicsTextItem::focusThisItem, this, &MainWindow::refresh);
 
         populateChildren(xnode->children_[i], child);
     }

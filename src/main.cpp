@@ -96,7 +96,10 @@ int main(int argc, char *argv[])
 
     mainWin->init();
     mainWin->show();
-    mainWin->centered(MainWindow::centerNode_->getMyQGraphicsPathItem());
+    if (MainWindow::centerNode_)
+    {
+        mainWin->centered(MainWindow::centerNode_->getMyQGraphicsPathItem());
+    }
 
     return app.exec();
 

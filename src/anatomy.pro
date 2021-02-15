@@ -30,3 +30,6 @@ INSTALLS += target
 
 FORMS += \
     custommainwindow.ui
+
+DISTFILES += \
+    ../data/sample-01.xml
