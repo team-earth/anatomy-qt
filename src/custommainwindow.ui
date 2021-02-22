@@ -106,7 +106,34 @@
    <widget class="QWidget" name="dockWidgetContents_2">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="MyQTextEdit" name="myQTextEdit"/>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Summary</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="MyQTextEdit" name="myQTextEdit">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>100</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Details</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableView" name="tableView"/>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="textEdit"/>
      </item>
     </layout>
    </widget>
