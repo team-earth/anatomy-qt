@@ -52,6 +52,7 @@
 ****************************************************************************/
 
 #include <QAction>
+#include <QActionGroup>
 #include <QApplication>
 #include <QClipboard>
 #include <QColorDialog>
@@ -63,7 +64,7 @@
 #include <QFontDatabase>
 #include <QMenu>
 #include <QMenuBar>
-#include <QTextCodec>
+// #include <QTextCodec>
 #include <QTextEdit>
 #include <QStatusBar>
 #include <QToolBar>

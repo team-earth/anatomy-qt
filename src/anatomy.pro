@@ -32,4 +32,5 @@ FORMS += \
     custommainwindow.ui
 
 DISTFILES += \
+    ../.gitignore \
     ../data/sample-01.xml
